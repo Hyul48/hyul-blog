@@ -1,0 +1,10 @@
+baseURL = "https://<YOUR_GITHUB_ID>.github.io/hyul-blog/"
+languageCode = "ko"
+title = "Hyul Lab Notes"
+theme = "PaperMod"
+
+[params]
+  defaultTheme = "auto"
+  ShowToc = true
+  TocOpen = true
+  ShowCodeCopyButtons = true
