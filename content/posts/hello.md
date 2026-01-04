@@ -2,7 +2,7 @@
 title: "Hello"
 date: 2026-01-04
 draft: false
-math:true
+math: true
 ---
 
 테스트 페이지 입니다.
