@@ -1,10 +1,59 @@
 baseURL = "https://<YOUR_GITHUB_ID>.github.io/hyul-blog/"
 languageCode = "ko"
-title = "Hyul Lab Notes"
+title = "Hyulmonologue"
 theme = "PaperMod"
+
+enableRobotsTXT = true
+paginate = 10
+
+[taxonomies]
+  tag = "tags"
+  category = "categories"
+  series = "series"
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+  [markup.highlight]
+    noClasses = false
+    lineNos = true
 
 [params]
   defaultTheme = "auto"
   ShowToc = true
   TocOpen = true
   ShowCodeCopyButtons = true
+  ShowReadingTime = true
+  ShowBreadCrumbs = true
+  ShowPostNavLinks = true
+  ShowShareButtons = true
+
+  # ✅ 수식(KaTeX) — PaperMod가 지원
+  math = true
+
+  # ✅ 검색(검색 버튼 + 인덱스 생성)
+  ShowSearch = true
+
+[outputs]
+  home = ["HTML", "RSS", "JSON"]  # 검색용 JSON 필요
+
+[[menu.main]]
+  name = "Papers"
+  url = "/papers/"
+  weight = 1
+
+[[menu.main]]
+  name = "Notes"
+  url = "/notes/"
+  weight = 2
+
+[[menu.main]]
+  name = "Code"
+  url = "/code/"
+  weight = 3
+
+[[menu.main]]
+  name = "Search"
+  url = "/search/"
+  weight = 9

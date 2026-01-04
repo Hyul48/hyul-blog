@@ -1,8 +1,11 @@
 ---
-title: ""
-date: 2026-01-04
-tags: ["ISAC", "Radar", "RadioMap"]
+title: "{{ replace .Name "-" " " | title }}"
+date: {{ .Date }}
+draft: true
+tags: ["paper"]
+categories: ["papers"]
 summary: ""
+math: true
 ---
 
 ## TL;DR
@@ -23,5 +26,5 @@ summary: ""
 ## Takeaways (내 연구에 어떻게 씀?)
 - 
 
-## Bib
+## References
 - 
