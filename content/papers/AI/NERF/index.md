@@ -233,13 +233,13 @@ $$
 이 부분은 이미 많이 언급해서 충분히 이해가 됐을거라고 생각한다.
 
 $$
-\textstyle
-\frac{\partial \hat C}{\partial \sigma\_i}
+\frac{\partial \hat C}{\partial \sigma_i}
 =
-\underbrace{\delta\_i T\_i(1-\alpha\_i)c\_i}_{\text{내 지점 기여 증가}}
+\underbrace{\delta_i T_i(1-\alpha_i)c_i}_{\text{내 지점 기여 증가}}
 -
-\underbrace{\delta\_i\sum\_{j>i} w\_j c\_j}_{\text{뒤쪽 기여 감소}}
+\underbrace{\delta_i\sum_{j>i} w_j c_j}_{\text{뒤쪽 기여 감소}}
 $$
+
 
 ### 8. Positional Encoding as Fourier Features
 Positional Encoding은 아마 "attention is all you need"라는 유명한 논문때문에 그다지 생소하지 않은 개념이지만 둘이 쓰이는 방식이 다르다.
