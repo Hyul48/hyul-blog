@@ -232,13 +232,7 @@ $$
 밀도는 단순히 "내 지점이 더 보이게 하자"만이 아니라, 동시에 "뒤를 가린다"는 효과를 가진다.
 이 부분은 이미 많이 언급해서 충분히 이해가 됐을거라고 생각한다.
 
-$$
-\frac{\partial \hat{C}}{\partial \sigma_i}
-=
-\delta_i T_i(1-\alpha_i)c_i
--
-\delta_i\sum_{j>i} w_j c_j
-$$
+$$ \frac{\partial \hat{C}}{\partial \sigma_i}=\delta_i T_i(1-\alpha_i)c_i-\delta_i\sum_{j>i} w_j c_j $$
 
 
 
