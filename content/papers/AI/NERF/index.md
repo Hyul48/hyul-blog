@@ -233,12 +233,13 @@ $$
 이 부분은 이미 많이 언급해서 충분히 이해가 됐을거라고 생각한다.
 
 $$
-\frac{\partial \hat C}{\partial \sigma_i}
+\frac{\partial \hat{C}}{\partial \sigma_i}
 =
-\underbrace{\delta_i T_i(1-\alpha_i)c_i}_{\text{내 지점 기여 증가}}
+\delta_i T_i(1-\alpha_i)c_i
 -
-\underbrace{\delta_i\sum_{j>i} w_j c_j}_{\text{뒤쪽 기여 감소}}
+\delta_i\sum_{j>i} w_j c_j
 $$
+
 
 
 ### 8. Positional Encoding as Fourier Features
