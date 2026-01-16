@@ -1,5 +1,20 @@
 name: Deploy Hugo site to Pages
 
+params:
+  math: true   # PaperMod 사용시 권장
+
+markup:
+  goldmark:
+    extensions:
+      passthrough:
+        enable: true
+        delimiters:
+          block:
+            - ['$$', '$$']
+            - ['\[', '\]']
+          inline:
+            - ['\(', '\)']
+            
 on:
   push:
     branches: ["main"]
