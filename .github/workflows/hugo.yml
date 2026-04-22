@@ -1,10 +1,12 @@
 name: Deploy Hugo site to Pages
 
-
 on:
   push:
     branches: ["main"]
   workflow_dispatch:
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 permissions:
   contents: read
@@ -19,12 +21,12 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           submodules: recursive
           fetch-depth: 0
 
-      - uses: actions/configure-pages@v5
+      - uses: actions/configure-pages@v6
 
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v3
@@ -33,7 +35,7 @@ jobs:
           extended: true
 
       - name: Cache Hugo resources
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: resources
           key: ${{ runner.os }}-hugo-resources-${{ hashFiles('**/*.md', '**/*.toml', '**/*.yaml', '**/*.yml') }}
@@ -43,7 +45,7 @@ jobs:
       - name: Build
         run: hugo --minify
 
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-pages-artifact@v4
         with:
           path: ./public
 
