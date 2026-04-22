@@ -1,0 +1,124 @@
+{{- define "main" }}
+
+{{- $hero := site.Params.homeHero }}
+{{- $sidebar := site.Params.sidebarProfile }}
+{{- $sections := where site.Sections "Section" "in" site.Params.mainSections }}
+{{- $sections = $sections.ByTitle }}
+{{- $recent := where site.RegularPages "Type" "in" site.Params.mainSections }}
+{{- $recent = first 6 $recent.ByDate.Reverse }}
+
+<div class="home-shell">
+  <section class="home-hero">
+    <div class="home-hero-copy">
+      <p class="home-kicker">Hyulmonologue</p>
+      <h1>{{ $hero.title }}</h1>
+      <p class="home-lead">{{ $hero.intro }}</p>
+
+      <form class="home-search" action="{{ "search/" | absLangURL }}" method="get">
+        <label class="sr-only" for="home-search-input">Search</label>
+        <input id="home-search-input" name="q" type="search" placeholder="Search the whole site">
+        <button type="submit">Search</button>
+      </form>
+
+      <div class="home-actions">
+        <a class="home-button home-button-primary" href="{{ $hero.primaryButtonURL | absLangURL }}">{{ $hero.primaryButtonText }}</a>
+        <a class="home-button home-button-secondary" href="{{ $hero.secondaryButtonURL | absLangURL }}">{{ $hero.secondaryButtonText }}</a>
+      </div>
+    </div>
+
+    <div class="home-glance">
+      <div class="glance-card">
+        <span class="glance-label">Sections</span>
+        <strong>{{ len $sections }}</strong>
+      </div>
+      <div class="glance-card">
+        <span class="glance-label">Recent Posts</span>
+        <strong>{{ len $recent }}</strong>
+      </div>
+      <div class="glance-card">
+        <span class="glance-label">Latest Focus</span>
+        <strong>GPR</strong>
+      </div>
+    </div>
+  </section>
+
+  <div class="home-grid">
+    <div class="home-main-column">
+      <section class="home-section-block">
+        <div class="section-block-head">
+          <h2>Explore Sections</h2>
+          <a href="{{ "search/" | absLangURL }}">Search all</a>
+        </div>
+        <div class="section-card-grid">
+          {{- range $sections }}
+          <article class="section-card">
+            <p class="section-card-label">{{ .Title }}</p>
+            <h3>{{ .Description | default .Title }}</h3>
+            <a href="{{ .Permalink }}">Open {{ .Title }}</a>
+          </article>
+          {{- end }}
+        </div>
+      </section>
+
+      <section class="home-section-block">
+        <div class="section-block-head">
+          <h2>Recent Writing</h2>
+          <a href="{{ "archives/" | absLangURL }}">Archives</a>
+        </div>
+        <div class="recent-list">
+          {{- range $recent }}
+          <article class="recent-item">
+            <p class="recent-meta">{{ .Section | title }} · {{ .Date.Format "2006-01-02" }}</p>
+            <h3><a href="{{ .Permalink }}">{{ .Title }}</a></h3>
+            {{- if .Description }}
+            <p>{{ .Description }}</p>
+            {{- else if (ne (.Param "hideSummary") true) }}
+            <p>{{ .Summary | plainify | htmlUnescape }}{{ if .Truncated }}...{{ end }}</p>
+            {{- end }}
+          </article>
+          {{- end }}
+        </div>
+      </section>
+    </div>
+
+    <aside class="home-sidebar">
+      <section class="sidebar-card sidebar-profile">
+        <p class="sidebar-eyebrow">About</p>
+        <h2>{{ $sidebar.name }}</h2>
+        <p class="sidebar-role">{{ $sidebar.role }}</p>
+        <p>{{ $sidebar.summary }}</p>
+        <dl class="sidebar-facts">
+          <div>
+            <dt>Location</dt>
+            <dd>{{ $sidebar.location }}</dd>
+          </div>
+          <div>
+            <dt>Email</dt>
+            <dd><a href="mailto:{{ $sidebar.email }}">{{ $sidebar.email }}</a></dd>
+          </div>
+        </dl>
+      </section>
+
+      <section class="sidebar-card">
+        <p class="sidebar-eyebrow">{{ $sidebar.focusTitle }}</p>
+        <ul class="focus-list">
+          {{- range $sidebar.focusItems }}
+          <li>{{ . }}</li>
+          {{- end }}
+        </ul>
+      </section>
+
+      <section class="sidebar-card">
+        <p class="sidebar-eyebrow">Quick Links</p>
+        <div class="quick-links">
+          <a href="{{ "projects/gpr/" | absLangURL }}">GPR</a>
+          <a href="{{ "papers/" | absLangURL }}">Papers</a>
+          <a href="{{ "notes/" | absLangURL }}">Notes</a>
+          <a href="{{ "search/" | absLangURL }}">Search</a>
+        </div>
+      </section>
+    </aside>
+  </div>
+</div>
+
+{{- end }}

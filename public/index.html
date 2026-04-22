@@ -11,7 +11,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 <link rel="canonical" href="https://hyul48.github.io/hyul-blog/">
-<link crossorigin="anonymous" href="/hyul-blog/assets/css/stylesheet.9f807e2fbdc438edd9fda6dbef7f5daa277a75d56be8105317f6238af583b3c3.css" integrity="sha256-n4B&#43;L73EOO3Z/abb739dqid6ddVr6BBTF/YjivWDs8M=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/hyul-blog/assets/css/stylesheet.ee90ebbd4f2be27957837acb5c34f22b4097abbf7523e14f5c514087149c529e.css" integrity="sha256-7pDrvU8r4nlXg3rLXDTyK0CXq791I&#43;FPXFFAhxScUp4=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://hyul48.github.io/hyul-blog/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://hyul48.github.io/hyul-blog/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="https://hyul48.github.io/hyul-blog/favicon-32x32.png">
@@ -158,39 +158,131 @@
                 </a>
             </li>
             <li>
-                <a href="https://hyul48.github.io/hyul-blog/search/" title="Search">
+                <a href="https://hyul48.github.io/hyul-blog/search/" title="Search (Alt &#43; /)" accesskey=/>
                     <span>Search</span>
                 </a>
             </li>
         </ul>
     </nav>
 </header>
-<main class="main"> 
+<main class="main">
 
-<article class="first-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">1.1 Notions of Electrodynamics in Material Media
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>This page is reserved for the 1.1 notes.
-</p>
-  </div>
-  <footer class="entry-footer"><span>1 분</span></footer>
-  <a class="entry-link" aria-label="post link to 1.1 Notions of Electrodynamics in Material Media" href="https://hyul48.github.io/hyul-blog/projects/gpr/chapter1_the_forward_problem/chapter1_1/"></a>
-</article>
+<div class="home-shell">
+  <section class="home-hero">
+    <div class="home-hero-copy">
+      <p class="home-kicker">Hyulmonologue</p>
+      <h1>Research notes, project logs, and technical writeups</h1>
+      <p class="home-lead">A personal lab notebook for ML, electromagnetics, simulations, and code. Start from a section, search across the site, or jump into the newest writing.</p>
 
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">NeRF: Representing Scenes as Neural Radiance Fields for View Synthesis(cont...)
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>NeRF : Representing Scenes as Neural Radiance Fields for View Synthetic Executive Summary NeRF는 장면을 연속적인 5D 함수로 표현한다: 입력은 3D 위치 x와 시선 방향 d, 출력은 볼륨 밀도 σ와 색 c이다. 픽셀은 카메라에서 쏜 광선을 따라 여러 점을 샘플링 하고 각 점에서 $(\sigma, c)$를 얻어 볼륨 렌더링(확률적 누적) 으로 색을 합성한다. $\sigma$는 그 지점에서 광선이 종료(충돌)할 확률의 미분형으로 해석되고, 투과율은 $T$는 지금까지 아무것도 안 맞고 살아남았을 확률로 해석된다. 연속 적분은 이산 샘플 합으로 근사되며, 이 형태는 미분 가능해서 픽셀 MSE 손실이 네트워크 파라미터 $\Theta$로 역전파 된다. 효율을 위해 coarse 결과로 만든 가중치 $\omega_i$를 PDF(확률 밀도 함수)로 써서, 중요한 구간에 fine 샘플을 더 배치하는 hierarchical smapling을 활용한다. 1. Background &amp; Problem Setting 1.1 Novel View Synthesis 문제 입력 : 한 장면을 여러 각도에서 찍은 이미지들 &#43; 각 이미지의 카메라 파라미터(포즈 포함) 목표 : 훈련 때 없었던 새로운 카메라 위치/자세에서의 이미지를 그럴듯하게 생성(렌더링) 여기서 핵심 포인트는 “장면을 무엇으로 저장할거냐” 인데 NeRF는 그 저장방식을 격자(voxel)나 메시(mesh)가 아니라 함수로 택함 ...</p>
+      <form class="home-search" action="https://hyul48.github.io/hyul-blog/search/" method="get">
+        <label class="sr-only" for="home-search-input">Search</label>
+        <input id="home-search-input" name="q" type="search" placeholder="Search the whole site">
+        <button type="submit">Search</button>
+      </form>
+
+      <div class="home-actions">
+        <a class="home-button home-button-primary" href="https://hyul48.github.io/projects/">Browse Projects</a>
+        <a class="home-button home-button-secondary" href="https://hyul48.github.io/papers/">Read Papers</a>
+      </div>
+    </div>
+
+    <div class="home-glance">
+      <div class="glance-card">
+        <span class="glance-label">Sections</span>
+        <strong>2</strong>
+      </div>
+      <div class="glance-card">
+        <span class="glance-label">Recent Posts</span>
+        <strong>2</strong>
+      </div>
+      <div class="glance-card">
+        <span class="glance-label">Latest Focus</span>
+        <strong>GPR</strong>
+      </div>
+    </div>
+  </section>
+
+  <div class="home-grid">
+    <div class="home-main-column">
+      <section class="home-section-block">
+        <div class="section-block-head">
+          <h2>Explore Sections</h2>
+          <a href="https://hyul48.github.io/hyul-blog/search/">Search all</a>
+        </div>
+        <div class="section-card-grid">
+          <article class="section-card">
+            <p class="section-card-label">Papers</p>
+            <h3>Papers</h3>
+            <a href="https://hyul48.github.io/hyul-blog/papers/">Open Papers</a>
+          </article>
+          <article class="section-card">
+            <p class="section-card-label">Projects</p>
+            <h3>Project notes and structured study paths.</h3>
+            <a href="https://hyul48.github.io/hyul-blog/projects/">Open Projects</a>
+          </article>
+        </div>
+      </section>
+
+      <section class="home-section-block">
+        <div class="section-block-head">
+          <h2>Recent Writing</h2>
+          <a href="https://hyul48.github.io/hyul-blog/archives/">Archives</a>
+        </div>
+        <div class="recent-list">
+          <article class="recent-item">
+            <p class="recent-meta">Papers · 2026-01-06</p>
+            <h3><a href="https://hyul48.github.io/hyul-blog/papers/ai/nerf/">NeRF: Representing Scenes as Neural Radiance Fields for View Synthesis(cont...)</a></h3>
+            <p>NeRF : Representing Scenes as Neural Radiance Fields for View Synthetic Executive Summary NeRF는 장면을 연속적인 5D 함수로 표현한다: 입력은 3D 위치 x와 시선 방향 d, 출력은 볼륨 밀도 σ와 색 c이다. 픽셀은 카메라에서 쏜 광선을 따라 여러 점을 샘플링 하고 각 점에서 $(\sigma, c)$를 얻어 볼륨 렌더링(확률적 누적) 으로 색을 합성한다. $\sigma$는 그 지점에서 광선이 종료(충돌)할 확률의 미분형으로 해석되고, 투과율은 $T$는 지금까지 아무것도 안 맞고 살아남았을 확률로 해석된다. 연속 적분은 이산 샘플 합으로 근사되며, 이 형태는 미분 가능해서 픽셀 MSE 손실이 네트워크 파라미터 $\Theta$로 역전파 된다. 효율을 위해 coarse 결과로 만든 가중치 $\omega_i$를 PDF(확률 밀도 함수)로 써서, 중요한 구간에 fine 샘플을 더 배치하는 hierarchical smapling을 활용한다. 1. Background &amp; Problem Setting 1.1 Novel View Synthesis 문제 입력 : 한 장면을 여러 각도에서 찍은 이미지들 &#43; 각 이미지의 카메라 파라미터(포즈 포함) 목표 : 훈련 때 없었던 새로운 카메라 위치/자세에서의 이미지를 그럴듯하게 생성(렌더링) 여기서 핵심 포인트는 “장면을 무엇으로 저장할거냐” 인데 NeRF는 그 저장방식을 격자(voxel)나 메시(mesh)가 아니라 함수로 택함 ...</p>
+          </article>
+          <article class="recent-item">
+            <p class="recent-meta">Projects · 0001-01-01</p>
+            <h3><a href="https://hyul48.github.io/hyul-blog/projects/gpr/chapter1_the_forward_problem/chapter1_1/">1.1 Notions of Electrodynamics in Material Media</a></h3>
+            <p>Core electrodynamics concepts used in the GPR forward problem.</p>
+          </article>
+        </div>
+      </section>
+    </div>
+
+    <aside class="home-sidebar">
+      <section class="sidebar-card sidebar-profile">
+        <p class="sidebar-eyebrow">About</p>
+        <h2>Hyul</h2>
+        <p class="sidebar-role">Student, builder, and research-oriented note taker</p>
+        <p>Interested in AI, inverse problems, computational electromagnetics, and learning in public.</p>
+        <dl class="sidebar-facts">
+          <div>
+            <dt>Location</dt>
+            <dd>Seoul, South Korea</dd>
+          </div>
+          <div>
+            <dt>Email</dt>
+            <dd><a href="mailto:you@example.com">you@example.com</a></dd>
+          </div>
+        </dl>
+      </section>
+
+      <section class="sidebar-card">
+        <p class="sidebar-eyebrow">Current Focus</p>
+        <ul class="focus-list">
+          <li>GPR study notes</li>
+          <li>NeRF and 3D vision</li>
+          <li>Simulation workflows</li>
+          <li>Technical writing archive</li>
+        </ul>
+      </section>
+
+      <section class="sidebar-card">
+        <p class="sidebar-eyebrow">Quick Links</p>
+        <div class="quick-links">
+          <a href="https://hyul48.github.io/hyul-blog/projects/gpr/">GPR</a>
+          <a href="https://hyul48.github.io/hyul-blog/papers/">Papers</a>
+          <a href="https://hyul48.github.io/hyul-blog/notes/">Notes</a>
+          <a href="https://hyul48.github.io/hyul-blog/search/">Search</a>
+        </div>
+      </section>
+    </aside>
   </div>
-  <footer class="entry-footer"><span title='2026-01-06 00:00:00 +0000 UTC'>January 6, 2026</span>&nbsp;·&nbsp;<span>8 분</span></footer>
-  <a class="entry-link" aria-label="post link to NeRF: Representing Scenes as Neural Radiance Fields for View Synthesis(cont...)" href="https://hyul48.github.io/hyul-blog/papers/ai/nerf/"></a>
-</article>
+</div>
     </main>
     
 <footer class="footer">
