@@ -2,17 +2,37 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>http://localhost:1313/hyul-blog/post/hello/</loc>
+    <loc>https://hyul48.github.io/hyul-blog/projects/gpr/chapter1_the_forward_problem/chapter1_1/</loc>
+  </url><url>
+    <loc>https://hyul48.github.io/hyul-blog/projects/gpr/chapter1_the_forward_problem/</loc>
+  </url><url>
+    <loc>https://hyul48.github.io/hyul-blog/projects/gpr/</loc>
+  </url><url>
+    <loc>https://hyul48.github.io/hyul-blog/projects/gpr/chapter2_data_processing/</loc>
+  </url><url>
+    <loc>https://hyul48.github.io/hyul-blog/projects/gpr/chapter3_inversion_and_interpretation/</loc>
+  </url><url>
+    <loc>https://hyul48.github.io/hyul-blog/</loc>
+    <lastmod>2026-01-06T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://hyul48.github.io/hyul-blog/papers/ai/nerf/</loc>
+    <lastmod>2026-01-06T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://hyul48.github.io/hyul-blog/papers/</loc>
+    <lastmod>2026-01-06T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://hyul48.github.io/hyul-blog/posts/hello/</loc>
     <lastmod>2026-01-04T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/hyul-blog/</loc>
+    <loc>https://hyul48.github.io/hyul-blog/posts/</loc>
     <lastmod>2026-01-04T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/hyul-blog/post/</loc>
-    <lastmod>2026-01-04T00:00:00+00:00</lastmod>
+    <loc>https://hyul48.github.io/hyul-blog/categories/</loc>
   </url><url>
-    <loc>http://localhost:1313/hyul-blog/categories/</loc>
+    <loc>https://hyul48.github.io/hyul-blog/projects/</loc>
   </url><url>
-    <loc>http://localhost:1313/hyul-blog/tags/</loc>
+    <loc>https://hyul48.github.io/hyul-blog/series/</loc>
+  </url><url>
+    <loc>https://hyul48.github.io/hyul-blog/tags/</loc>
   </url>
 </urlset>

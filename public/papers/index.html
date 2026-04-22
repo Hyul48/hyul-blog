@@ -5,11 +5,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
-<title>Categories | Hyulmonologue</title>
+<title>Papers | Hyulmonologue</title>
 <meta name="keywords" content="">
-<meta name="description" content="">
+<meta name="description" content="Papers - Hyulmonologue">
 <meta name="author" content="">
-<link rel="canonical" href="https://hyul48.github.io/hyul-blog/categories/">
+<link rel="canonical" href="https://hyul48.github.io/hyul-blog/papers/">
 <link crossorigin="anonymous" href="/hyul-blog/assets/css/stylesheet.9f807e2fbdc438edd9fda6dbef7f5daa277a75d56be8105317f6238af583b3c3.css" integrity="sha256-n4B&#43;L73EOO3Z/abb739dqid6ddVr6BBTF/YjivWDs8M=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://hyul48.github.io/hyul-blog/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://hyul48.github.io/hyul-blog/favicon-16x16.png">
@@ -18,8 +18,8 @@
 <link rel="mask-icon" href="https://hyul48.github.io/hyul-blog/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" type="application/rss+xml" href="https://hyul48.github.io/hyul-blog/categories/index.xml" title="rss">
-<link rel="alternate" hreflang="en" href="https://hyul48.github.io/hyul-blog/categories/">
+<link rel="alternate" type="application/rss+xml" href="https://hyul48.github.io/hyul-blog/papers/index.xml" title="rss">
+<link rel="alternate" hreflang="en" href="https://hyul48.github.io/hyul-blog/papers/">
 <noscript>
     <style>
         #theme-toggle,
@@ -83,15 +83,30 @@
       {left: '\\\\[', right: '\\\\]', display: true}
     ]
   });">
-</script><meta property="og:url" content="https://hyul48.github.io/hyul-blog/categories/">
+</script><meta property="og:url" content="https://hyul48.github.io/hyul-blog/papers/">
   <meta property="og:site_name" content="Hyulmonologue">
-  <meta property="og:title" content="Categories">
+  <meta property="og:title" content="Papers">
   <meta property="og:locale" content="ko">
   <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Categories">
+<meta name="twitter:title" content="Papers">
 <meta name="twitter:description" content="">
 
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Papers",
+      "item": "https://hyul48.github.io/hyul-blog/papers/"
+    }
+  ]
+}
+</script>
 </head>
 <body class="list" id="top">
     <header class="header">
@@ -124,7 +139,7 @@
         <ul id="menu">
             <li>
                 <a href="https://hyul48.github.io/hyul-blog/papers/" title="Papers">
-                    <span>Papers</span>
+                    <span class="active">Papers</span>
                 </a>
             </li>
             <li>
@@ -150,13 +165,24 @@
         </ul>
     </nav>
 </header>
-<main class="main">
-<header class="page-header">
-    <h1>Categories</h1>
+<main class="main"> 
+<header class="page-header"><div class="breadcrumbs"><a href="https://hyul48.github.io/hyul-blog/">홈</a></div>
+  <h1>
+    Papers
+  </h1>
 </header>
 
-<ul class="terms-tags">
-</ul>
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">NeRF: Representing Scenes as Neural Radiance Fields for View Synthesis(cont...)
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>NeRF : Representing Scenes as Neural Radiance Fields for View Synthetic Executive Summary NeRF는 장면을 연속적인 5D 함수로 표현한다: 입력은 3D 위치 x와 시선 방향 d, 출력은 볼륨 밀도 σ와 색 c이다. 픽셀은 카메라에서 쏜 광선을 따라 여러 점을 샘플링 하고 각 점에서 $(\sigma, c)$를 얻어 볼륨 렌더링(확률적 누적) 으로 색을 합성한다. $\sigma$는 그 지점에서 광선이 종료(충돌)할 확률의 미분형으로 해석되고, 투과율은 $T$는 지금까지 아무것도 안 맞고 살아남았을 확률로 해석된다. 연속 적분은 이산 샘플 합으로 근사되며, 이 형태는 미분 가능해서 픽셀 MSE 손실이 네트워크 파라미터 $\Theta$로 역전파 된다. 효율을 위해 coarse 결과로 만든 가중치 $\omega_i$를 PDF(확률 밀도 함수)로 써서, 중요한 구간에 fine 샘플을 더 배치하는 hierarchical smapling을 활용한다. 1. Background &amp; Problem Setting 1.1 Novel View Synthesis 문제 입력 : 한 장면을 여러 각도에서 찍은 이미지들 &#43; 각 이미지의 카메라 파라미터(포즈 포함) 목표 : 훈련 때 없었던 새로운 카메라 위치/자세에서의 이미지를 그럴듯하게 생성(렌더링) 여기서 핵심 포인트는 “장면을 무엇으로 저장할거냐” 인데 NeRF는 그 저장방식을 격자(voxel)나 메시(mesh)가 아니라 함수로 택함 ...</p>
+  </div>
+  <footer class="entry-footer"><span title='2026-01-06 00:00:00 +0000 UTC'>January 6, 2026</span>&nbsp;·&nbsp;<span>8 분</span></footer>
+  <a class="entry-link" aria-label="post link to NeRF: Representing Scenes as Neural Radiance Fields for View Synthesis(cont...)" href="https://hyul48.github.io/hyul-blog/papers/ai/nerf/"></a>
+</article>
     </main>
     
 <footer class="footer">

@@ -29,6 +29,7 @@ enableRobotsTXT = true
   ShowBreadCrumbs = true
   ShowPostNavLinks = true
   ShowShareButtons = true
+  mainSections = ["papers", "notes", "code", "projects"]
 
   # ✅ 수식(KaTeX) — PaperMod가 지원
   math = true
@@ -55,8 +56,8 @@ enableRobotsTXT = true
   weight = 3
 
 [[menu.main]]
-  name = "GPR"
-  url = "/projects/gpr/"
+  name = "Projects"
+  url = "/projects/"
   weight = 4
 
 [[menu.main]]

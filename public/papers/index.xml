@@ -1,20 +1,13 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>Hyulmonologue</title>
-    <link>https://hyul48.github.io/hyul-blog/</link>
-    <description>Recent content on Hyulmonologue</description>
+    <title>Papers on Hyulmonologue</title>
+    <link>https://hyul48.github.io/hyul-blog/papers/</link>
+    <description>Recent content in Papers on Hyulmonologue</description>
     <generator>Hugo -- 0.154.2</generator>
     <language>ko</language>
     <lastBuildDate>Tue, 06 Jan 2026 00:00:00 +0000</lastBuildDate>
-    <atom:link href="https://hyul48.github.io/hyul-blog/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>1.1 Notions of Electrodynamics in Material Media</title>
-      <link>https://hyul48.github.io/hyul-blog/projects/gpr/chapter1_the_forward_problem/chapter1_1/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://hyul48.github.io/hyul-blog/projects/gpr/chapter1_the_forward_problem/chapter1_1/</guid>
-      <description>Core electrodynamics concepts used in the GPR forward problem.</description>
-    </item>
+    <atom:link href="https://hyul48.github.io/hyul-blog/papers/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>NeRF: Representing Scenes as Neural Radiance Fields for View Synthesis(cont...)</title>
       <link>https://hyul48.github.io/hyul-blog/papers/ai/nerf/</link>
@@ -37,16 +30,6 @@
 &lt;/ul&gt;
 &lt;p&gt;여기서 핵심 포인트는 &amp;ldquo;장면을 무엇으로 저장할거냐&amp;rdquo; 인데 NeRF는 그 &lt;strong&gt;저장방식을 격자(voxel)나 메시(mesh)가 아니라 함수로 택함&lt;/strong&gt;
 &lt;img alt=&#34;이미지1&#34; loading=&#34;lazy&#34; src=&#34;https://hyul48.github.io/hyul-blog/papers/ai/nerf/view_synthesis_before.png&#34;&gt;&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>Hello</title>
-      <link>https://hyul48.github.io/hyul-blog/posts/hello/</link>
-      <pubDate>Sun, 04 Jan 2026 00:00:00 +0000</pubDate>
-      <guid>https://hyul48.github.io/hyul-blog/posts/hello/</guid>
-      <description>&lt;p&gt;테스트 페이지 입니다.&lt;/p&gt;
-&lt;p&gt;$$
-\mathbf{E} = -\nabla \phi - \frac{\partial \mathbf{A}}{\partial t}
-$$&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>
