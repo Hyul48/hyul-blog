@@ -1,0 +1,69 @@
+{{- define "main" }}
+
+<article class="post-single section-single">
+  <header class="post-header">
+    {{ partial "breadcrumbs.html" . }}
+    <h1 class="post-title">{{ .Title }}</h1>
+    {{- if .Description }}
+    <div class="post-description">
+      {{ .Description }}
+    </div>
+    {{- end }}
+  </header>
+
+  {{- if .Content }}
+  <div class="post-content">
+    {{- if not (.Param "disableAnchoredHeadings") }}
+    {{- partial "anchored_headings.html" .Content -}}
+    {{- else }}{{ .Content }}{{ end }}
+  </div>
+  {{- end }}
+
+  {{- $sections := .Sections.ByWeight }}
+  {{- $pages := where .RegularPages "Params.hiddenInSectionList" "!=" true }}
+  {{- $pages = $pages.ByWeight }}
+
+  {{- if $sections }}
+  <section class="section-group">
+    <h2 class="section-group-title">Chapters</h2>
+    {{- range $sections }}
+    <article class="post-entry">
+      <header class="entry-header">
+        <h2 class="entry-hint-parent">{{ .Title }}</h2>
+      </header>
+      {{- if .Description }}
+      <div class="entry-content">
+        <p>{{ .Description }}</p>
+      </div>
+      {{- end }}
+      <a class="entry-link" aria-label="section link to {{ .Title | plainify }}" href="{{ .Permalink }}"></a>
+    </article>
+    {{- end }}
+  </section>
+  {{- end }}
+
+  {{- if $pages }}
+  <section class="section-group">
+    <h2 class="section-group-title">Pages</h2>
+    {{- range $pages }}
+    <article class="post-entry">
+      <header class="entry-header">
+        <h2 class="entry-hint-parent">{{ .Title }}</h2>
+      </header>
+      {{- if .Description }}
+      <div class="entry-content">
+        <p>{{ .Description }}</p>
+      </div>
+      {{- else if (ne (.Param "hideSummary") true) }}
+      <div class="entry-content">
+        <p>{{ .Summary | plainify | htmlUnescape }}{{ if .Truncated }}...{{ end }}</p>
+      </div>
+      {{- end }}
+      <a class="entry-link" aria-label="page link to {{ .Title | plainify }}" href="{{ .Permalink }}"></a>
+    </article>
+    {{- end }}
+  </section>
+  {{- end }}
+</article>
+
+{{- end }}

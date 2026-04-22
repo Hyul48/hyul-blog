@@ -55,6 +55,11 @@ enableRobotsTXT = true
   weight = 3
 
 [[menu.main]]
+  name = "GPR"
+  url = "/projects/gpr/"
+  weight = 4
+
+[[menu.main]]
   name = "Search"
   url = "/search/"
   weight = 9
