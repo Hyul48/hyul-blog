@@ -11,7 +11,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 <link rel="canonical" href="https://hyul48.github.io/hyul-blog/">
-<link crossorigin="anonymous" href="/hyul-blog/assets/css/stylesheet.ee90ebbd4f2be27957837acb5c34f22b4097abbf7523e14f5c514087149c529e.css" integrity="sha256-7pDrvU8r4nlXg3rLXDTyK0CXq791I&#43;FPXFFAhxScUp4=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/hyul-blog/assets/css/stylesheet.cbf9de5ab8ac1dc51f62998db2dba617cff533dc1f1cb2e62bca17dec491b09f.css" integrity="sha256-y/neWrisHcUfYpmNstumF8/1M9wfHLLmK8oX3sSRsJ8=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://hyul48.github.io/hyul-blog/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://hyul48.github.io/hyul-blog/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="https://hyul48.github.io/hyul-blog/favicon-32x32.png">
@@ -179,25 +179,10 @@
         <input id="home-search-input" name="q" type="search" placeholder="Search the whole site">
         <button type="submit">Search</button>
       </form>
-
-      <div class="home-actions">
-        <a class="home-button home-button-primary" href="https://hyul48.github.io/projects/">Browse Projects</a>
-        <a class="home-button home-button-secondary" href="https://hyul48.github.io/papers/">Read Papers</a>
-      </div>
-    </div>
-
-    <div class="home-glance">
-      <div class="glance-card">
-        <span class="glance-label">Sections</span>
-        <strong>2</strong>
-      </div>
-      <div class="glance-card">
-        <span class="glance-label">Recent Posts</span>
-        <strong>2</strong>
-      </div>
-      <div class="glance-card">
-        <span class="glance-label">Latest Focus</span>
-        <strong>GPR</strong>
+      <div class="hero-links">
+        <a href="https://hyul48.github.io/projects/">Browse Projects</a>
+        <a href="https://hyul48.github.io/papers/">Read Papers</a>
+        <a href="https://hyul48.github.io/hyul-blog/notes/">Notes</a>
       </div>
     </div>
   </section>
@@ -213,12 +198,14 @@
           <article class="section-card">
             <p class="section-card-label">Papers</p>
             <h3>Papers</h3>
-            <a href="https://hyul48.github.io/hyul-blog/papers/">Open Papers</a>
+            <p>Browse this section.</p>
+            <a href="https://hyul48.github.io/hyul-blog/papers/">Open section</a>
           </article>
           <article class="section-card">
             <p class="section-card-label">Projects</p>
-            <h3>Project notes and structured study paths.</h3>
-            <a href="https://hyul48.github.io/hyul-blog/projects/">Open Projects</a>
+            <h3>Projects</h3>
+            <p>Project notes and structured study paths.</p>
+            <a href="https://hyul48.github.io/hyul-blog/projects/">Open section</a>
           </article>
         </div>
       </section>
@@ -232,7 +219,7 @@
           <article class="recent-item">
             <p class="recent-meta">Papers · 2026-01-06</p>
             <h3><a href="https://hyul48.github.io/hyul-blog/papers/ai/nerf/">NeRF: Representing Scenes as Neural Radiance Fields for View Synthesis(cont...)</a></h3>
-            <p>NeRF : Representing Scenes as Neural Radiance Fields for View Synthetic Executive Summary NeRF는 장면을 연속적인 5D 함수로 표현한다: 입력은 3D 위치 x와 시선 방향 d, 출력은 볼륨 밀도 σ와 색 c이다. 픽셀은 카메라에서 쏜 광선을 따라 여러 점을 샘플링 하고 각 점에서 $(\sigma, c)$를 얻어 볼륨 렌더링(확률적 누적) 으로 색을 합성한다. $\sigma$는 그 지점에서 광선이 종료(충돌)할 확률의 미분형으로 해석되고, 투과율은 $T$는 지금까지 아무것도 안 맞고 살아남았을 확률로 해석된다. 연속 적분은 이산 샘플 합으로 근사되며, 이 형태는 미분 가능해서 픽셀 MSE 손실이 네트워크 파라미터 $\Theta$로 역전파 된다. 효율을 위해 coarse 결과로 만든 가중치 $\omega_i$를 PDF(확률 밀도 함수)로 써서, 중요한 구간에 fine 샘플을 더 배치하는 hierarchical smapling을 활용한다. 1. Background &amp; Problem Setting 1.1 Novel View Synthesis 문제 입력 : 한 장면을 여러 각도에서 찍은 이미지들 &#43; 각 이미지의 카메라 파라미터(포즈 포함) 목표 : 훈련 때 없었던 새로운 카메라 위치/자세에서의 이미지를 그럴듯하게 생성(렌더링) 여기서 핵심 포인트는 “장면을 무엇으로 저장할거냐” 인데 NeRF는 그 저장방식을 격자(voxel)나 메시(mesh)가 아니라 함수로 택함 ...</p>
+            <p>NeRF : Representing Scenes as Neural Radiance Fields for View Synthetic Executive Summary NeRF는 장면을 연속적인 5D 함수로 표현한다: 입력은 3D 위치 x와 시선 방향 d, 출력은 볼륨 밀도 …</p>
           </article>
           <article class="recent-item">
             <p class="recent-meta">Projects · 0001-01-01</p>

@@ -2,8 +2,12 @@
 
 {{- $hero := site.Params.homeHero }}
 {{- $sidebar := site.Params.sidebarProfile }}
-{{- $sections := where site.Sections "Section" "in" site.Params.mainSections }}
-{{- $sections = $sections.ByTitle }}
+{{- $sections := slice }}
+{{- range site.Params.mainSections }}
+  {{- with site.GetPage . }}
+    {{- $sections = $sections | append . }}
+  {{- end }}
+{{- end }}
 {{- $recent := where site.RegularPages "Type" "in" site.Params.mainSections }}
 {{- $recent = first 6 $recent.ByDate.Reverse }}
 
@@ -19,25 +23,10 @@
         <input id="home-search-input" name="q" type="search" placeholder="Search the whole site">
         <button type="submit">Search</button>
       </form>
-
-      <div class="home-actions">
-        <a class="home-button home-button-primary" href="{{ $hero.primaryButtonURL | absLangURL }}">{{ $hero.primaryButtonText }}</a>
-        <a class="home-button home-button-secondary" href="{{ $hero.secondaryButtonURL | absLangURL }}">{{ $hero.secondaryButtonText }}</a>
-      </div>
-    </div>
-
-    <div class="home-glance">
-      <div class="glance-card">
-        <span class="glance-label">Sections</span>
-        <strong>{{ len $sections }}</strong>
-      </div>
-      <div class="glance-card">
-        <span class="glance-label">Recent Posts</span>
-        <strong>{{ len $recent }}</strong>
-      </div>
-      <div class="glance-card">
-        <span class="glance-label">Latest Focus</span>
-        <strong>GPR</strong>
+      <div class="hero-links">
+        <a href="{{ $hero.primaryButtonURL | absLangURL }}">{{ $hero.primaryButtonText }}</a>
+        <a href="{{ $hero.secondaryButtonURL | absLangURL }}">{{ $hero.secondaryButtonText }}</a>
+        <a href="{{ "notes/" | absLangURL }}">Notes</a>
       </div>
     </div>
   </section>
@@ -53,8 +42,9 @@
           {{- range $sections }}
           <article class="section-card">
             <p class="section-card-label">{{ .Title }}</p>
-            <h3>{{ .Description | default .Title }}</h3>
-            <a href="{{ .Permalink }}">Open {{ .Title }}</a>
+            <h3>{{ .Title }}</h3>
+            <p>{{ .Description | default "Browse this section." }}</p>
+            <a href="{{ .Permalink }}">Open section</a>
           </article>
           {{- end }}
         </div>
@@ -73,7 +63,7 @@
             {{- if .Description }}
             <p>{{ .Description }}</p>
             {{- else if (ne (.Param "hideSummary") true) }}
-            <p>{{ .Summary | plainify | htmlUnescape }}{{ if .Truncated }}...{{ end }}</p>
+            <p>{{ .Summary | plainify | htmlUnescape | truncate 150 }}</p>
             {{- end }}
           </article>
           {{- end }}
