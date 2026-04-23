@@ -1,3 +1,3 @@
 User-agent: *
-Disallow: /
-Sitemap: http://localhost:1313/hyul-blog/sitemap.xml
+Disallow:
+Sitemap: https://hyul48.github.io/hyul-blog/sitemap.xml

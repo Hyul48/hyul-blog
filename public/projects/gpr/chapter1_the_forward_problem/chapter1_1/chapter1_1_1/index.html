@@ -1,24 +1,24 @@
 <!DOCTYPE html>
 <html lang="en" dir="auto" data-theme="auto">
 
-<head><script src="/hyul-blog/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=hyul-blog/livereload" data-no-instant defer></script><meta charset="utf-8">
+<head><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="robots" content="noindex, nofollow">
-<title>1.1 Notions of Electrodynamics in Material Media | Hyulmonologue</title>
+<meta name="robots" content="index, follow">
+<title>1.1.1 Maxwells equation and constitutive relations | Hyulmonologue</title>
 <meta name="keywords" content="">
 <meta name="description" content="Core electrodynamics concepts used in the GPR forward problem.">
 <meta name="author" content="">
-<link rel="canonical" href="http://localhost:1313/hyul-blog/projects/gpr/chapter1_the_forward_problem/chapter1_1/chapter1_1_1/">
+<link rel="canonical" href="https://hyul48.github.io/hyul-blog/projects/gpr/chapter1_the_forward_problem/chapter1_1/chapter1_1_1/">
 <link crossorigin="anonymous" href="/hyul-blog/assets/css/stylesheet.cbf9de5ab8ac1dc51f62998db2dba617cff533dc1f1cb2e62bca17dec491b09f.css" integrity="sha256-y/neWrisHcUfYpmNstumF8/1M9wfHLLmK8oX3sSRsJ8=" rel="preload stylesheet" as="style">
-<link rel="icon" href="http://localhost:1313/hyul-blog/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/hyul-blog/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/hyul-blog/favicon-32x32.png">
-<link rel="apple-touch-icon" href="http://localhost:1313/hyul-blog/apple-touch-icon.png">
-<link rel="mask-icon" href="http://localhost:1313/hyul-blog/safari-pinned-tab.svg">
+<link rel="icon" href="https://hyul48.github.io/hyul-blog/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://hyul48.github.io/hyul-blog/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://hyul48.github.io/hyul-blog/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://hyul48.github.io/hyul-blog/apple-touch-icon.png">
+<link rel="mask-icon" href="https://hyul48.github.io/hyul-blog/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" hreflang="en" href="http://localhost:1313/hyul-blog/projects/gpr/chapter1_the_forward_problem/chapter1_1/chapter1_1_1/">
+<link rel="alternate" hreflang="en" href="https://hyul48.github.io/hyul-blog/projects/gpr/chapter1_the_forward_problem/chapter1_1/chapter1_1_1/">
 <noscript>
     <style>
         #theme-toggle,
@@ -82,13 +82,91 @@
       {left: '\\\\[', right: '\\\\]', display: true}
     ]
   });">
+</script><meta property="og:url" content="https://hyul48.github.io/hyul-blog/projects/gpr/chapter1_the_forward_problem/chapter1_1/chapter1_1_1/">
+  <meta property="og:site_name" content="Hyulmonologue">
+  <meta property="og:title" content="1.1.1 Maxwells equation and constitutive relations">
+  <meta property="og:description" content="Core electrodynamics concepts used in the GPR forward problem.">
+  <meta property="og:locale" content="ko">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="projects">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="1.1.1 Maxwells equation and constitutive relations">
+<meta name="twitter:description" content="Core electrodynamics concepts used in the GPR forward problem.">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Projects",
+      "item": "https://hyul48.github.io/hyul-blog/projects/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "GPR",
+      "item": "https://hyul48.github.io/hyul-blog/projects/gpr/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "Chapter 1. The Forward Problem",
+      "item": "https://hyul48.github.io/hyul-blog/projects/gpr/chapter1_the_forward_problem/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  4 ,
+      "name": "1.1 Notions of Electrodynamics in Material Media",
+      "item": "https://hyul48.github.io/hyul-blog/projects/gpr/chapter1_the_forward_problem/chapter1_1/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  5 ,
+      "name": "1.1.1 Maxwells equation and constitutive relations",
+      "item": "https://hyul48.github.io/hyul-blog/projects/gpr/chapter1_the_forward_problem/chapter1_1/chapter1_1_1/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "1.1.1 Maxwells equation and constitutive relations",
+  "name": "1.1.1 Maxwells equation and constitutive relations",
+  "description": "Core electrodynamics concepts used in the GPR forward problem.",
+  "keywords": [
+    
+  ],
+  "articleBody": "1.1 Notions of Electrodynamics in Material Media 이 절에서는 물질 매질에서의 전자기학 기본 개념과, 이후 GPR forward problem 및 수치 구현에서 사용될 핵심 관계식들을 정리한다. 특히 문헌에서 자주 사용되지만 그 의미가 충분히 설명되지 않는 가정들, 예를 들어 선형성, 등방성, 시간 불변성, 비분산성 등의 의미를 함께 짚고 넘어간다.\n전자기학의 지배방정식은 시간 영역에서의 Maxwell 방정식으로 주어진다. 이후 분산성과 완화 현상을 보다 편리하게 다루기 위해 주파수 영역으로 옮겨갈 것이지만, 먼저 실제 물리 공간인 시간 영역에서 출발하는 것이 개념적으로 자연스럽다.\n또한 GPR 데이터로부터 정량화하고자 하는 대상은 자연 매질의 전자기적 물성이다. 따라서 Maxwell 방정식만으로는 부족하며, 전기장과 자기장을 매질의 응답과 연결하는 constitutive relations가 추가로 필요하다.\n1.1.1 Maxwell’s equations and constitutive relations 전자기파의 거동은 Maxwell 방정식으로 기술된다.\n$$ \\nabla \\times \\mathbf{E}(\\mathbf{r}, t)= - \\frac{\\partial \\mathbf{B}(\\mathbf{r}, t)}{\\partial t} \\qquad \\text{Maxwell-Faraday’s equation} \\tag{1.1} $$\n$$ \\nabla \\times \\mathbf{H}(\\mathbf{r}, t)=\\frac{\\partial \\mathbf{D}(\\mathbf{r}, t)}{\\partial t} + \\mathbf{J}(\\mathbf{r}, t) \\qquad \\text{Maxwell-Amp`ere’s equation} \\tag{1.2} $$\n$$ \\nabla \\cdot \\mathbf{D}(\\mathbf{r}, t) = q(\\mathbf{r}, t) \\qquad \\text{Maxwell-Gauss equation (electric)} \\tag{1.3} $$\n$$ \\nabla \\cdot \\mathbf{B}(\\mathbf{r}, t) = 0 \\qquad \\text{Maxwell-Gauss equation (magnetic)} \\tag{1.4} $$\n여기서 $\\mathbf{E}$는 전기장으로 단위는 $\\mathrm{V/m}$이고, $\\mathbf{H}$는 자기장으로 단위는 $\\mathrm{A/m}$이다. 또한 $\\mathbf{D}$는 전기 유도(electric induction) 또는 전기 변위(electric displacement)로서 단위는 $\\mathrm{C/m^2}$이며, $\\mathbf{B}$는 자기 유도로서 단위는 $\\mathrm{T}$이다. $\\mathbf{J}$는 전도 전류 밀도(conduction current density)로 단위는 $\\mathrm{A/m^2}$이고, $q$는 전하 밀도(electric charge density)로 단위는 $\\mathrm{C/m^3}$이다. 변수 $\\mathbf{r}$은 위치 벡터이며 단위는 $\\mathrm{m}$, $t$는 시간이며 단위는 $\\mathrm{s}$이다. 여기서 등장하는 장과 변수들은 모두 실수값(real quantities)이다.\n오른손 법칙에 따르면, Maxwell-Faraday 방정식은 시간에 따라 변하는 자기 유속이 회전하는 전기장을 생성함을 의미한다. 마찬가지로 Maxwell-Amp`ere 방정식은 전류 또는 시간에 따라 변하는 전기 유속이 회전하는 자기장을 생성함을 의미한다. 또한 Maxwell-Gauss 방정식은 전하 밀도가 전기 플럭스의 원천임을 나타내며, 이에 대응되는 자기 플럭스의 원천은 존재하지 않음을 보여준다.\n시간 영역 구성 관계식 (constitutive relations) Maxwell 방정식계는 매우 일반적이지만 그 자체만으로는 미정(under-determined)이다. 예를 들어 $\\nabla \\cdot \\nabla \\times = 0$이라는 벡터 항등식을 이용하면, Maxwell-Faraday 방정식의 divergence를 취해 $\\nabla \\cdot \\mathbf{B}=0$을 얻을 수 있다. 마찬가지로 Maxwell-Amp`ere 방정식의 divergence와 전하보존법칙\n$$ \\nabla \\cdot \\mathbf{J}(\\mathbf{r}, t)+\\frac{\\partial q(\\mathbf{r}, t)}{\\partial t}=0 \\tag{1.5} $$\n을 이용하면 $\\nabla \\cdot \\mathbf{D}=q$를 유도할 수 있다. 따라서 실질적으로는 curl 방정식 두 개와 구성 관계식이 핵심이 된다.\n수학적으로도 전자기장을 완전히 결정하기 위해서는 추가적인 물질 관계가 필요하다. 물리적으로는 Maxwell 방정식만으로는 GPR로 조사하려는 자연 매질의 특성이 명시적으로 들어 있지 않기 때문이다. 이때 유도 벡터(induction vectors)와 장 벡터(field vectors) 사이를 연결하는 식이 constitutive relations이다.\n진공에서는 이 관계가 단순하다.\n$$ \\mathbf{D}(\\mathbf{r}, t)=\\varepsilon_0 \\mathbf{E}(\\mathbf{r}, t) \\tag{1.6} $$\n$$ \\mathbf{B}(\\mathbf{r}, t)=\\mu_0 \\mathbf{H}(\\mathbf{r}, t) \\tag{1.7} $$\n여기서 $\\varepsilon_0 = 8.85 \\times 10^{-12},\\mathrm{F/m}$는 진공의 유전율이고, $\\mu_0 = 4\\pi \\times 10^{-7},\\mathrm{H/m}$는 진공의 투자율이다.\n반면 암석이나 토양과 같은 유전체 물질 매질에서는 전자기적 응답이 더 복잡하다. 전기장 $\\mathbf{E}$가 가해지면 물질 내부에서는 분극(polarisation), 즉 결합전하의 전기적 모멘트가 특정 방향으로 정렬되는 현상이 일어난다. 마찬가지로 자기장이 가해지면 자기적 입자들의 자기 모멘트가 정렬되는 자화(magnetisation)가 유도된다. 선형(linear)이고 등방성(isotropic)인 매질에서는 분극 $\\mathbf{P}$와 자화 $\\mathbf{M}$를 다음과 같이 쓸 수 있다.\n$$ \\mathbf{P}(\\mathbf{r}, t)=\\varepsilon_0 \\chi_e(\\mathbf{r}, t)\\ast \\mathbf{E}(\\mathbf{r}, t) \\tag{1.8} $$\n$$ \\mathbf{M}(\\mathbf{r}, t)=\\mu_0 \\chi_m(\\mathbf{r}, t)\\ast \\mathbf{H}(\\mathbf{r}, t) \\tag{1.9} $$\n여기서 $\\ast$는 시간 컨볼루션(time convolution)을 의미하며, $\\chi_e$는 유전 감수율(dielectric susceptibility), $\\chi_m$는 자기 감수율(magnetic susceptibility)이다.\n따라서 constitutive relations는 다음과 같이 정리된다.\n$$ \\mathbf{D}(\\mathbf{r}, t)=\\varepsilon(\\mathbf{r}, t)\\ast \\mathbf{E}(\\mathbf{r}, t) \\tag{1.10} $$\n$$ \\mathbf{B}(\\mathbf{r}, t)=\\mu(\\mathbf{r}, t)\\ast \\mathbf{H}(\\mathbf{r}, t) \\tag{1.11} $$\n여기서 $\\varepsilon=\\varepsilon_0(1+\\chi_e)$는 매질의 유전율, $\\mu=\\mu_0(1+\\chi_m)$는 매질의 투자율이다.\n전도성 매질에서는 추가로 Ohm의 법칙이 필요하다.\n$$ \\mathbf{J}_c(\\mathbf{r}, t)=\\sigma(\\mathbf{r}, t)\\ast \\mathbf{E}(\\mathbf{r}, t) \\tag{1.12} $$\n여기서 $\\sigma$는 전기전도도이다. 전체 전류는 전도 전류와 소스 전류의 합으로 나타난다.\n$$ \\mathbf{J}(\\mathbf{r}, t)=\\mathbf{J}_c(\\mathbf{r}, t)+\\mathbf{J}_s(\\mathbf{r}, t) \\tag{1.13} $$\n실제로 $\\mathbf{J}_s$는 송신 안테나 위치와 펄스 방사 시간 동안에만 0이 아닌 값을 가진다.\n이러한 constitutive relations와 Ohm의 법칙은 매질이 외부 전기장과 자기장에 어떻게 응답하는지를 기술한다. 따라서 $\\varepsilon(\\mathbf{r}, t)$, $\\mu(\\mathbf{r}, t)$, $\\sigma(\\mathbf{r}, t)$는 각각 유전적, 자기적, 전도성 응답을 나타내는 물질 파라미터이다.\n이때 몇 가지 중요한 가정을 둔다.\n선형성(linearity): $\\varepsilon$, $\\mu$, $\\sigma$가 외부 장의 크기에 의존하지 않는다. 등방성(isotropy): 물성은 스칼라이며 방향에 따라 달라지지 않는다. 비균질성(heterogeneity): 물성은 공간 위치 $\\mathbf{r}$에 따라 달라질 수 있다. 시간 의존성(time-dependence): 실제 자연 매질은 이상적이지 않으므로 응답이 시간 지연과 완화(relaxation)를 포함할 수 있다. 특히 시간 의존성은 인과성(causality)과 연결된다. 즉, 매질의 응답은 원인보다 먼저 나타날 수 없으므로 $\\varepsilon(t)$, $\\mu(t)$, $\\sigma(t)$와 같은 응답 함수는 자극이 가해지기 전에는 0이어야 한다.\nGPR FWI에서는 일반적으로 지하 매질의 전기적 성질, 즉 유전율 $\\varepsilon$과 전기전도도 $\\sigma$에 더 큰 관심이 있다. 자연 매질은 대체로 비자성(non-magnetic)이므로 실제 응용에서는 보통 $\\mu=\\mu_0$, 즉 상대 투자율 $\\mu_r=\\mu/\\mu_0=1$로 둔다. 반면 상대 유전율은 $\\varepsilon_r=\\varepsilon/\\varepsilon_0$로 정의되며, GPR 해석에서 매우 중요한 파라미터가 된다.\n시간 영역 파동 방정식 Maxwell-Faraday 방정식과 Maxwell-Amp`ere 방정식을 constitutive relations와 결합하면 파동 방정식을 얻을 수 있다. 균질(homogeneous), 시간 불변(time-invariant), source-free 매질에서는 다음과 같이 쓸 수 있다.\n$$ \\nabla^2 u(\\mathbf{r}, t)- \\underbrace{\\varepsilon \\mu \\frac{\\partial^2 u(\\mathbf{r}, t)}{\\partial t^2}}{\\text{propagation}}- \\underbrace{\\sigma \\mu \\frac{\\partial u(\\mathbf{r}, t)}{\\partial t}}{\\text{diffusion}}= 0 \\tag{1.14} $$\n여기서 $u$는 전기장 혹은 자기장의 성분을 나타낸다. 이 식은 두 가지 중요한 항을 포함한다.\n$\\varepsilon \\mu \\frac{\\partial^2 u}{\\partial t^2}$: 파동의 전파(propagation)를 나타내는 항 $\\sigma \\mu \\frac{\\partial u}{\\partial t}$: 전도성에 의한 손실 및 확산(diffusion)을 나타내는 항 즉 유전율은 전파 특성을, 전도도는 감쇠와 확산 특성을 조절한다.\n다만 이 식은 매질이 시간에 따라 변하지 않는다고 가정했을 때에만 깔끔하게 유도된다. 시간 가변(time-varying) 매질에서는 constitutive relation에 시간 컨볼루션이 포함되어 매질 응답이 과거 이력에 의존하게 되므로, 단순한 상수 속도 $v=1/\\sqrt{\\varepsilon\\mu}$를 정의하기 어렵다. 이런 이유로 분산성과 완화 특성을 다루려면 시간 영역보다 주파수 영역이 편리하다.\n1.1.2 Frequency-domain formulation 시간 조화 의존성(time-harmonic dependency)을 $e^{-i\\omega t}$로 정의하면, Fourier 변환은 다음과 같이 쓸 수 있다.\n$$ f(\\omega) = \\int_{-\\infty}^{+\\infty} f(t)e^{i\\omega t},dt \\tag{1.15} $$\n$$ f(t) = \\frac{1}{2\\pi}\\int_{-\\infty}^{+\\infty} f(\\omega)e^{-i\\omega t},d\\omega \\tag{1.16} $$\n이 convention에서는 시간 미분이 주파수 영역에서 $-i\\omega$ 곱셈으로 바뀐다. 따라서 Maxwell 방정식은 다음과 같은 형태가 된다.\n$$ \\nabla \\times \\mathbf{E}(\\mathbf{r}, \\omega) = i\\omega \\mathbf{B}(\\mathbf{r}, \\omega) \\tag{1.17} $$\n$$ \\nabla \\times \\mathbf{H}(\\mathbf{r}, \\omega) = -i\\omega \\mathbf{D}(\\mathbf{r}, \\omega) + \\mathbf{J}(\\mathbf{r}, \\omega) \\tag{1.18} $$\n$$ \\nabla \\cdot \\mathbf{D}(\\mathbf{r}, \\omega) = q(\\mathbf{r}, \\omega) \\tag{1.19} $$\n$$ \\nabla \\cdot \\mathbf{B}(\\mathbf{r}, \\omega) = 0 \\tag{1.20} $$\n주파수 영역에서는 시간 영역의 컨볼루션이 단순한 곱셈으로 바뀌므로 constitutive relations와 Ohm의 법칙도 훨씬 간단해진다.\n$$ \\mathbf{D}(\\mathbf{r}, \\omega) = \\varepsilon(\\mathbf{r}, \\omega)\\mathbf{E}(\\mathbf{r}, \\omega) \\tag{1.21} $$\n$$ \\mathbf{B}(\\mathbf{r}, \\omega) = \\mu(\\mathbf{r}, \\omega)\\mathbf{H}(\\mathbf{r}, \\omega) \\tag{1.22} $$\n$$ \\mathbf{J}_c(\\mathbf{r}, \\omega) = \\sigma(\\mathbf{r}, \\omega)\\mathbf{E}(\\mathbf{r}, \\omega) \\tag{1.23} $$\n즉 시간 영역에서의 실수 응답 함수는 주파수 영역에서 복소수 함수로 바뀌며, 이 복소수의 실수부와 허수부는 각각 저장 성분과 손실 성분을 반영한다. 또한 주파수 의존성은 분산(dispersion)을 의미한다.\n주파수 영역에서는 전파 항과 확산 항을 유효 유전율(effective permittivity)로 묶어 Helmholtz equation 형태로 쓸 수 있다.\n$$ \\nabla^2 u(\\mathbf{r}, \\omega) + \\varepsilon_e(\\omega)\\mu(\\omega)\\omega^2 u(\\mathbf{r}, \\omega)=0 \\tag{1.24} $$\n여기서\n$$ \\varepsilon_e(\\omega)=\\varepsilon(\\omega)+\\frac{i\\sigma(\\omega)}{\\omega} \\tag{1.25} $$\n는 유전율과 전도도를 함께 포함한 effective permittivity이다. 따라서 주파수 영역에서는 각 주파수별로 Helmholtz equation을 푸는 방식으로 분산성과 감쇠를 다룰 수 있다.\n한편, 인과성(causality)을 만족하려면 주파수 영역 물성의 실수부와 허수부는 Kramers–Kronig 관계로 연결되어야 한다(상호 종속). 즉 실제 자연 매질의 전자기 파라미터는 원칙적으로 전 주파수 대역에서 상수일 수 없으며, 주파수 의존성을 갖는다. 다만 실제 GPR 계측은 제한된 주파수 대역에서 이루어지므로, 실용적으로는 일정 대역 내에서 물성을 상수로 근사하는 경우가 많다.\n마지막으로 inversion 관점에서는 frequency-independent하고 real-valued인 permittivity와 conductivity만을 복원 대상으로 두는 경우가 많다. 이는 dispersion까지 포함하면 자유도와 ill-posedness가 크게 증가하기 때문이다. 실제로 많은 GPR 데이터는 permittivity에는 민감하지만 conductivity와 dispersion에는 상대적으로 덜 민감하므로, 단순화된 파라미터화가 실용적이다.\n추가 정리 Kramers-Kroing 관계 : 어떤 매질의 복소 응답 함수에서 실수부와 허수부가 서로 독립이 아니다. $\\rightarrow$ 전 주파수 대역에서 실수부를 알면 허수부도 정해지고 허수부를 알면 실수부가 정해진다.\n물리적인 시스템은 원인보다 결과가 먼저 나올 수 없다. 예를 들어 전기장$\\mathbf{E}(t)$를 가했을 때 미질의 분국 $\\mathbf{P}(t)$가 생긴다고 하자. 정상적인 매질이면, 전기장을 가하기 전에 분극이 생기면 안된다. 즉 시간영역 응답 함수는\n$$h(t) = 0 \\quad (t\u003c0)$$\n를 만족해야 한다.\n이 조건이 푸리에 변환을 거치면 주파수 영역에서 실수부와 허수부를 연결하는 적분관계로 바뀌게 된다.\nproof 시간 영역 선형 응답을 $$y(t) = \\int_{-\\infty}^{\\infty}h(\\tau)x(t-\\tau)d\\tau$$ 라고 쓰자. 여기서 h(t)는 시스템의 impulse response다.\n인과성을 만족하면 $$h(t) = 0 \\quad (t\u003c0)$$ 이어야 한다. 즉 응답은 과거 입력에만 의존한다. 그러면 푸리에 변환으로 정의한 주파수 응답은 $$H(\\omega) = \\int_{0}^{\\infty}h(t)e^{iwt}dt$$ 가 된다.\n이제 $\\omega$를 복소수 $z = \\omega + i\\eta$로 확장해서 생각하자. $$H(z) = \\int_{0}^{\\infty}h(t)e^{izt}dt$$ 그런데 $$e^{izt} = e^{iwt}e^{-\\eta t}$$ 이므로, $\\eta \u003e0$(복소좌표계 상반평면)이면 적분이 잘 수렴한다.(= 해석적이다.)\n상반평면에 대해 cauchy 적분을 취해주면 다음과 같은 관계가 성립한다.\n$$f(z_0) = \\frac{1}{2\\pi i}\\oint_C \\frac{f(z)}{z-z_0}dz$$ (“해석적 함수는 경계 위 정보만 알면 내부의 값도 적분을 통해 정해진다.”)\nCauchy 적분 증명하기 이때 $z = z_0$에서 값이 발산하므로 적분을 아래와 같은 폐곡면으로 수행해줘야 한다(singularity를 피함). 원이 무한히 크다고 가정하자. 그럼 적분 구간이 세부분으로 나뉜다.\n실축 부분 큰 반원 부분 $\\omega$주변 작은 반원 부분 먼저 여기서 큰 반원 부분의 적분은 0이 된다. (엄밀한 설명은 제공 못하지만 |$z-z_0| \\sim r \\rightarrow \\infty$ 이므로 적분값이 0이 되는걸 직관할 수 있다.)\n또한 $\\omega$ 주변의 작은 반원을 $$z = w + \\epsilon e^{i\\theta}, \\quad \\theta: \\pi \\rightarrow 0$$처럼 시계 방향으로 돈다고 할때 $$ dz = i\\epsilon e^{i\\theta}d\\theta, \\quad z-w = \\epsilon e^{i\\theta}$$ 이므로 $$\\int_{C_\\epsilon}\\frac{H(z)}{z - w} \\sim H(w)\\int_{\\pi}^{0} \\frac{i\\epsilon e^{i\\theta}}{\\epsilon e^{i\\theta}}d\\theta = H(w)\\int_{\\pi}^{0}id\\theta = -i\\pi H(w)$$가 된다. 시계방향으로 돌았기 때문에\nCauchy’s theorem에 의해 전체 contour 적분은 0이므로,\n$$\\mathcal{P}\\int_{-\\infty}^{\\infty}\\frac{H(\\omega’)}{\\omega’-\\omega},d\\omega’+\\int_{C_\\varepsilon}\\frac{H(z)}{z-\\omega},dz=0$$\n이고, 작은 반원 (C_\\varepsilon)에서의 적분이\n$$ \\int_{C_\\varepsilon}\\frac{H(z)}{z-\\omega},dz \\approx -,i\\pi H(\\omega) $$\n이므로 이를 대입하면\n$$ \\mathcal{P}\\int_{-\\infty}^{\\infty}\\frac{H(\\omega’)}{\\omega’-\\omega},d\\omega’-i\\pi H(\\omega)=0 $$\n따라서\n$$ \\mathcal{P}\\int_{-\\infty}^{\\infty}\\frac{H(\\omega’)}{\\omega’-\\omega},d\\omega’=i\\pi H(\\omega) $$\n즉\n$$ H(\\omega)=\\frac{1}{i\\pi}\\mathcal{P}\\int_{-\\infty}^{\\infty}\\frac{H(\\omega’)}{\\omega’-\\omega},d\\omega’= -\\frac{i}{\\pi} \\mathcal{P}\\int_{-\\infty}^{\\infty} \\frac{H(\\omega’)}{\\omega’-\\omega},d\\omega’ $$\n를 얻는다.(Cauchy 적분 증명 完)\nKramers-Kroing 증명 $$ H(\\omega)=H’(\\omega)+iH’’(\\omega) $$\n로 실수부와 허수부를 분리한후 코시 적분식에 대입하면\n$$ H’(\\omega)+iH’’(\\omega)=-\\frac{i}{\\pi},\\mathcal{P}\\int_{-\\infty}^{\\infty} \\frac{H’(\\omega’)+iH’’(\\omega’)}{\\omega’-\\omega},d\\omega’ $$\n이다.\n우변을 전개하면\n$$ -\\frac{i}{\\pi},\\mathcal{P}\\int_{-\\infty}^{\\infty} \\frac{H’(\\omega’)}{\\omega’-\\omega},d\\omega’+ \\frac{1}{\\pi}, \\mathcal{P}\\int_{-\\infty}^{\\infty} \\frac{H’’(\\omega’)}{\\omega’-\\omega},d\\omega’ $$\n이므로,\n$$ H’(\\omega)+iH’’(\\omega)=\\frac{1}{\\pi},\\mathcal{P}\\int_{-\\infty}^{\\infty}\\frac{H’’(\\omega’)}{\\omega’-\\omega},d\\omega’- \\frac{i}{\\pi}, \\mathcal{P}\\int_{-\\infty}^{\\infty} \\frac{H’(\\omega’)}{\\omega’-\\omega},d\\omega’ $$\n이제 실수부와 허수부를 각각 비교하면,\n$$ H’(\\omega)=\\frac{1}{\\pi}, \\mathcal{P}\\int_{-\\infty}^{\\infty} \\frac{H’’(\\omega’)}{\\omega’-\\omega},d\\omega’ $$\n$$ H’’(\\omega)=-\\frac{1}{\\pi}, \\mathcal{P}\\int_{-\\infty}^{\\infty} \\frac{H’(\\omega’)}{\\omega’-\\omega},d\\omega’ $$\n다음을 통해 실수부와 허수부가 상호 종속적임을 확인할 수 있다.\n",
+  "wordCount" : "1493",
+  "inLanguage": "en",
+  "datePublished": "0001-01-01T00:00:00Z",
+  "dateModified": "0001-01-01T00:00:00Z",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://hyul48.github.io/hyul-blog/projects/gpr/chapter1_the_forward_problem/chapter1_1/chapter1_1_1/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Hyulmonologue",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://hyul48.github.io/hyul-blog/favicon.ico"
+    }
+  }
+}
 </script>
 </head>
 <body id="top">
     <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="http://localhost:1313/hyul-blog/" accesskey="h" title="Hyulmonologue (Alt + H)">Hyulmonologue</a>
+            <a href="https://hyul48.github.io/hyul-blog/" accesskey="h" title="Hyulmonologue (Alt + H)">Hyulmonologue</a>
             <div class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
                     <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
@@ -114,27 +192,27 @@
         </div>
         <ul id="menu">
             <li>
-                <a href="http://localhost:1313/hyul-blog/papers/" title="Papers">
+                <a href="https://hyul48.github.io/hyul-blog/papers/" title="Papers">
                     <span>Papers</span>
                 </a>
             </li>
             <li>
-                <a href="http://localhost:1313/hyul-blog/notes/" title="Notes">
+                <a href="https://hyul48.github.io/hyul-blog/notes/" title="Notes">
                     <span>Notes</span>
                 </a>
             </li>
             <li>
-                <a href="http://localhost:1313/hyul-blog/code/" title="Code">
+                <a href="https://hyul48.github.io/hyul-blog/code/" title="Code">
                     <span>Code</span>
                 </a>
             </li>
             <li>
-                <a href="http://localhost:1313/hyul-blog/projects/" title="Projects">
+                <a href="https://hyul48.github.io/hyul-blog/projects/" title="Projects">
                     <span>Projects</span>
                 </a>
             </li>
             <li>
-                <a href="http://localhost:1313/hyul-blog/search/" title="Search (Alt &#43; /)" accesskey=/>
+                <a href="https://hyul48.github.io/hyul-blog/search/" title="Search (Alt &#43; /)" accesskey=/>
                     <span>Search</span>
                 </a>
             </li>
@@ -145,14 +223,14 @@
 
 <article class="post-single">
   <header class="post-header">
-    <div class="breadcrumbs"><a href="http://localhost:1313/hyul-blog/">홈</a>&nbsp;»&nbsp;<a href="http://localhost:1313/hyul-blog/projects/">Projects</a>&nbsp;»&nbsp;<a href="http://localhost:1313/hyul-blog/projects/gpr/">GPR</a>&nbsp;»&nbsp;<a href="http://localhost:1313/hyul-blog/projects/gpr/chapter1_the_forward_problem/">Chapter 1. The Forward Problem</a></div>
+    <div class="breadcrumbs"><a href="https://hyul48.github.io/hyul-blog/">홈</a>&nbsp;»&nbsp;<a href="https://hyul48.github.io/hyul-blog/projects/">Projects</a>&nbsp;»&nbsp;<a href="https://hyul48.github.io/hyul-blog/projects/gpr/">GPR</a>&nbsp;»&nbsp;<a href="https://hyul48.github.io/hyul-blog/projects/gpr/chapter1_the_forward_problem/">Chapter 1. The Forward Problem</a>&nbsp;»&nbsp;<a href="https://hyul48.github.io/hyul-blog/projects/gpr/chapter1_the_forward_problem/chapter1_1/">1.1 Notions of Electrodynamics in Material Media</a></div>
     <h1 class="post-title entry-hint-parent">
-      1.1 Notions of Electrodynamics in Material Media
+      1.1.1 Maxwells equation and constitutive relations
     </h1>
     <div class="post-description">
       Core electrodynamics concepts used in the GPR forward problem.
     </div>
-    <div class="post-meta"><span>6 분</span>
+    <div class="post-meta"><span>8 분</span>
 
 </div>
   </header> <div class="toc">
@@ -343,7 +421,7 @@ $$</p>
 \tag{1.25}
 $$</p>
 <p>는 유전율과 전도도를 함께 포함한 effective permittivity이다. 따라서 주파수 영역에서는 각 주파수별로 Helmholtz equation을 푸는 방식으로 분산성과 감쇠를 다룰 수 있다.</p>
-<p>한편, 인과성(causality)을 만족하려면 주파수 영역 물성의 실수부와 허수부는 Kramers–Kronig 관계로 연결되어야 한다. 즉 실제 자연 매질의 전자기 파라미터는 원칙적으로 전 주파수 대역에서 상수일 수 없으며, 주파수 의존성을 갖는다. 다만 실제 GPR 계측은 제한된 주파수 대역에서 이루어지므로, 실용적으로는 일정 대역 내에서 물성을 상수로 근사하는 경우가 많다.</p>
+<p>한편, 인과성(causality)을 만족하려면 주파수 영역 물성의 실수부와 허수부는 <strong>Kramers–Kronig</strong> 관계로 연결되어야 한다(상호 종속). 즉 실제 자연 매질의 전자기 파라미터는 원칙적으로 전 주파수 대역에서 상수일 수 없으며, 주파수 의존성을 갖는다. 다만 실제 GPR 계측은 제한된 주파수 대역에서 이루어지므로, 실용적으로는 일정 대역 내에서 물성을 상수로 근사하는 경우가 많다.</p>
 <p>마지막으로 inversion 관점에서는 frequency-independent하고 real-valued인 permittivity와 conductivity만을 복원 대상으로 두는 경우가 많다. 이는 dispersion까지 포함하면 자유도와 ill-posedness가 크게 증가하기 때문이다. 실제로 많은 GPR 데이터는 permittivity에는 민감하지만 conductivity와 dispersion에는 상대적으로 덜 민감하므로, 단순화된 파라미터화가 실용적이다.</p>
 <h3 id="추가-정리">추가 정리<a hidden class="anchor" aria-hidden="true" href="#추가-정리">#</a></h3>
 <p>Kramers-Kroing 관계 : 어떤 매질의 복소 응답 함수에서 실수부와 허수부가 서로 독립이 아니다.
@@ -352,6 +430,100 @@ $\rightarrow$ 전 주파수 대역에서 실수부를 알면 허수부도 정해
 <p>$$h(t) = 0 \quad (t&lt;0)$$</p>
 <p>를 만족해야 한다.</p>
 <p>이 조건이 푸리에 변환을 거치면 주파수 영역에서 실수부와 허수부를 연결하는 적분관계로 바뀌게 된다.</p>
+<p><strong>proof</strong>
+시간 영역 선형 응답을
+$$y(t) = \int_{-\infty}^{\infty}h(\tau)x(t-\tau)d\tau$$
+라고 쓰자. 여기서 h(t)는 시스템의 impulse response다.</p>
+<p>인과성을 만족하면
+$$h(t) = 0 \quad (t&lt;0)$$
+이어야 한다. 즉 응답은 과거 입력에만 의존한다. 그러면 푸리에 변환으로 정의한 주파수 응답은
+$$H(\omega) = \int_{0}^{\infty}h(t)e^{iwt}dt$$
+가 된다.</p>
+<p>이제 $\omega$를 복소수 $z = \omega + i\eta$로 확장해서 생각하자.
+$$H(z) = \int_{0}^{\infty}h(t)e^{izt}dt$$
+그런데
+$$e^{izt} = e^{iwt}e^{-\eta t}$$ 이므로, $\eta &gt;0$(복소좌표계 상반평면)이면 적분이 잘 수렴한다.(= 해석적이다.)</p>
+<p>상반평면에 대해 cauchy 적분을 취해주면 다음과 같은 관계가 성립한다.</p>
+<p>$$f(z_0) = \frac{1}{2\pi i}\oint_C \frac{f(z)}{z-z_0}dz$$
+(&ldquo;해석적 함수는 경계 위 정보만 알면 내부의 값도 적분을 통해 정해진다.&rdquo;)</p>
+<p><strong>Cauchy 적분 증명하기</strong>
+이때 $z = z_0$에서 값이 발산하므로 적분을 아래와 같은 폐곡면으로 수행해줘야 한다(singularity를 피함). 원이 무한히 크다고 가정하자.
+그럼 적분 구간이 세부분으로 나뉜다.</p>
+<ol>
+<li>실축 부분</li>
+<li>큰 반원 부분</li>
+<li>$\omega$주변 작은 반원 부분</li>
+</ol>
+<p align="center">
+    <img src="cauchy_int.png" width = "600" height="300"/>
+<p>
+<p>먼저 여기서 큰 반원 부분의 적분은 0이 된다.
+(엄밀한 설명은 제공 못하지만 |$z-z_0| \sim r \rightarrow \infty$ 이므로 적분값이 0이 되는걸 직관할 수 있다.)</p>
+<p>또한 $\omega$ 주변의 작은 반원을
+$$z = w + \epsilon e^{i\theta}, \quad \theta: \pi \rightarrow 0$$처럼 시계 방향으로 돈다고 할때
+$$ dz = i\epsilon e^{i\theta}d\theta, \quad z-w = \epsilon e^{i\theta}$$ 이므로
+$$\int_{C_\epsilon}\frac{H(z)}{z - w} \sim H(w)\int_{\pi}^{0}
+\frac{i\epsilon e^{i\theta}}{\epsilon e^{i\theta}}d\theta = H(w)\int_{\pi}^{0}id\theta = -i\pi H(w)$$가 된다. 시계방향으로 돌았기 때문에</p>
+<p>Cauchy&rsquo;s theorem에 의해 전체 contour 적분은 0이므로,</p>
+<p>$$\mathcal{P}\int_{-\infty}^{\infty}\frac{H(\omega&rsquo;)}{\omega&rsquo;-\omega},d\omega&rsquo;+\int_{C_\varepsilon}\frac{H(z)}{z-\omega},dz=0$$</p>
+<p>이고, 작은 반원 (C_\varepsilon)에서의 적분이</p>
+<p>$$
+\int_{C_\varepsilon}\frac{H(z)}{z-\omega},dz
+\approx -,i\pi H(\omega)
+$$</p>
+<p>이므로 이를 대입하면</p>
+<p>$$
+\mathcal{P}\int_{-\infty}^{\infty}\frac{H(\omega&rsquo;)}{\omega&rsquo;-\omega},d\omega&rsquo;-i\pi H(\omega)=0
+$$</p>
+<p>따라서</p>
+<p>$$
+\mathcal{P}\int_{-\infty}^{\infty}\frac{H(\omega&rsquo;)}{\omega&rsquo;-\omega},d\omega&rsquo;=i\pi H(\omega)
+$$</p>
+<p>즉</p>
+<p>$$
+H(\omega)=\frac{1}{i\pi}\mathcal{P}\int_{-\infty}^{\infty}\frac{H(\omega&rsquo;)}{\omega&rsquo;-\omega},d\omega&rsquo;=
+-\frac{i}{\pi}
+\mathcal{P}\int_{-\infty}^{\infty}
+\frac{H(\omega&rsquo;)}{\omega&rsquo;-\omega},d\omega&rsquo;
+$$</p>
+<p>를 얻는다.(Cauchy 적분 증명 完)</p>
+<p><strong>Kramers-Kroing 증명</strong>
+$$
+H(\omega)=H&rsquo;(\omega)+iH&rsquo;&rsquo;(\omega)
+$$</p>
+<p>로 실수부와 허수부를 분리한후 코시 적분식에 대입하면</p>
+<p>$$
+H&rsquo;(\omega)+iH&rsquo;&rsquo;(\omega)=-\frac{i}{\pi},\mathcal{P}\int_{-\infty}^{\infty}
+\frac{H&rsquo;(\omega&rsquo;)+iH&rsquo;&rsquo;(\omega&rsquo;)}{\omega&rsquo;-\omega},d\omega&rsquo;
+$$</p>
+<p>이다.</p>
+<p>우변을 전개하면</p>
+<p>$$
+-\frac{i}{\pi},\mathcal{P}\int_{-\infty}^{\infty}
+\frac{H&rsquo;(\omega&rsquo;)}{\omega&rsquo;-\omega},d\omega&rsquo;+
+\frac{1}{\pi},
+\mathcal{P}\int_{-\infty}^{\infty}
+\frac{H&rsquo;&rsquo;(\omega&rsquo;)}{\omega&rsquo;-\omega},d\omega&rsquo;
+$$</p>
+<p>이므로,</p>
+<p>$$
+H&rsquo;(\omega)+iH&rsquo;&rsquo;(\omega)=\frac{1}{\pi},\mathcal{P}\int_{-\infty}^{\infty}\frac{H&rsquo;&rsquo;(\omega&rsquo;)}{\omega&rsquo;-\omega},d\omega&rsquo;-
+\frac{i}{\pi},
+\mathcal{P}\int_{-\infty}^{\infty}
+\frac{H&rsquo;(\omega&rsquo;)}{\omega&rsquo;-\omega},d\omega&rsquo;
+$$</p>
+<p>이제 실수부와 허수부를 각각 비교하면,</p>
+<p>$$
+H&rsquo;(\omega)=\frac{1}{\pi},
+\mathcal{P}\int_{-\infty}^{\infty}
+\frac{H&rsquo;&rsquo;(\omega&rsquo;)}{\omega&rsquo;-\omega},d\omega&rsquo;
+$$</p>
+<p>$$
+H&rsquo;&rsquo;(\omega)=-\frac{1}{\pi},
+\mathcal{P}\int_{-\infty}^{\infty}
+\frac{H&rsquo;(\omega&rsquo;)}{\omega&rsquo;-\omega},d\omega&rsquo;
+$$</p>
+<p>다음을 통해 실수부와 허수부가 상호 종속적임을 확인할 수 있다.</p>
 
 
   </div>
@@ -360,7 +532,7 @@ $\rightarrow$ 전 주파수 대역에서 실수부를 알면 허수부도 정해
     <ul class="post-tags">
     </ul>
 <nav class="paginav">
-  <a class="next" href="http://localhost:1313/hyul-blog/papers/ai/nerf/">
+  <a class="next" href="https://hyul48.github.io/hyul-blog/papers/ai/nerf/">
     <span class="title">다음 페이지 »</span>
     <br>
     <span>NeRF: Representing Scenes as Neural Radiance Fields for View Synthesis(cont...)</span>
@@ -370,8 +542,8 @@ $\rightarrow$ 전 주파수 대역에서 실수부를 알면 허수부도 정해
 
 <ul class="share-buttons">
     <li>
-        <a target="_blank" rel="noopener noreferrer" aria-label="share 1.1 Notions of Electrodynamics in Material Media on x"
-            href="https://x.com/intent/tweet/?text=1.1%20Notions%20of%20Electrodynamics%20in%20Material%20Media&amp;url=http%3a%2f%2flocalhost%3a1313%2fhyul-blog%2fprojects%2fgpr%2fchapter1_the_forward_problem%2fchapter1_1%2fchapter1_1_1%2f&amp;hashtags=">
+        <a target="_blank" rel="noopener noreferrer" aria-label="share 1.1.1 Maxwells equation and constitutive relations on x"
+            href="https://x.com/intent/tweet/?text=1.1.1%20Maxwells%20equation%20and%20constitutive%20relations&amp;url=https%3a%2f%2fhyul48.github.io%2fhyul-blog%2fprojects%2fgpr%2fchapter1_the_forward_problem%2fchapter1_1%2fchapter1_1_1%2f&amp;hashtags=">
             <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
                 <path
                     d="M512 62.554 L 512 449.446 C 512 483.97 483.97 512 449.446 512 L 62.554 512 C 28.03 512 0 483.97 0 449.446 L 0 62.554 C 0 28.03 28.029 0 62.554 0 L 449.446 0 C 483.971 0 512 28.03 512 62.554 Z M 269.951 190.75 L 182.567 75.216 L 56 75.216 L 207.216 272.95 L 63.9 436.783 L 125.266 436.783 L 235.9 310.383 L 332.567 436.783 L 456 436.783 L 298.367 228.367 L 432.367 75.216 L 371.033 75.216 Z M 127.633 110 L 164.101 110 L 383.481 400.065 L 349.5 400.065 Z" />
@@ -379,8 +551,8 @@ $\rightarrow$ 전 주파수 대역에서 실수부를 알면 허수부도 정해
         </a>
     </li>
     <li>
-        <a target="_blank" rel="noopener noreferrer" aria-label="share 1.1 Notions of Electrodynamics in Material Media on linkedin"
-            href="https://www.linkedin.com/shareArticle?mini=true&amp;url=http%3a%2f%2flocalhost%3a1313%2fhyul-blog%2fprojects%2fgpr%2fchapter1_the_forward_problem%2fchapter1_1%2fchapter1_1_1%2f&amp;title=1.1%20Notions%20of%20Electrodynamics%20in%20Material%20Media&amp;summary=1.1%20Notions%20of%20Electrodynamics%20in%20Material%20Media&amp;source=http%3a%2f%2flocalhost%3a1313%2fhyul-blog%2fprojects%2fgpr%2fchapter1_the_forward_problem%2fchapter1_1%2fchapter1_1_1%2f">
+        <a target="_blank" rel="noopener noreferrer" aria-label="share 1.1.1 Maxwells equation and constitutive relations on linkedin"
+            href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fhyul48.github.io%2fhyul-blog%2fprojects%2fgpr%2fchapter1_the_forward_problem%2fchapter1_1%2fchapter1_1_1%2f&amp;title=1.1.1%20Maxwells%20equation%20and%20constitutive%20relations&amp;summary=1.1.1%20Maxwells%20equation%20and%20constitutive%20relations&amp;source=https%3a%2f%2fhyul48.github.io%2fhyul-blog%2fprojects%2fgpr%2fchapter1_the_forward_problem%2fchapter1_1%2fchapter1_1_1%2f">
             <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
                 <path
                     d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-288.985,423.278l0,-225.717l-75.04,0l0,225.717l75.04,0Zm270.539,0l0,-129.439c0,-69.333 -37.018,-101.586 -86.381,-101.586c-39.804,0 -57.634,21.891 -67.617,37.266l0,-31.958l-75.021,0c0.995,21.181 0,225.717 0,225.717l75.02,0l0,-126.056c0,-6.748 0.486,-13.492 2.474,-18.315c5.414,-13.475 17.767,-27.434 38.494,-27.434c27.135,0 38.007,20.707 38.007,51.037l0,120.768l75.024,0Zm-307.552,-334.556c-25.674,0 -42.448,16.879 -42.448,39.002c0,21.658 16.264,39.002 41.455,39.002l0.484,0c26.165,0 42.452,-17.344 42.452,-39.002c-0.485,-22.092 -16.241,-38.954 -41.943,-39.002Z" />
@@ -388,8 +560,8 @@ $\rightarrow$ 전 주파수 대역에서 실수부를 알면 허수부도 정해
         </a>
     </li>
     <li>
-        <a target="_blank" rel="noopener noreferrer" aria-label="share 1.1 Notions of Electrodynamics in Material Media on reddit"
-            href="https://reddit.com/submit?url=http%3a%2f%2flocalhost%3a1313%2fhyul-blog%2fprojects%2fgpr%2fchapter1_the_forward_problem%2fchapter1_1%2fchapter1_1_1%2f&title=1.1%20Notions%20of%20Electrodynamics%20in%20Material%20Media">
+        <a target="_blank" rel="noopener noreferrer" aria-label="share 1.1.1 Maxwells equation and constitutive relations on reddit"
+            href="https://reddit.com/submit?url=https%3a%2f%2fhyul48.github.io%2fhyul-blog%2fprojects%2fgpr%2fchapter1_the_forward_problem%2fchapter1_1%2fchapter1_1_1%2f&title=1.1.1%20Maxwells%20equation%20and%20constitutive%20relations">
             <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
                 <path
                     d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-3.446,265.638c0,-22.964 -18.616,-41.58 -41.58,-41.58c-11.211,0 -21.361,4.457 -28.841,11.666c-28.424,-20.508 -67.586,-33.757 -111.204,-35.278l18.941,-89.121l61.884,13.157c0.756,15.734 13.642,28.29 29.56,28.29c16.407,0 29.706,-13.299 29.706,-29.701c0,-16.403 -13.299,-29.702 -29.706,-29.702c-11.666,0 -21.657,6.792 -26.515,16.578l-69.105,-14.69c-1.922,-0.418 -3.939,-0.042 -5.585,1.036c-1.658,1.073 -2.811,2.761 -3.224,4.686l-21.152,99.438c-44.258,1.228 -84.046,14.494 -112.837,35.232c-7.468,-7.164 -17.589,-11.591 -28.757,-11.591c-22.965,0 -41.585,18.616 -41.585,41.58c0,16.896 10.095,31.41 24.568,37.918c-0.639,4.135 -0.99,8.328 -0.99,12.576c0,63.977 74.469,115.836 166.33,115.836c91.861,0 166.334,-51.859 166.334,-115.836c0,-4.218 -0.347,-8.387 -0.977,-12.493c14.564,-6.47 24.735,-21.034 24.735,-38.001Zm-119.474,108.193c-20.27,20.241 -59.115,21.816 -70.534,21.816c-11.428,0 -50.277,-1.575 -70.522,-21.82c-3.007,-3.008 -3.007,-7.882 0,-10.889c3.003,-2.999 7.882,-3.003 10.885,0c12.777,12.781 40.11,17.317 59.637,17.317c19.522,0 46.86,-4.536 59.657,-17.321c3.016,-2.999 7.886,-2.995 10.885,0.008c3.008,3.011 3.003,7.882 -0.008,10.889Zm-5.23,-48.781c-16.373,0 -29.701,-13.324 -29.701,-29.698c0,-16.381 13.328,-29.714 29.701,-29.714c16.378,0 29.706,13.333 29.706,29.714c0,16.374 -13.328,29.698 -29.706,29.698Zm-160.386,-29.702c0,-16.381 13.328,-29.71 29.714,-29.71c16.369,0 29.689,13.329 29.689,29.71c0,16.373 -13.32,29.693 -29.689,29.693c-16.386,0 -29.714,-13.32 -29.714,-29.693Z" />
@@ -397,8 +569,8 @@ $\rightarrow$ 전 주파수 대역에서 실수부를 알면 허수부도 정해
         </a>
     </li>
     <li>
-        <a target="_blank" rel="noopener noreferrer" aria-label="share 1.1 Notions of Electrodynamics in Material Media on facebook"
-            href="https://facebook.com/sharer/sharer.php?u=http%3a%2f%2flocalhost%3a1313%2fhyul-blog%2fprojects%2fgpr%2fchapter1_the_forward_problem%2fchapter1_1%2fchapter1_1_1%2f">
+        <a target="_blank" rel="noopener noreferrer" aria-label="share 1.1.1 Maxwells equation and constitutive relations on facebook"
+            href="https://facebook.com/sharer/sharer.php?u=https%3a%2f%2fhyul48.github.io%2fhyul-blog%2fprojects%2fgpr%2fchapter1_the_forward_problem%2fchapter1_1%2fchapter1_1_1%2f">
             <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
                 <path
                     d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-106.468,0l0,-192.915l66.6,0l12.672,-82.621l-79.272,0l0,-53.617c0,-22.603 11.073,-44.636 46.58,-44.636l36.042,0l0,-70.34c0,0 -32.71,-5.582 -63.982,-5.582c-65.288,0 -107.96,39.569 -107.96,111.204l0,62.971l-72.573,0l0,82.621l72.573,0l0,192.915l-191.104,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Z" />
@@ -406,8 +578,8 @@ $\rightarrow$ 전 주파수 대역에서 실수부를 알면 허수부도 정해
         </a>
     </li>
     <li>
-        <a target="_blank" rel="noopener noreferrer" aria-label="share 1.1 Notions of Electrodynamics in Material Media on whatsapp"
-            href="https://api.whatsapp.com/send?text=1.1%20Notions%20of%20Electrodynamics%20in%20Material%20Media%20-%20http%3a%2f%2flocalhost%3a1313%2fhyul-blog%2fprojects%2fgpr%2fchapter1_the_forward_problem%2fchapter1_1%2fchapter1_1_1%2f">
+        <a target="_blank" rel="noopener noreferrer" aria-label="share 1.1.1 Maxwells equation and constitutive relations on whatsapp"
+            href="https://api.whatsapp.com/send?text=1.1.1%20Maxwells%20equation%20and%20constitutive%20relations%20-%20https%3a%2f%2fhyul48.github.io%2fhyul-blog%2fprojects%2fgpr%2fchapter1_the_forward_problem%2fchapter1_1%2fchapter1_1_1%2f">
             <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
                 <path
                     d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-58.673,127.703c-33.842,-33.881 -78.847,-52.548 -126.798,-52.568c-98.799,0 -179.21,80.405 -179.249,179.234c-0.013,31.593 8.241,62.428 23.927,89.612l-25.429,92.884l95.021,-24.925c26.181,14.28 55.659,21.807 85.658,21.816l0.074,0c98.789,0 179.206,-80.413 179.247,-179.243c0.018,-47.895 -18.61,-92.93 -52.451,-126.81Zm-126.797,275.782l-0.06,0c-26.734,-0.01 -52.954,-7.193 -75.828,-20.767l-5.441,-3.229l-56.386,14.792l15.05,-54.977l-3.542,-5.637c-14.913,-23.72 -22.791,-51.136 -22.779,-79.287c0.033,-82.142 66.867,-148.971 149.046,-148.971c39.793,0.014 77.199,15.531 105.329,43.692c28.128,28.16 43.609,65.592 43.594,105.4c-0.034,82.149 -66.866,148.983 -148.983,148.984Zm81.721,-111.581c-4.479,-2.242 -26.499,-13.075 -30.604,-14.571c-4.105,-1.495 -7.091,-2.241 -10.077,2.241c-2.986,4.483 -11.569,14.572 -14.182,17.562c-2.612,2.988 -5.225,3.364 -9.703,1.12c-4.479,-2.241 -18.91,-6.97 -36.017,-22.23c-13.314,-11.876 -22.304,-26.542 -24.916,-31.026c-2.612,-4.484 -0.279,-6.908 1.963,-9.14c2.016,-2.007 4.48,-5.232 6.719,-7.847c2.24,-2.615 2.986,-4.484 4.479,-7.472c1.493,-2.99 0.747,-5.604 -0.374,-7.846c-1.119,-2.241 -10.077,-24.288 -13.809,-33.256c-3.635,-8.733 -7.327,-7.55 -10.077,-7.688c-2.609,-0.13 -5.598,-0.158 -8.583,-0.158c-2.986,0 -7.839,1.121 -11.944,5.604c-4.105,4.484 -15.675,15.32 -15.675,37.364c0,22.046 16.048,43.342 18.287,46.332c2.24,2.99 31.582,48.227 76.511,67.627c10.685,4.615 19.028,7.371 25.533,9.434c10.728,3.41 20.492,2.929 28.209,1.775c8.605,-1.285 26.499,-10.833 30.231,-21.295c3.732,-10.464 3.732,-19.431 2.612,-21.298c-1.119,-1.869 -4.105,-2.99 -8.583,-5.232Z" />
@@ -415,8 +587,8 @@ $\rightarrow$ 전 주파수 대역에서 실수부를 알면 허수부도 정해
         </a>
     </li>
     <li>
-        <a target="_blank" rel="noopener noreferrer" aria-label="share 1.1 Notions of Electrodynamics in Material Media on telegram"
-            href="https://telegram.me/share/url?text=1.1%20Notions%20of%20Electrodynamics%20in%20Material%20Media&amp;url=http%3a%2f%2flocalhost%3a1313%2fhyul-blog%2fprojects%2fgpr%2fchapter1_the_forward_problem%2fchapter1_1%2fchapter1_1_1%2f">
+        <a target="_blank" rel="noopener noreferrer" aria-label="share 1.1.1 Maxwells equation and constitutive relations on telegram"
+            href="https://telegram.me/share/url?text=1.1.1%20Maxwells%20equation%20and%20constitutive%20relations&amp;url=https%3a%2f%2fhyul48.github.io%2fhyul-blog%2fprojects%2fgpr%2fchapter1_the_forward_problem%2fchapter1_1%2fchapter1_1_1%2f">
             <svg version="1.1" xml:space="preserve" viewBox="2 2 28 28" height="30px" width="30px" fill="currentColor">
                 <path
                     d="M26.49,29.86H5.5a3.37,3.37,0,0,1-2.47-1,3.35,3.35,0,0,1-1-2.47V5.48A3.36,3.36,0,0,1,3,3,3.37,3.37,0,0,1,5.5,2h21A3.38,3.38,0,0,1,29,3a3.36,3.36,0,0,1,1,2.46V26.37a3.35,3.35,0,0,1-1,2.47A3.38,3.38,0,0,1,26.49,29.86Zm-5.38-6.71a.79.79,0,0,0,.85-.66L24.73,9.24a.55.55,0,0,0-.18-.46.62.62,0,0,0-.41-.17q-.08,0-16.53,6.11a.59.59,0,0,0-.41.59.57.57,0,0,0,.43.52l4,1.24,1.61,4.83a.62.62,0,0,0,.63.43.56.56,0,0,0,.4-.17L16.54,20l4.09,3A.9.9,0,0,0,21.11,23.15ZM13.8,20.71l-1.21-4q8.72-5.55,8.78-5.55c.15,0,.23,0,.23.16a.18.18,0,0,1,0,.06s-2.51,2.3-7.52,6.8Z" />
@@ -424,8 +596,8 @@ $\rightarrow$ 전 주파수 대역에서 실수부를 알면 허수부도 정해
         </a>
     </li>
     <li>
-        <a target="_blank" rel="noopener noreferrer" aria-label="share 1.1 Notions of Electrodynamics in Material Media on ycombinator"
-            href="https://news.ycombinator.com/submitlink?t=1.1%20Notions%20of%20Electrodynamics%20in%20Material%20Media&u=http%3a%2f%2flocalhost%3a1313%2fhyul-blog%2fprojects%2fgpr%2fchapter1_the_forward_problem%2fchapter1_1%2fchapter1_1_1%2f">
+        <a target="_blank" rel="noopener noreferrer" aria-label="share 1.1.1 Maxwells equation and constitutive relations on ycombinator"
+            href="https://news.ycombinator.com/submitlink?t=1.1.1%20Maxwells%20equation%20and%20constitutive%20relations&u=https%3a%2f%2fhyul48.github.io%2fhyul-blog%2fprojects%2fgpr%2fchapter1_the_forward_problem%2fchapter1_1%2fchapter1_1_1%2f">
             <svg version="1.1" xml:space="preserve" width="30px" height="30px" viewBox="0 0 512 512" fill="currentColor"
                 xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape">
                 <path
@@ -440,7 +612,7 @@ $\rightarrow$ 전 주파수 대역에서 실수부를 알면 허수부도 정해
     </main>
     
 <footer class="footer">
-        <span>&copy; 2026 <a href="http://localhost:1313/hyul-blog/">Hyulmonologue</a></span> · 
+        <span>&copy; 2026 <a href="https://hyul48.github.io/hyul-blog/">Hyulmonologue</a></span> · 
 
     <span>
         Powered by
