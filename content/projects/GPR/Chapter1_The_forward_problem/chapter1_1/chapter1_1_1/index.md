@@ -6,46 +6,234 @@ math: true
 ---
 
 # 1.1 Notions of Electrodynamics in Material Media
-1.1 절은 전자기 이론의 기본 개념과, 이후 수치적 구현에서 다루게 될 몇 가지 특수한 사항들을 소개한다. 특히 문헌에서 흔히 사용되지만 그 의미가 충분히 설명되지 않는 몇몇 가정들이 가지는 함의를 중점적으로 설명한다.
 
-전자기학의 방정식과 그 물리적 해석은 우선 실제 물리 공간인 시간 영역에서 제시한다. 이후 "비물리적이지만 매우 유용한 푸리에 영역"인 주파수 영역으로 옮겨가 시뮬레이션과 역산을 수행한다.
+이 절에서는 물질 매질에서의 전자기학 기본 개념과, 이후 GPR forward problem 및 수치 구현에서 사용될 핵심 관계식들을 정리한다. 특히 문헌에서 자주 사용되지만 그 의미가 충분히 설명되지 않는 가정들, 예를 들어 선형성, 등방성, 시간 불변성, 비분산성 등의 의미를 함께 짚고 넘어간다.
 
-또한 GPR 데이터를 역산하여 정량화하고자 하는 대상이 자연 매질의 전자기적 물성이므로, 이러한 매질의 전자기적 특성도 함께 논의한다. 이를 위해 해당 물성들을 매개변수화 할 수 있는 유전 응답 모델(dielectric response models)을 상세히 설명한다. 특히 지구 물리학에서 널리 사용되지만, 실수로 truncated form로 적용되면서 그 한계가 충분히 논의되지 않은 Jonshcer의 이른바 보편 응답(universal response)에 대해 언급한다. 아울러, 이후 역산 과정에서 사용할 보다 단순한 매개변수화 방식을 가정할 때 어떤 결과와 제약이 따르는지도 함께 논의한다.
+전자기학의 지배방정식은 시간 영역에서의 Maxwell 방정식으로 주어진다. 이후 분산성과 완화 현상을 보다 편리하게 다루기 위해 주파수 영역으로 옮겨갈 것이지만, 먼저 실제 물리 공간인 시간 영역에서 출발하는 것이 개념적으로 자연스럽다.
 
-## 1.1.1 Maxwells equation and constitutive relations
-전자기파의 특성은 맥스웰 방정식(패러데이 법칙, 암페어 법칙, 가우스 법칙)에 의해 묘사될 수 있다.
+또한 GPR 데이터로부터 정량화하고자 하는 대상은 자연 매질의 전자기적 물성이다. 따라서 Maxwell 방정식만으로는 부족하며, 전기장과 자기장을 매질의 응답과 연결하는 constitutive relations가 추가로 필요하다.
+
+## 1.1.1 Maxwell's equations and constitutive relations
+
+전자기파의 거동은 Maxwell 방정식으로 기술된다.
+
 $$
-\nabla \times \mathbf{E}(\mathbf{r}, t)
-=
-- \frac{\partial \mathbf{B}(\mathbf{r}, t)}{\partial t},
+\nabla \times \mathbf{E}(\mathbf{r}, t)= - \frac{\partial \mathbf{B}(\mathbf{r}, t)}{\partial t}
 \qquad \text{Maxwell-Faraday's equation}
 \tag{1.1}
 $$
 
 $$
-\nabla \times \mathbf{H}(\mathbf{r}, t)
-=
-\frac{\partial \mathbf{D}(\mathbf{r}, t)}{\partial t}
+\nabla \times \mathbf{H}(\mathbf{r}, t)=\frac{\partial \mathbf{D}(\mathbf{r}, t)}{\partial t}
 +
-\mathbf{J}(\mathbf{r}, t),
+\mathbf{J}(\mathbf{r}, t)
 \qquad \text{Maxwell-Amp\`ere's equation}
 \tag{1.2}
 $$
 
 $$
-\nabla \cdot \mathbf{D}(\mathbf{r}, t) = q(\mathbf{r}, t),
-\qquad \text{Maxwell-gauss equation(electric)}
-\tag{1.2}
-$$
-$$
-\nabla \cdot \mathbf{B}(\mathbf{r}, t) = 0,
-\qquad \text{Maxwell-gauss equation(magnetic)}
-\tag{1.2}
+\nabla \cdot \mathbf{D}(\mathbf{r}, t) = q(\mathbf{r}, t)
+\qquad \text{Maxwell-Gauss equation (electric)}
+\tag{1.3}
 $$
 
-여기서 $\mathbf{E}$는 전기장으로, 단위는 $\mathrm{V/m}$이고, $\mathbf{H}$는 자기장으로 단위는 $\mathrm{A/m}$이다. 또한 $\mathbf{D}$는 전기 유도(electric induction) 또는 전기 변위(electric displacement)로서 단위는 $\mathrm{C/m^2}$이며, $\mathbf{B}$는 자기 유도로 단위는 $\mathrm{T}$이다.
-$\mathbf{J}$는 전도 전류 밀도(conduction current density)로 단위는 $\mathrm{A/m^2}$이고, $q$는 전하 밀도(electric charge density)를 나타내며 단위는 $\mathrm{C/m^3}$이다. 변수 $\mathbf{r}$은 위치 벡터(position vector)로서 각 좌표의 단위는 $\mathrm{m}$이고, $t$는 시간으로 단위는 $\mathrm{s}$이다. 여기서 등장하는 모든 장과 변수들은 실수값(real quantities)이다.
+$$
+\nabla \cdot \mathbf{B}(\mathbf{r}, t) = 0
+\qquad \text{Maxwell-Gauss equation (magnetic)}
+\tag{1.4}
+$$
 
-소위 오른손 법칙(right-hand rule)에 따르면, 패러데이 법칙은 시간에 따라 변하는 자기 선속 $\mathbf{B}$가 $\mathbf{B}$를 중심으로 회전하는 전기장 $\mathbf{E}$를 생성함을 의미한다. 마찬가지로, 암페어-맥스웰 방정식은 전류 $\mathbf{J}$ 또는 시간에 따라 변하는 전기 선속 $\mathbf{D}$가 회전하는 자기장 $\mathbf{H}$를 생성함을 나타낸다. 한편, 맥스웰-가우스 방정식의 물리적 의미는 전하 밀도 $q$가 전기 전기 선속 $\mathbf{D}$의 원천이 된다는 것이며, 이에 대응되는 자기 선속의 원천은 존재하지 않는다는 점이다. 
+여기서 $\mathbf{E}$는 전기장으로 단위는 $\mathrm{V/m}$이고, $\mathbf{H}$는 자기장으로 단위는 $\mathrm{A/m}$이다. 또한 $\mathbf{D}$는 전기 유도(electric induction) 또는 전기 변위(electric displacement)로서 단위는 $\mathrm{C/m^2}$이며, $\mathbf{B}$는 자기 유도로서 단위는 $\mathrm{T}$이다. $\mathbf{J}$는 전도 전류 밀도(conduction current density)로 단위는 $\mathrm{A/m^2}$이고, $q$는 전하 밀도(electric charge density)로 단위는 $\mathrm{C/m^3}$이다. 변수 $\mathbf{r}$은 위치 벡터이며 단위는 $\mathrm{m}$, $t$는 시간이며 단위는 $\mathrm{s}$이다. 여기서 등장하는 장과 변수들은 모두 실수값(real quantities)이다.
 
-**시간 영역 구성 관계(consitutive relations)**
+오른손 법칙에 따르면, Maxwell-Faraday 방정식은 시간에 따라 변하는 자기 유속이 회전하는 전기장을 생성함을 의미한다. 마찬가지로 Maxwell-Amp\`ere 방정식은 전류 또는 시간에 따라 변하는 전기 유속이 회전하는 자기장을 생성함을 의미한다. 또한 Maxwell-Gauss 방정식은 전하 밀도가 전기 플럭스의 원천임을 나타내며, 이에 대응되는 자기 플럭스의 원천은 존재하지 않음을 보여준다.
+
+### 시간 영역 구성 관계식 (constitutive relations)
+
+Maxwell 방정식계는 매우 일반적이지만 그 자체만으로는 미정(under-determined)이다. 예를 들어 $\nabla \cdot \nabla \times = 0$이라는 벡터 항등식을 이용하면, Maxwell-Faraday 방정식의 divergence를 취해
+$\nabla \cdot \mathbf{B}=0$을 얻을 수 있다. 마찬가지로 Maxwell-Amp\`ere 방정식의 divergence와 전하보존법칙
+
+$$
+\nabla \cdot \mathbf{J}(\mathbf{r}, t)+\frac{\partial q(\mathbf{r}, t)}{\partial t}=0
+\tag{1.5}
+$$
+
+을 이용하면 $\nabla \cdot \mathbf{D}=q$를 유도할 수 있다. 따라서 실질적으로는 curl 방정식 두 개와 구성 관계식이 핵심이 된다.
+
+수학적으로도 전자기장을 완전히 결정하기 위해서는 추가적인 물질 관계가 필요하다. 물리적으로는 Maxwell 방정식만으로는 GPR로 조사하려는 자연 매질의 특성이 명시적으로 들어 있지 않기 때문이다. 이때 유도 벡터(induction vectors)와 장 벡터(field vectors) 사이를 연결하는 식이 constitutive relations이다.
+
+진공에서는 이 관계가 단순하다.
+
+$$
+\mathbf{D}(\mathbf{r}, t)=\varepsilon_0 \mathbf{E}(\mathbf{r}, t)
+\tag{1.6}
+$$
+
+$$
+\mathbf{B}(\mathbf{r}, t)=\mu_0 \mathbf{H}(\mathbf{r}, t)
+\tag{1.7}
+$$
+
+여기서 $\varepsilon_0 = 8.85 \times 10^{-12}\,\mathrm{F/m}$는 진공의 유전율이고, $\mu_0 = 4\pi \times 10^{-7}\,\mathrm{H/m}$는 진공의 투자율이다.
+
+반면 암석이나 토양과 같은 유전체 물질 매질에서는 전자기적 응답이 더 복잡하다. 전기장 $\mathbf{E}$가 가해지면 물질 내부에서는 분극(polarisation), 즉 결합전하의 전기적 모멘트가 특정 방향으로 정렬되는 현상이 일어난다. 마찬가지로 자기장이 가해지면 자기적 입자들의 자기 모멘트가 정렬되는 자화(magnetisation)가 유도된다. 선형(linear)이고 등방성(isotropic)인 매질에서는 분극 $\mathbf{P}$와 자화 $\mathbf{M}$를 다음과 같이 쓸 수 있다.
+
+$$
+\mathbf{P}(\mathbf{r}, t)=\varepsilon_0 \chi_e(\mathbf{r}, t)\ast \mathbf{E}(\mathbf{r}, t)
+\tag{1.8}
+$$
+
+$$
+\mathbf{M}(\mathbf{r}, t)=\mu_0 \chi_m(\mathbf{r}, t)\ast \mathbf{H}(\mathbf{r}, t)
+\tag{1.9}
+$$
+
+여기서 $\ast$는 시간 컨볼루션(time convolution)을 의미하며, $\chi_e$는 유전 감수율(dielectric susceptibility), $\chi_m$는 자기 감수율(magnetic susceptibility)이다.
+
+따라서 constitutive relations는 다음과 같이 정리된다.
+
+$$
+\mathbf{D}(\mathbf{r}, t)=\varepsilon(\mathbf{r}, t)\ast \mathbf{E}(\mathbf{r}, t)
+\tag{1.10}
+$$
+
+$$
+\mathbf{B}(\mathbf{r}, t)=\mu(\mathbf{r}, t)\ast \mathbf{H}(\mathbf{r}, t)
+\tag{1.11}
+$$
+
+여기서 $\varepsilon=\varepsilon_0(1+\chi_e)$는 매질의 유전율, $\mu=\mu_0(1+\chi_m)$는 매질의 투자율이다.
+
+전도성 매질에서는 추가로 Ohm의 법칙이 필요하다.
+
+$$
+\mathbf{J}_c(\mathbf{r}, t)=\sigma(\mathbf{r}, t)\ast \mathbf{E}(\mathbf{r}, t)
+\tag{1.12}
+$$
+
+여기서 $\sigma$는 전기전도도이다. 전체 전류는 전도 전류와 소스 전류의 합으로 나타난다.
+
+$$
+\mathbf{J}(\mathbf{r}, t)=\mathbf{J}_c(\mathbf{r}, t)+\mathbf{J}_s(\mathbf{r}, t)
+\tag{1.13}
+$$
+
+실제로 $\mathbf{J}_s$는 송신 안테나 위치와 펄스 방사 시간 동안에만 0이 아닌 값을 가진다.
+
+이러한 constitutive relations와 Ohm의 법칙은 매질이 외부 전기장과 자기장에 어떻게 응답하는지를 기술한다. 따라서 $\varepsilon(\mathbf{r}, t)$, $\mu(\mathbf{r}, t)$, $\sigma(\mathbf{r}, t)$는 각각 유전적, 자기적, 전도성 응답을 나타내는 물질 파라미터이다.
+
+이때 몇 가지 중요한 가정을 둔다.
+
+- **선형성(linearity)**: $\varepsilon$, $\mu$, $\sigma$가 외부 장의 크기에 의존하지 않는다.
+- **등방성(isotropy)**: 물성은 스칼라이며 방향에 따라 달라지지 않는다.
+- **비균질성(heterogeneity)**: 물성은 공간 위치 $\mathbf{r}$에 따라 달라질 수 있다.
+- **시간 의존성(time-dependence)**: 실제 자연 매질은 이상적이지 않으므로 응답이 시간 지연과 완화(relaxation)를 포함할 수 있다.
+
+특히 시간 의존성은 인과성(causality)과 연결된다. 즉, 매질의 응답은 원인보다 먼저 나타날 수 없으므로 $\varepsilon(t)$, $\mu(t)$, $\sigma(t)$와 같은 응답 함수는 자극이 가해지기 전에는 0이어야 한다.
+
+GPR FWI에서는 일반적으로 지하 매질의 전기적 성질, 즉 유전율 $\varepsilon$과 전기전도도 $\sigma$에 더 큰 관심이 있다. 자연 매질은 대체로 비자성(non-magnetic)이므로 실제 응용에서는 보통 $\mu=\mu_0$, 즉 상대 투자율 $\mu_r=\mu/\mu_0=1$로 둔다. 반면 상대 유전율은 $\varepsilon_r=\varepsilon/\varepsilon_0$로 정의되며, GPR 해석에서 매우 중요한 파라미터가 된다.
+
+### 시간 영역 파동 방정식
+
+Maxwell-Faraday 방정식과 Maxwell-Amp\`ere 방정식을 constitutive relations와 결합하면 파동 방정식을 얻을 수 있다. 균질(homogeneous), 시간 불변(time-invariant), source-free 매질에서는 다음과 같이 쓸 수 있다.
+
+$$
+\nabla^2 u(\mathbf{r}, t)- \underbrace{\varepsilon \mu \frac{\partial^2 u(\mathbf{r}, t)}{\partial t^2}}_{\text{propagation}}- \underbrace{\sigma \mu \frac{\partial u(\mathbf{r}, t)}{\partial t}}_{\text{diffusion}}= 0
+\tag{1.14}
+$$
+
+여기서 $u$는 전기장 혹은 자기장의 성분을 나타낸다. 이 식은 두 가지 중요한 항을 포함한다.
+
+- $\varepsilon \mu \frac{\partial^2 u}{\partial t^2}$: 파동의 전파(propagation)를 나타내는 항
+- $\sigma \mu \frac{\partial u}{\partial t}$: 전도성에 의한 손실 및 확산(diffusion)을 나타내는 항
+
+즉 유전율은 전파 특성을, 전도도는 감쇠와 확산 특성을 조절한다.
+
+다만 이 식은 매질이 시간에 따라 변하지 않는다고 가정했을 때에만 깔끔하게 유도된다. 시간 가변(time-varying) 매질에서는 constitutive relation에 시간 컨볼루션이 포함되어 매질 응답이 과거 이력에 의존하게 되므로, 단순한 상수 속도 $v=1/\sqrt{\varepsilon\mu}$를 정의하기 어렵다. 이런 이유로 분산성과 완화 특성을 다루려면 시간 영역보다 주파수 영역이 편리하다.
+
+## 1.1.2 Frequency-domain formulation
+
+시간 조화 의존성(time-harmonic dependency)을 $e^{-i\omega t}$로 정의하면, Fourier 변환은 다음과 같이 쓸 수 있다.
+
+$$
+f(\omega) = \int_{-\infty}^{+\infty} f(t)e^{i\omega t}\,dt
+\tag{1.15}
+$$
+
+$$
+f(t) = \frac{1}{2\pi}\int_{-\infty}^{+\infty} f(\omega)e^{-i\omega t}\,d\omega
+\tag{1.16}
+$$
+
+이 convention에서는 시간 미분이 주파수 영역에서 $-i\omega$ 곱셈으로 바뀐다. 따라서 Maxwell 방정식은 다음과 같은 형태가 된다.
+
+$$
+\nabla \times \mathbf{E}(\mathbf{r}, \omega) = i\omega \mathbf{B}(\mathbf{r}, \omega)
+\tag{1.17}
+$$
+
+$$
+\nabla \times \mathbf{H}(\mathbf{r}, \omega) = -i\omega \mathbf{D}(\mathbf{r}, \omega) + \mathbf{J}(\mathbf{r}, \omega)
+\tag{1.18}
+$$
+
+$$
+\nabla \cdot \mathbf{D}(\mathbf{r}, \omega) = q(\mathbf{r}, \omega)
+\tag{1.19}
+$$
+
+$$
+\nabla \cdot \mathbf{B}(\mathbf{r}, \omega) = 0
+\tag{1.20}
+$$
+
+주파수 영역에서는 시간 영역의 컨볼루션이 단순한 곱셈으로 바뀌므로 constitutive relations와 Ohm의 법칙도 훨씬 간단해진다.
+
+$$
+\mathbf{D}(\mathbf{r}, \omega) = \varepsilon(\mathbf{r}, \omega)\mathbf{E}(\mathbf{r}, \omega)
+\tag{1.21}
+$$
+
+$$
+\mathbf{B}(\mathbf{r}, \omega) = \mu(\mathbf{r}, \omega)\mathbf{H}(\mathbf{r}, \omega)
+\tag{1.22}
+$$
+
+$$
+\mathbf{J}_c(\mathbf{r}, \omega) = \sigma(\mathbf{r}, \omega)\mathbf{E}(\mathbf{r}, \omega)
+\tag{1.23}
+$$
+
+즉 시간 영역에서의 실수 응답 함수는 주파수 영역에서 복소수 함수로 바뀌며, 이 복소수의 실수부와 허수부는 각각 저장 성분과 손실 성분을 반영한다. 또한 주파수 의존성은 분산(dispersion)을 의미한다.
+
+주파수 영역에서는 전파 항과 확산 항을 유효 유전율(effective permittivity)로 묶어 Helmholtz equation 형태로 쓸 수 있다.
+
+$$
+\nabla^2 u(\mathbf{r}, \omega) + \varepsilon_e(\omega)\mu(\omega)\omega^2 u(\mathbf{r}, \omega)=0
+\tag{1.24}
+$$
+
+여기서
+
+$$
+\varepsilon_e(\omega)=\varepsilon(\omega)+\frac{i\sigma(\omega)}{\omega}
+\tag{1.25}
+$$
+
+는 유전율과 전도도를 함께 포함한 effective permittivity이다. 따라서 주파수 영역에서는 각 주파수별로 Helmholtz equation을 푸는 방식으로 분산성과 감쇠를 다룰 수 있다.
+
+한편, 인과성(causality)을 만족하려면 주파수 영역 물성의 실수부와 허수부는 Kramers–Kronig 관계로 연결되어야 한다. 즉 실제 자연 매질의 전자기 파라미터는 원칙적으로 전 주파수 대역에서 상수일 수 없으며, 주파수 의존성을 갖는다. 다만 실제 GPR 계측은 제한된 주파수 대역에서 이루어지므로, 실용적으로는 일정 대역 내에서 물성을 상수로 근사하는 경우가 많다.
+
+마지막으로 inversion 관점에서는 frequency-independent하고 real-valued인 permittivity와 conductivity만을 복원 대상으로 두는 경우가 많다. 이는 dispersion까지 포함하면 자유도와 ill-posedness가 크게 증가하기 때문이다. 실제로 많은 GPR 데이터는 permittivity에는 민감하지만 conductivity와 dispersion에는 상대적으로 덜 민감하므로, 단순화된 파라미터화가 실용적이다.
+
+
+### 추가 정리
+Kramers-Kroing 관계 : 어떤 매질의 복소 응답 함수에서 실수부와 허수부가 서로 독립이 아니다.
+$\rightarrow$ 전 주파수 대역에서 실수부를 알면 허수부도 정해지고 허수부를 알면 실수부가 정해진다.
+
+물리적인 시스템은 원인보다 결과가 먼저 나올 수 없다. 예를 들어 전기장$\mathbf{E}(t)$를 가했을 때 미질의 분국 $\mathbf{P}(t)$가 생긴다고 하자. 정상적인 매질이면, 전기장을 가하기 전에 분극이 생기면 안된다. 즉 시간영역 응답 함수는
+
+$$h(t) = 0 \quad (t<0)$$
+
+를 만족해야 한다.
+
+이 조건이 푸리에 변환을 거치면 주파수 영역에서 실수부와 허수부를 연결하는 적분관계로 바뀌게 된다.
