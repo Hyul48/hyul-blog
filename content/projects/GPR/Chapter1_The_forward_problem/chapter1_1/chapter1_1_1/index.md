@@ -1,5 +1,5 @@
 ﻿---
-title: "1.1 Notions of Electrodynamics in Material Media"
+title: "1.1.1 Maxwells equation and constitutive relations"
 description: "Core electrodynamics concepts used in the GPR forward problem."
 weight: 1
 math: true
@@ -221,7 +221,7 @@ $$
 
 는 유전율과 전도도를 함께 포함한 effective permittivity이다. 따라서 주파수 영역에서는 각 주파수별로 Helmholtz equation을 푸는 방식으로 분산성과 감쇠를 다룰 수 있다.
 
-한편, 인과성(causality)을 만족하려면 주파수 영역 물성의 실수부와 허수부는 Kramers–Kronig 관계로 연결되어야 한다. 즉 실제 자연 매질의 전자기 파라미터는 원칙적으로 전 주파수 대역에서 상수일 수 없으며, 주파수 의존성을 갖는다. 다만 실제 GPR 계측은 제한된 주파수 대역에서 이루어지므로, 실용적으로는 일정 대역 내에서 물성을 상수로 근사하는 경우가 많다.
+한편, 인과성(causality)을 만족하려면 주파수 영역 물성의 실수부와 허수부는 **Kramers–Kronig** 관계로 연결되어야 한다(상호 종속). 즉 실제 자연 매질의 전자기 파라미터는 원칙적으로 전 주파수 대역에서 상수일 수 없으며, 주파수 의존성을 갖는다. 다만 실제 GPR 계측은 제한된 주파수 대역에서 이루어지므로, 실용적으로는 일정 대역 내에서 물성을 상수로 근사하는 경우가 많다.
 
 마지막으로 inversion 관점에서는 frequency-independent하고 real-valued인 permittivity와 conductivity만을 복원 대상으로 두는 경우가 많다. 이는 dispersion까지 포함하면 자유도와 ill-posedness가 크게 증가하기 때문이다. 실제로 많은 GPR 데이터는 permittivity에는 민감하지만 conductivity와 dispersion에는 상대적으로 덜 민감하므로, 단순화된 파라미터화가 실용적이다.
 
@@ -237,3 +237,128 @@ $$h(t) = 0 \quad (t<0)$$
 를 만족해야 한다.
 
 이 조건이 푸리에 변환을 거치면 주파수 영역에서 실수부와 허수부를 연결하는 적분관계로 바뀌게 된다.
+
+**proof**
+시간 영역 선형 응답을
+$$y(t) = \int_{-\infty}^{\infty}h(\tau)x(t-\tau)d\tau$$
+라고 쓰자. 여기서 h(t)는 시스템의 impulse response다.
+
+인과성을 만족하면
+$$h(t) = 0 \quad (t<0)$$
+이어야 한다. 즉 응답은 과거 입력에만 의존한다. 그러면 푸리에 변환으로 정의한 주파수 응답은
+$$H(\omega) = \int_{0}^{\infty}h(t)e^{iwt}dt$$
+가 된다.
+
+이제 $\omega$를 복소수 $z = \omega + i\eta$로 확장해서 생각하자.
+$$H(z) = \int_{0}^{\infty}h(t)e^{izt}dt$$
+그런데 
+$$e^{izt} = e^{iwt}e^{-\eta t}$$ 이므로, $\eta >0$(복소좌표계 상반평면)이면 적분이 잘 수렴한다.(= 해석적이다.)
+
+상반평면에 대해 cauchy 적분을 취해주면 다음과 같은 관계가 성립한다.
+
+$$f(z_0) = \frac{1}{2\pi i}\oint_C \frac{f(z)}{z-z_0}dz$$
+("해석적 함수는 경계 위 정보만 알면 내부의 값도 적분을 통해 정해진다.")
+
+**Cauchy 적분 증명하기**
+이때 $z = z_0$에서 값이 발산하므로 적분을 아래와 같은 폐곡면으로 수행해줘야 한다(singularity를 피함). 원이 무한히 크다고 가정하자.
+그럼 적분 구간이 세부분으로 나뉜다.
+1. 실축 부분
+2. 큰 반원 부분
+3. $\omega$주변 작은 반원 부분
+
+<p align="center">
+    <img src="cauchy_int.png" width = "600" height="300"/>
+<p>
+
+먼저 여기서 큰 반원 부분의 적분은 0이 된다.
+(엄밀한 설명은 제공 못하지만 |$z-z_0| \sim r \rightarrow \infty$ 이므로 적분값이 0이 되는걸 직관할 수 있다.)
+
+또한 $\omega$ 주변의 작은 반원을 
+$$z = w + \epsilon e^{i\theta}, \quad \theta: \pi \rightarrow 0$$처럼 시계 방향으로 돈다고 할때 
+$$ dz = i\epsilon e^{i\theta}d\theta, \quad z-w = \epsilon e^{i\theta}$$ 이므로
+$$\int_{C_\epsilon}\frac{H(z)}{z - w} \sim H(w)\int_{\pi}^{0}
+\frac{i\epsilon e^{i\theta}}{\epsilon e^{i\theta}}d\theta = H(w)\int_{\pi}^{0}id\theta = -i\pi H(w)$$가 된다. 시계방향으로 돌았기 때문에 
+
+Cauchy's theorem에 의해 전체 contour 적분은 0이므로,
+
+$$\mathcal{P}\int_{-\infty}^{\infty}\frac{H(\omega')}{\omega'-\omega}\,d\omega'+\int_{C_\varepsilon}\frac{H(z)}{z-\omega}\,dz=0$$
+
+이고, 작은 반원 \(C_\varepsilon\)에서의 적분이
+
+$$
+\int_{C_\varepsilon}\frac{H(z)}{z-\omega}\,dz
+\approx -\,i\pi H(\omega)
+$$
+
+이므로 이를 대입하면
+
+$$
+\mathcal{P}\int_{-\infty}^{\infty}\frac{H(\omega')}{\omega'-\omega}\,d\omega'-i\pi H(\omega)=0
+$$
+
+따라서
+
+$$
+\mathcal{P}\int_{-\infty}^{\infty}\frac{H(\omega')}{\omega'-\omega}\,d\omega'=i\pi H(\omega)
+$$
+
+즉
+
+$$
+H(\omega)=\frac{1}{i\pi}\mathcal{P}\int_{-\infty}^{\infty}\frac{H(\omega')}{\omega'-\omega}\,d\omega'=
+-\frac{i}{\pi}
+\mathcal{P}\int_{-\infty}^{\infty}
+\frac{H(\omega')}{\omega'-\omega}\,d\omega'
+$$
+
+를 얻는다.(Cauchy 적분 증명 完)
+
+**Kramers-Kroing 증명**
+$$
+H(\omega)=H'(\omega)+iH''(\omega)
+$$
+
+로 실수부와 허수부를 분리한후 코시 적분식에 대입하면
+
+$$
+H'(\omega)+iH''(\omega)=-\frac{i}{\pi}\,\mathcal{P}\int_{-\infty}^{\infty}
+\frac{H'(\omega')+iH''(\omega')}{\omega'-\omega}\,d\omega'
+$$
+
+이다.
+
+우변을 전개하면
+
+$$
+-\frac{i}{\pi}\,\mathcal{P}\int_{-\infty}^{\infty}
+\frac{H'(\omega')}{\omega'-\omega}\,d\omega'+
+\frac{1}{\pi}\,
+\mathcal{P}\int_{-\infty}^{\infty}
+\frac{H''(\omega')}{\omega'-\omega}\,d\omega'
+$$
+
+이므로,
+
+$$
+H'(\omega)+iH''(\omega)=\frac{1}{\pi}\,\mathcal{P}\int_{-\infty}^{\infty}\frac{H''(\omega')}{\omega'-\omega}\,d\omega'-
+\frac{i}{\pi}\,
+\mathcal{P}\int_{-\infty}^{\infty}
+\frac{H'(\omega')}{\omega'-\omega}\,d\omega'
+$$
+
+이제 실수부와 허수부를 각각 비교하면,
+
+$$
+H'(\omega)=\frac{1}{\pi}\,
+\mathcal{P}\int_{-\infty}^{\infty}
+\frac{H''(\omega')}{\omega'-\omega}\,d\omega'
+$$
+
+$$
+H''(\omega)=-\frac{1}{\pi}\,
+\mathcal{P}\int_{-\infty}^{\infty}
+\frac{H'(\omega')}{\omega'-\omega}\,d\omega'
+$$
+
+다음을 통해 실수부와 허수부가 상호 종속적임을 확인할 수 있다.
+
