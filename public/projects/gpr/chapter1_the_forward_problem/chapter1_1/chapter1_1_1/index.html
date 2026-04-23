@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto" data-theme="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>1.1 Notions of Electrodynamics in Material Media | Hyulmonologue</title>
+<meta name="keywords" content="">
+<meta name="description" content="Core electrodynamics concepts used in the GPR forward problem.">
+<meta name="author" content="">
+<link rel="canonical" href="https://hyul48.github.io/hyul-blog/projects/gpr/chapter1_the_forward_problem/chapter1_1/chapter1_1_1/">
+<link crossorigin="anonymous" href="/hyul-blog/assets/css/stylesheet.cbf9de5ab8ac1dc51f62998db2dba617cff533dc1f1cb2e62bca17dec491b09f.css" integrity="sha256-y/neWrisHcUfYpmNstumF8/1M9wfHLLmK8oX3sSRsJ8=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://hyul48.github.io/hyul-blog/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://hyul48.github.io/hyul-blog/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://hyul48.github.io/hyul-blog/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://hyul48.github.io/hyul-blog/apple-touch-icon.png">
+<link rel="mask-icon" href="https://hyul48.github.io/hyul-blog/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://hyul48.github.io/hyul-blog/projects/gpr/chapter1_the_forward_problem/chapter1_1/chapter1_1_1/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+        @media (prefers-color-scheme: light) {
+            .list::-webkit-scrollbar-thumb {
+                border-color: var(--code-bg);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false},
+      {left: '\\\\(', right: '\\\\)', display: false},
+      {left: '\\\\[', right: '\\\\]', display: true}
+    ]
+  });">
+</script><meta property="og:url" content="https://hyul48.github.io/hyul-blog/projects/gpr/chapter1_the_forward_problem/chapter1_1/chapter1_1_1/">
+  <meta property="og:site_name" content="Hyulmonologue">
+  <meta property="og:title" content="1.1 Notions of Electrodynamics in Material Media">
+  <meta property="og:description" content="Core electrodynamics concepts used in the GPR forward problem.">
+  <meta property="og:locale" content="ko">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="projects">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="1.1 Notions of Electrodynamics in Material Media">
+<meta name="twitter:description" content="Core electrodynamics concepts used in the GPR forward problem.">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Projects",
+      "item": "https://hyul48.github.io/hyul-blog/projects/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "GPR",
+      "item": "https://hyul48.github.io/hyul-blog/projects/gpr/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "Chapter 1. The Forward Problem",
+      "item": "https://hyul48.github.io/hyul-blog/projects/gpr/chapter1_the_forward_problem/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  4 ,
+      "name": "1.1 Notions of Electrodynamics in Material Media",
+      "item": "https://hyul48.github.io/hyul-blog/projects/gpr/chapter1_the_forward_problem/chapter1_1/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  5 ,
+      "name": "1.1 Notions of Electrodynamics in Material Media",
+      "item": "https://hyul48.github.io/hyul-blog/projects/gpr/chapter1_the_forward_problem/chapter1_1/chapter1_1_1/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "1.1 Notions of Electrodynamics in Material Media",
+  "name": "1.1 Notions of Electrodynamics in Material Media",
+  "description": "Core electrodynamics concepts used in the GPR forward problem.",
+  "keywords": [
+    
+  ],
+  "articleBody": "1.1 Notions of Electrodynamics in Material Media 1.1 ?덉? ?꾩옄湲??대줎??湲곕낯 媛쒕뀗怨? ?댄썑 ?섏튂??援ы쁽?먯꽌 ?ㅻ（寃???紐?媛吏 ?뱀닔???ы빆?ㅼ쓣 ?뚭컻?쒕떎. ?뱁엳 臾명뿄?먯꽌 ?뷀엳 ?ъ슜?섏?留?洹??섎?媛 異⑸텇???ㅻ챸?섏? ?딅뒗 紐뉖챺 媛?뺣뱾??媛吏???⑥쓽瑜?以묒젏?곸쑝濡??ㅻ챸?쒕떎.\n?꾩옄湲고븰??諛⑹젙?앷낵 洹?臾쇰━???댁꽍? ?곗꽑 ?ㅼ젣 臾쇰━ 怨듦컙???쒓컙 ?곸뿭?먯꽌 ?쒖떆?쒕떎. ?댄썑 “鍮꾨Ъ由ъ쟻?댁?留?留ㅼ슦 ?좎슜???몃━???곸뿭”??二쇳뙆???곸뿭?쇰줈 ??꺼媛 ?쒕??덉씠?섍낵 ??궛???섑뻾?쒕떎.\n?먰븳 GPR ?곗씠?곕? ??궛?섏뿬 ?뺣웾?뷀븯怨좎옄 ?섎뒗 ??곸씠 ?먯뿰 留ㅼ쭏???꾩옄湲곗쟻 臾쇱꽦?대?濡? ?대윭??留ㅼ쭏???꾩옄湲곗쟻 ?뱀꽦???④퍡 ?쇱쓽?쒕떎. ?대? ?꾪빐 ?대떦 臾쇱꽦?ㅼ쓣 留ㅺ컻蹂?섑솕 ?????덈뒗 ?좎쟾 ?묐떟 紐⑤뜽(dielectric response models)???곸꽭???ㅻ챸?쒕떎. ?뱁엳 吏援?臾쇰━?숈뿉???먮━ ?ъ슜?섏?留? ?ㅼ닔濡?truncated form濡??곸슜?섎㈃??洹??쒓퀎媛 異⑸텇???쇱쓽?섏? ?딆? Jonshcer???대Ⅸ諛?蹂댄렪 ?묐떟(universal response)??????멸툒?쒕떎. ?꾩슱?? ?댄썑 ??궛 怨쇱젙?먯꽌 ?ъ슜??蹂대떎 ?⑥닚??留ㅺ컻蹂?섑솕 諛⑹떇??媛?뺥븷 ???대뼡 寃곌낵? ?쒖빟???곕Ⅴ?붿????④퍡 ?쇱쓽?쒕떎.\n1.1.1 Maxwells equation and constitutive relations ?꾩옄湲고뙆???뱀꽦? 留μ뒪??諛⑹젙???⑤윭?곗씠 踰뺤튃, ?뷀럹??踰뺤튃, 媛?곗뒪 踰뺤튃)???섑빐 臾섏궗?????덈떎.\n$$\\nabla \\times \\mathbf{E}(\\mathbf{r}, t)=- \\frac{\\partial \\mathbf{B}(\\mathbf{r}, t)}{\\partial t} \\qquad \\text{Maxwell-Faraday’s equation} \\tag{1.1} $$\n$$\\nabla \\times \\mathbf{H}(\\mathbf{r}, t)=\\frac{\\partial \\mathbf{D}(\\mathbf{r}, t)}{\\partial t} + \\mathbf{J}(\\mathbf{r}, t) \\qquad \\text{Maxwell-Amp`ere’s equation} \\tag{1.2} $$\n$$ \\nabla \\cdot \\mathbf{D}(\\mathbf{r}, t) = q(\\mathbf{r}, t) \\qquad \\text{Maxwell-gauss equation(electric)} \\tag{1.3} $$\n$$ \\nabla \\cdot \\mathbf{B}(\\mathbf{r}, t) = 0 \\qquad \\text{Maxwell-gauss equation(magnetic)} \\tag{1.4} $$\n?ш린??$\\mathbf{E}$???꾧린?μ쑝濡? ?⑥쐞??$\\mathrm{V/m}$?닿퀬, $\\mathbf{H}$???먭린?μ쑝濡??⑥쐞??$\\mathrm{A/m}$?대떎. ?먰븳 $\\mathbf{D}$???꾧린 ?좊룄(electric induction) ?먮뒗 ?꾧린 蹂??electric displacement)濡쒖꽌 ?⑥쐞??$\\mathrm{C/m^2}$?대ŉ, $\\mathbf{B}$???먭린 ?좊룄濡??⑥쐞??$\\mathrm{T}$?대떎. $\\mathbf{J}$???꾨룄 ?꾨쪟 諛??conduction current density)濡??⑥쐞??$\\mathrm{A/m^2}$?닿퀬, $q$???꾪븯 諛??electric charge density)瑜??섑??대ŉ ?⑥쐞??$\\mathrm{C/m^3}$?대떎. 蹂??$\\mathbf{r}$? ?꾩튂 踰≫꽣(position vector)濡쒖꽌 媛?醫뚰몴???⑥쐞??$\\mathrm{m}$?닿퀬, $t$???쒓컙?쇰줈 ?⑥쐞??$\\mathrm{s}$?대떎. ?ш린???깆옣?섎뒗 紐⑤뱺 ?κ낵 蹂?섎뱾? ?ㅼ닔媛?real quantities)?대떎.\n?뚯쐞 ?ㅻⅨ??踰뺤튃(right-hand rule)???곕Ⅴ硫? ?⑤윭?곗씠 踰뺤튃? ?쒓컙???곕씪 蹂?섎뒗 ?먭린 ?좎냽 $\\mathbf{B}$媛 $\\mathbf{B}$瑜?以묒떖?쇰줈 ?뚯쟾?섎뒗 ?꾧린??$\\mathbf{E}$瑜??앹꽦?⑥쓣 ?섎??쒕떎. 留덉갔媛吏濡? ?뷀럹??留μ뒪??諛⑹젙?앹? ?꾨쪟 $\\mathbf{J}$ ?먮뒗 ?쒓컙???곕씪 蹂?섎뒗 ?꾧린 ?좎냽 $\\mathbf{D}$媛 ?뚯쟾?섎뒗 ?먭린??$\\mathbf{H}$瑜??앹꽦?⑥쓣 ?섑??몃떎. ?쒗렪, 留μ뒪??媛?곗뒪 諛⑹젙?앹쓽 臾쇰━???섎????꾪븯 諛??$q$媛 ?꾧린 ?꾧린 ?좎냽 $\\mathbf{D}$???먯쿇???쒕떎??寃껋씠硫? ?댁뿉 ??묐릺???먭린 ?좎냽???먯쿇? 議댁옱?섏? ?딅뒗?ㅻ뒗 ?먯씠??\n?쒓컙 ?곸뿭 援ъ꽦 愿怨?consitutive relations) 留μ뒪??諛⑹젙?앷퀎??留ㅼ슦 ?쇰컲?곸씤 ?뺥깭瑜?媛吏吏留? 媛?諛⑹젙?앸뱾???좏삎 ?낅┰(linearly independent)???꾨땲湲??뚮Ц??洹??먯껜留뚯쑝濡쒕뒗 誘몄젙(under-determined)?대떎. ?덈? ?ㅼ뼱, ??field)???곸닔 ?깅텇???녿떎怨?媛?뺥븯硫? $\\nabla \\cdot \\nabla \\times = 0$?대씪??踰≫꽣 ??벑??divergence???됲뻾?깅텇留?curl? ?섏쭅?깅텇留??댁븘?⑥쓬???좎쓽?섎씪)???댁슜?섏뿬 ?⑤윭?곗씠 諛⑹젙??(1.1)??諛쒖궛(divergence)??痍⑦븿?쇰줈????踰덉㎏ 媛?곗뒪 踰뺤튃 $$\\nabla \\cdot \\mathbf{B} = 0 \\tag{1.4}$$ ???좊룄?????덈떎.\n留덉갔媛吏濡? ?뷀럹??留μ뒪??諛⑹젙??(1.2)??諛쒖궛??痍⑦븯怨? ?꾪븯 蹂댁〈 踰뺤튃\n$$\\nabla \\cdot \\mathbf{J}(\\mathbf{r}, t)+\\frac{\\partial q(\\mathbf{r}, t)}{\\partial t}=0 \\tag{1.5}$$\n???댁슜?섎㈃, 泥?踰덉㎏ 媛?곗뒪 踰뺤튃 $$\\nabla \\cdot \\mathbf{D} = q \\tag{1.3}$$ ???살쓣 ???덈떎.\n?곕씪???댄븯?먯꽌???⑤윭?곗씠 諛⑹젙?앷낵 ?뷀럹??留μ뒪??諛⑹젙?? 利?(1.1)怨?(1.2)留뚯쓣 怨좊젮?섎ŉ, ?대뱾濡쒕????좊룄?????덈뒗 媛?곗뒪 諛⑹젙??(1.3)怨?(1.4)???곕줈 ?ㅻ（吏 ?딅뒗??\n?섑븰?곸쑝濡?蹂대㈃, 留μ뒪??諛⑹젙?앹뿉 ?깆옣?섎뒗 ?꾩옄湲곗옣???꾩쟾??寃곗젙?섍린 ?꾪빐?쒕뒗 異붽??곸씤 愿怨꾩떇???꾩슂?섎떎(under determined…). 臾쇰━?곸씤 愿?먯뿉?쒕룄, 留μ뒪??諛⑹젙?앸쭔?쇰줈??GPR 痢≪젙???듯빐 議곗궗?섍퀬???섎뒗 臾쇱쭏 留ㅼ쭏???뱀꽦??紐낆떆?곸쑝濡??ы븿?섏뼱 ?덉? ?딆쓬???????덈떎. ?먯뿰 留ㅼ쭏???묐떟???쒗쁽?섍퀬 ??諛⑹젙?앸뱾???湲??꾪빐?쒕뒗, ?좊룄 踰≫꽣(induction vectors)? ??踰≫꽣(field vectors) ?ъ씠瑜??곌껐?섎뒗 援ъ꽦 諛⑹젙??constitutive equations)???꾩슂?섎떎.\n吏꾧났?먯꽌???대윭??愿怨꾧? 鍮꾧탳???⑥닚?섎ŉ ?ㅼ쓬怨?媛숈씠 二쇱뼱吏꾨떎.\n$$ \\mathbf{D}(\\mathbf{r}, t)=\\varepsilon_0 \\mathbf{E}(\\mathbf{r}, t) \\tag{1.6}$$ $$ \\mathbf{B}(\\mathbf{r}, t)=\\mu_0 \\mathbf{H}(\\mathbf{r}, t) \\tag{1.7} $$\n?ш린??$\\varepsilon_0 = 8.85 \\times 10^{-12},$ $\\mathrm{F/m}$??吏꾧났???좎쟾?⑥씠硫? $\\mu_0 = 4\\pi \\times 10^{-7},$ $\\mathrm{H/m}$??吏꾧났???ъ옄?⑥씠??\n?쒗렪 ?붿꽍?대굹 ?좎뼇怨?媛숈? ?좎쟾泥?臾쇱쭏 留ㅼ쭏?먯꽌???꾩옄湲곗쟻 ?묐떟???⑥뵮 ??蹂듭옟?섎떎. ?꾧린??$\\mathbf{E}$媛 媛?댁?硫? 臾쇱쭏 ?대??먯꽌??遺꾧레(polarisation), 利?寃고빀?꾪븯???꾧린??紐⑤찘???덈? ?ㅼ뼱 ?먯옄??寃고빀???꾩옄??臾?遺꾩옄? 媛숈? ?띻레??遺꾩옄)媛 ?뱀젙 諛⑺뼢?쇰줈 ?뺣젹?섎뒗 ?꾩긽???좊룄?쒕떎. 留덉갔媛吏濡??먭린?μ씠 媛?댁?硫? ?먭린???낆옄?ㅼ쓽 ?먭린 紐⑤찘?멸? ?뺣젹?섎뒗 ?먰솕(magnetisation)媛 ?좊룄?쒕떎. ?좏삎(linear)?닿퀬 ?깅갑??isotropic) ??留ㅼ쭏?먯꽌??遺꾧레 $\\mathbf{P}$? ?먰솕 $\\mathbf{M}$瑜??ㅼ쓬怨?媛숈? 紐⑤찘??踰≫꽣濡?湲곗닠?????덈떎.\n$$ \\mathbf{P}(\\mathbf{r}, t)=\\varepsilon_0 \\chi_e(\\mathbf{r}, t)\\ast \\mathbf{E}(\\mathbf{r}, t) \\tag{1.8} $$\n$$ \\mathbf{M}(\\mathbf{r}, t)=\\mu_0 \\chi_m(\\mathbf{r}, t)\\ast \\mathbf{H}(\\mathbf{r}, t) \\tag{1.9} $$\n?ш린??$\\ast$???쒓컙 而⑤낵猷⑥뀡(time convolution)???섎??섎ŉ, $\\chi_e$??留ㅼ쭏???좎쟾 媛먯닔??dielectric susceptibility)濡쒖꽌 ?꾧린??$\\mathbf{E}$媛 媛?댁죱????遺꾩옄?ㅼ씠 ?쇰쭏???쎄쾶 ?꾧린??遺꾧레???쇱쑝?ㅻ뒗吏瑜??섑??몃떎. $\\chi_m$???먭린 媛먯닔??magnetic susceptibility)濡쒖꽌 ?먭린??$\\mathbf{H}$ ?섏뿉???낆옄?ㅼ씠 ?쇰쭏???쎄쾶 ?먰솕?섎뒗吏瑜??섑??몃떎. ?곕씪???좊룄 踰≫꽣??吏꾧났???묐떟???뷀빐 留ㅼ쭏 ?먯껜??遺꾧레 諛??먰솕 ?묐떟???⑹퀜吏?寃곌낵濡??댄빐?????덉쑝硫? ?대뒗 ?ㅼ쓬怨?媛숈? 援ъ꽦 諛⑹젙?앹쑝濡??붿빟?쒕떎.\n$$ \\mathbf{D}(\\mathbf{r}, t)=\\varepsilon(\\mathbf{r}, t)\\ast \\mathbf{E}(\\mathbf{r}, t) \\tag{1.10}$$\n$$ \\mathbf{B}(\\mathbf{r}, t)=\\mu(\\mathbf{r}, t)\\ast \\mathbf{H}(\\mathbf{r}, t) \\tag{1.11}$$\n?ш린??$\\varepsilon=\\varepsilon_0(1+\\chi_e)$??留ㅼ쭏???좎쟾??($\\mathrm{F/m})$, $\\mu=\\mu_0(1+\\chi_m)$??留ㅼ쭏???ъ옄??($\\mathrm{H/m})$?대떎. ?꾨룄??留ㅼ쭏?먯꽌???ш린???뷀빐 ?ㅼ샂??踰뺤튃??異붽??섎ŉ, ?대뒗 ?꾨룄 ?꾨쪟 $\\mathbf{J}_c$? ?꾧린??$\\mathbf{E}$ ?ъ씠??愿怨꾨? ?ㅼ쓬怨?媛숈씠 ?섑??몃떎.\n$$ \\mathbf{J}_c(\\mathbf{r}, t)=\\sigma(\\mathbf{r}, t)\\ast \\mathbf{E}(\\mathbf{r}, t) \\tag{1.12}$$\n?ш린??$\\sigma$???꾧린?꾨룄??($\\mathrm{S/m})$?대떎. ?먰븳 ?뷀럹??留μ뒪??諛⑹젙?앹뿉 ?깆옣?섎뒗 ?꾩껜 ?꾨쪟 $\\mathbf{J}$???꾧린?μ뿉 ?섑빐 ?앹꽦?섎뒗 ?꾨룄 ?꾨쪟 $\\mathbf{J}_c$?, GPR ?덊뀒?섏뿉??二쇱엯?섎뒗 ?뚯뒪 ?꾨쪟 $\\mathbf{J}_s$???⑹쑝濡??쒗쁽?쒕떎. 利?\n$$ \\mathbf{J}(\\mathbf{r}, t)=\\mathbf{J}_c(\\mathbf{r}, t)+\\mathbf{J}_s(\\mathbf{r}, t) \\tag{1.13}$$\n?대ŉ, ?ㅼ젣濡?$\\mathbf{J}_s(\\mathbf{r}, t)$???≪떊 ?덊뀒?섏쓽 ?꾩튂? GPR ?꾩뒪媛 諛⑹궗?섎뒗 ?쒓컙 ?숈븞?먮쭔 0???꾨땶 媛믪쓣 媛吏꾨떎.\n?대윭??援ъ꽦 諛⑹젙?앷낵 ?ㅼ샂??踰뺤튃? ?몃??먯꽌 媛?댁쭊 ?꾧린??諛??먭린?μ뿉 ???留ㅼ쭏???대뼸寃??묐떟?섎뒗吏瑜?湲곗닠?섎뒗 臾쇱쭏 愿怨?material relations)?대떎. ?곕씪??$\\varepsilon(\\mathbf{r}, t)$, $\\mu(\\mathbf{r}, t)$, $\\sigma(\\mathbf{r}, t)$??媛곴컖 ?쒓컙???곕Ⅸ 留ㅼ쭏???좎쟾?? ?먭린?? ?꾨룄???묐떟 ?⑥닔瑜??섎??쒕떎. ?ш린??留ㅼ쭏???좏삎?닿퀬 ?깅갑?깆씠?쇨퀬 媛?뺥븯硫? 蹂대떎 洹쇰낯?곸쑝濡쒕뒗 遺꾧레 $\\mathbf{P}$媛 ?먭린??$\\mathbf{H}$?먮뒗 ?섏〈?섏? ?딄퀬 ?ㅼ쭅 ?꾧린??$\\mathbf{E}$??????묐떟留뚯쓣 諛섏쁺?쒕떎怨?媛?뺥븳?? ?대윭???먭린愿묓븰???④낵??二쇰줈 愿묓븰 二쇳뙆?????뿉???섑??섏?留??ш린?쒕뒗 怨좊젮?섏? ?딅뒗?? ?먰븳 遺꾧레 $\\mathbf{P}$媛 ?꾧린??$\\mathbf{E}$? 怨듦컙?곸쑝濡?援?냼?곸쑝濡?local) ?곌껐?섏뼱 ?덉쑝硫? 怨듦컙 遺꾩궛(spatial dispersion)? 臾댁떆?쒕떎怨?媛?뺥븳??\n?좏삎?? ?깅갑?? 鍮꾧퇏吏덉꽦, ?쒓컙 ?섏〈?깆씠?쇰뒗 留ㅼ쭏 媛?뺤쓽 ?섎?瑜??뺤쓽?섏옄. 癒쇱? **?좏삎??*(linearity)? 援ъ꽦 諛⑹젙?앹뿉??$\\varepsilon$, $\\mu$, $\\sigma$媛 媛?댁쭊 ??$\\mathbf{E}$, $\\mathbf{H}$???ш린???섏〈?섏? ?딅뒗?ㅻ뒗 ?살씠?? 利??섑븰?곸쑝濡쒕뒗 臾쇱꽦 ?뚮씪誘명꽣媛 ?몃? ?μ뿉 ?섑빐 諛붾뚯? ?딆쓬???섎??섍퀬, 臾쇰━?곸쑝濡쒕뒗 遺꾧레怨??먰솕媛 媛곴컖 ?꾧린?κ낵 ?먭긴?μ뿉 鍮꾨??쒕떎???살씠?? ?ㅼ떆 留먰빐, 遺꾧레 踰≫꽣? ?꾨쪟 踰≫꽣???꾧린?κ낵 媛숈? 諛⑺뼢??媛吏硫? ?먭린 紐⑤찘?몃뒗 ?먭긴?κ낵 媛숈? 諛⑺뼢??媛吏꾨떎. ?대윭???좏삎?깆? ?쒕??덉씠?섍낵 ??궛 ?뚭퀬由ъ쬁 ?꾧컻?먯꽌 留ㅼ슦 以묒슂???깆쭏?대떎.\n?깅갑??isotropy) ?대? ?꾩옄湲??뚮씪誘명꽣媛 ?먯꽌媛 ?꾨땲???ㅼ뭡?쇰씪???섎??대떎. ?곕씪???낆옄?ㅼ쓽 遺꾧레 ?λ젰, ?먰솕 ?λ젰, 洹몃━怨??꾨룄?꾨뒗 媛?댁????μ쓽 諛⑺뼢???곕씪 ?щ씪吏吏 ?딅뒗?? GPR 遺꾩빞?먯꽌???쇰컲?곸쑝濡??대윴 ?깅갑??媛?뺤쓣 留롮씠 ?ъ슜?섎ŉ, ?쇰? ?쇰컲?깆쓣 異붽뎄?섎뒗 ?곌뎄瑜??쒖쇅?섎㈃ 鍮꾨벑諛⑹꽦(anisotropy)? ?먯＜ 怨좊젮?섏? ?딅뒗?? ?ㅻ쭔 ?깅갑?깆쓽 ?섎?媛 留ㅼ쭏???대뼡 ?ㅼ??쇱뿉??蹂대뒓?먯뿉 ?곕씪 ?щ씪吏????덈떎. 利?蹂몄쭏?곸씤 鍮꾨벑諛⑹꽦(intrinsic anisotropy)? ?먯꽌濡?湲곗닠?섏?留? 援ъ“??鍮꾨벑諛⑹꽦(structural anisotropy)? ?깅갑???щ즺?ㅼ씠 鍮꾨벑諛⑹쟻?쇰줈 諛곗뿴?섏뼱 諛쒖깮?????덈떎.\n鍮꾧퇏吏덉꽦(heterogeneity) ? $\\varepsilon$, $\\mu$, $\\sigma$媛 怨듦컙 ?꾩튂 $\\mathbf{r}$???곕씪 ?щ씪吏꾨떎???살씠?? ?대뒗 ?먯뿰 留ㅼ쭏??GPR ?먯궗 ?ㅼ??쇱뿉??留ㅼ슦 遺덇퇏吏덊븷 ???덈떎???먯쓣 諛섏쁺?섎뒗, ?먮챸?섏?留?留ㅼ슦 以묒슂???뱀꽦?대떎.\n?쒓컙 ?섏〈??time-dependence) ? ?대뱾 ?뚮씪誘명꽣媛 ?쒓컙???곕씪 蹂?????덉쓬???섎??쒕떎. ?먯뿰 留ㅼ쭏? ?댁긽?곸씤 ?좎쟾泥? ?댁긽?곸씤 ?꾩껜, ?댁긽?곸씤 ?먯꽦泥닿? ?꾨땲誘濡? ?몃? ?꾧긴?μ씠???먭긴?μ뿉 ????쒓컙?곸쑝濡?諛섏쓳?섏? ?딄퀬 怨쇰룄 ?묐떟(transient response)??蹂댁씤?? ?덈? ?ㅼ뼱 遺꾧레 ?꾩긽???앷컖?섎㈃, 媛쒕퀎 ?꾪븯 ?낆옄?ㅼ쓽 ?꾧긴 紐⑤찘?몃뒗 ?꾧긴??$\\mathbf{E}$??諛⑺뼢?쇰줈 利됱떆 ?뺣젹?섏? ?딄퀬 ?쇱젙??愿?? 利??꾪솕(relaxation) 怨쇱젙??嫄곗튇?? 洹?寃곌낵 嫄곗떆?곸씤 遺꾧레 $\\mathbf{P}$???꾧긴?κ낵 媛숈? 諛⑺뼢?쇰줈 ?뺣젹?섏?留? 洹??ш린??紐⑤뱺 誘몄떆??紐⑤찘?멸? ?덉젙?붾맆 ?뚭퉴吏 ?쒓컙???곕씪 蹂?뷀븳?? 臾쇰━???멸낵??causality)??留뚯”?섎젮硫? ?좎쟾 ?묐떟 ?⑥닔 $\\varepsilon(t)$???꾧긴?μ씠 ?멸??섍린 ?댁쟾 ?쒓컙?먯꽌??0?댁뼱???쒕떎. ?ъ옄?④낵 ?꾨룄????떆 媛곴컖 ?먰솕? ?꾨룄 ?꾨쪟 ?뺤꽦?????媛숈? ?멸낵??議곌굔???곕씪???쒕떎. ?곕씪???꾨룄 ?꾨쪟 $\\mathbf{J}_c(\\mathbf{r}, t)$???꾧긴?μ뿉 鍮꾨??섏?留? 洹??ш킨???쒓컙???곕씪 ?щ씪吏????덈떎. ?뱁엳 ?먯뿰 留ㅼ쭏怨?媛숈? ?꾪빐吏??꾨룄 ?섍꼍?먯꽌?? ?댁삩???대컲?섎뒗 媛꾧레 ?좎껜???먯꽦 ?뚮Ц???꾨쪟 ?뺤꽦??吏?곗씠 ?앷만 ???덈떎.\nGPR FWI??吏??留ㅼ쭏???꾧긴???깆쭏, 利??좎쟾??$\\varepsilon$怨??꾧긴?꾨룄??$\\sigma$??珥덉젏??留욎텣?? ?먯뿰 留ㅼ쭏? ?쇰컲?곸쑝濡?鍮꾩옄??non-magnetic)?닿린 ?뚮Ц?? ?뺤떇?곸쑝濡쒕뒗 $\\mu(\\mathbf{r}, t)$瑜?怨듦컙怨??쒓컙???⑥닔濡??먮뜑?쇰룄 ?ㅼ젣 ?묒슜?먯꽌??吏꾧났 ?ъ옄??$\\mu_0=4\\pi\\times10^{-7},\\mathrm{H/m}$???곸닔媛믪쑝濡?痍④툒?????덈떎. ?곕씪???곷? ?ъ옄?⑥? 蹂댄넻 $\\mu_r=\\mu/\\mu_0=1$濡??먮ŉ, 留덉갔媛吏濡??곷? ?좎쟾?⑥? $\\varepsilon_r=\\varepsilon/\\varepsilon_0$濡??뺤쓽?쒕떎.\n?쒓컙 ?곸뿭 ?뚮룞 諛⑹젙???⑤윭?곗씠 踰뺤튃(1.1)怨??뷀럹??踰뺤튃(1.2)??援ъ꽦 愿怨꾩떇(1.10)怨?(1.12)濡?寃고빀?????덈떎. homogenous(洹좎쭏), time-invariant(?쒓컙???곕씪 蹂??x) 洹몃━怨?source-free(?뚯뒪 x)??媛꾨떒??留ㅼ쭏?먯꽌 ?ㅼ쓬怨?媛숈씠 寃고빀?쒕떎. $$\\nabla^2 u(\\mathbf{r}, t)- \\underbrace{\\varepsilon \\mu \\frac{\\partial^2 u(\\mathbf{r}, t)}{\\partial t^2}}{\\text{propagation}}- \\underbrace{\\sigma \\mu \\frac{\\partial u(\\mathbf{r}, t)}{\\partial t}}{\\text{diffusion}}= 0 \\tag{1.14}$$\n?꾨뱶 $\\mathbf{u}$??$\\mathbf{E}? $\\mathbf{H}紐⑤몢 ?대떦?????덈떎. ?대떦 諛⑹젙?앹? 癒쇱? ?꾧긴?κ낵 ?먭긴?μ씠 媛숈? ?띾룄($v = 1/\\sqrt{\\epsilon\\mu}$)濡??꾪뙆媛 吏꾪뻾?⑥쓣 蹂댁뿬以?? ?먰븳 ?묎컳? ?뺤궛($\\kappa = 1/(\\sigma\\mu)$)??吏꾪뻾?⑥쓣 ?뺤씤?????덈떎. ?됰㈃??plane wave)???뺥깭媛 $\\mathbf{u} \\sim e^{i\\mathbf{k \\cdot r}}$?꾩쓣 怨좊젮?섏뿬 Faraday 諛⑹젙?앹뿉 ??낇븯硫?$\\mathbf{E}$, $\\mathbf{H}$? ?꾪뙆 ?곸닔$\\mathbf{k}$媛 ?쒕줈 ?섏쭅?꾩쓣 ?뺤씤?????덈떎.(?곕━媛 ?듯엳 ?뚭퀬 ?덈뒗 ?ㅻⅨ??踰뺤튃) ??以묒슂??寃껋? ??1.14???좎쟾?④낵 ?꾨룄?꾧? ?꾪뙆 ?뱀꽦???대뼡 ?곹뼢??二쇰뒗吏 蹂댁뿬以??$\\rightarrow$ ?좎쟾?⑥? ?꾪뙆?????term瑜?議곗젅?섍퀬, ?꾨룄?꾨뒗 ?뺤궛?????term??議곗젅?쒕떎.\n1.14???앹쓣 ?산린 ?꾪빐 ?곕━??洹좎쭏?섍퀬 ?쒓컙???곕씪 蹂?붿? ?딅뒗 留ㅼ쭏??媛?뺥뻽?? 鍮꾧퇏吏?留ㅼ쭏????댁꽌???뚮룞諛⑹젙?앹쓽 ?뺤쓽媛 媛?ν븳???쒓컙???곕씪 蹂?섏? ?딅뒗 留ㅼ쭏?????媛?뺤? ?쎄쾶 ?깅┰?????녿떎. ?쒓컙???곕씪 蹂?섎뒗 留ㅼ쭏? ?곸닔 ?띾룄 $\\mathbf{v}$??????뺤쓽媛 遺덇??ν븯怨?$v = 1/\\sqrt{\\epsilon\\mu}$?꾩쓣 湲곗뼲?섏옄), ?대뒗 ?쒓컙?곸뿭?먯꽌???댁꽍???대졄寃?留뚮뱺?? ?섑븰?곸쑝濡??대윭???대젮?? time-convoluton?먯꽌 諛쒖깮?섎뒗????1.10, 1.11) ?대뒗 二쇳뙆???곸뿭???댁꽍???듯빐 媛꾨떒???????덈떎($\\ast(time) \\rightarrow \\times(freq)$ ).\n二쇳뙆???곸뿭 留μ뒪??諛⑹젙????1.1) ~ ??1.4)???몃━??蹂?섏쓣 痍⑦빐二쇰㈃ ?ㅼ쓬怨?媛숈? ?앹쓣 ?삳뒗?? $$\\nabla \\times \\mathbf{E(\\mathbf{r}, \\omega)} = i\\omega\\mathbf{B(r,\\omega)} \\tag{1.15}$$\n$$\\nabla \\times \\mathbf{H(\\mathbf{r}, \\omega)} = -i\\omega\\mathbf{D(r,\\omega)} + \\mathbf{J(r, \\omega)} \\tag{1.16}$$\n$$\\nabla \\cdot \\mathbf{D(r, \\omega)} = q(\\mathbf{r}, w) \\tag{1.17}$$\n$$\\nabla \\cdot \\mathbf{B(r, \\omega)} = 0 \\tag{1.18}$$\n?댁젣 field??媛곸＜?뚯닔($\\omega$)???곕씪 蹂듭냼??媛믪쓣 媛뽯뒗?? 梨낆뿉 ?곕씪 ?뺣━?섍린 ?꾪빐 time-harmonic dependency瑜?$e^{-iwt}$濡??뺤쓽?쒕떎.(?섎뒗 ?쒓컙 議고솕??쓣 $e^{iwt}$濡??꾪뙆??쓣 $e^{-ikz}$濡??먮뒗嫄??좏샇?쒕떎. ?섏? 媛숈? ?щ엺? 二쇱쓽?섎㈃???쎈룄濡?\n?댁뿉 ?곕Ⅸ ?몃━??蹂??怨듭떇?\n$$f(\\omega) = \\int^{+{\\infty}}{-\\infty} f(t)e^{iwt}dt \\tag{1.19}$$ $$f(t) = \\frac{1}{2}\\int^{+{\\infty}}{-\\infty} f(\\omega)e^{iwt}dt \\tag{1.20}$$ 濡??뺤쓽?쒕떎.(?쒓컙 議고솕??뿉 ?곕씪 ?몃━??蹂?섏쓽 ?뺤쓽媛 ?щ씪吏????덉쓬??二쇱쓽?섏옄..)\n?댁젣 蹂듭냼?섎줈 ?뺤쓽?섏뿀??援ъ꽦 愿怨꾩떇怨??댁쓽 踰뺤튃???ㅼ쓬怨?媛숈? 怨깆쓽 ?뺥깭濡?諛붾뚭쾶 ?쒕떎.\n$$\\mathbf{D(r,\\omega)} = \\epsilon(\\mathbf{r}, \\omega)\\mathbf{E(r, \\omega)} \\tag{1.21}$$\n$$\\mathbf{B(r,\\omega)} = \\mu(\\mathbf{r}, \\omega)\\mathbf{H(r, \\omega)} \\tag{1.22}$$\n$$\\mathbf{J_c(r,\\omega)} = \\sigma(\\mathbf{r}, \\omega)\\mathbf{E(r, \\omega)}\\tag{1.23}$$\n?쒓컙 ?곸뿭?먯꽌 ?ㅼ닔 媛믪쓣 媛뽯뒗 ?묐떟 ?⑥닔??$\\epsilon, \\mu, \\sigma$)?ㅼ씠 二쇳뙆?섏뿉 ?섏〈?섎뒗 蹂듭냼 ?⑥닔濡?諛붾먮떎. ?ш린???덉닔 媛믩뱾? 怨쇰룄 ?묐떟 怨쇱젙以묒뿉 諛쒖깮???먮꼫吏 ?뚯궛(energy dissipation : 臾쇰━???쒖뒪?쒖뿉???좎슜???먮꼫吏媛 留덉같, 吏꾨룞, ???깆쓽 ?뺥깭濡?蹂?섎릺???붿씠???쇱쓣 ?????녿뒗 ?곹깭)???섎??쒕떎. ?먰븳 二쇳뙆?섏뿉 ?섏〈?곸씠湲??뚮Ц??留ㅼ쭏??遺꾩궛??dispersive : ?낆옄 ?뚮룞 鍮??깆씠 ?щ갑?쇰줈 ?⑹뼱吏嫄곕굹, 臾쇱쭏 ?띿뿉???뚯옣???곕씪 ?띾룄媛 ?щ씪吏???꾩긽)?대떎. ?먮꼫吏 ?뚯궛怨?遺꾩궛?깆? ?쒓컙 ?섏〈?곸씤 諛섏쓣??二쇳뙆???곸뿭?쇰줈 臾섏궗????遺꾨━?????녿뒗 硫붿뭅?덉쬁?대떎.\n",
+  "wordCount" : "1052",
+  "inLanguage": "en",
+  "datePublished": "0001-01-01T00:00:00Z",
+  "dateModified": "0001-01-01T00:00:00Z",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://hyul48.github.io/hyul-blog/projects/gpr/chapter1_the_forward_problem/chapter1_1/chapter1_1_1/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Hyulmonologue",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://hyul48.github.io/hyul-blog/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://hyul48.github.io/hyul-blog/" accesskey="h" title="Hyulmonologue (Alt + H)">Hyulmonologue</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://hyul48.github.io/hyul-blog/papers/" title="Papers">
+                    <span>Papers</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://hyul48.github.io/hyul-blog/notes/" title="Notes">
+                    <span>Notes</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://hyul48.github.io/hyul-blog/code/" title="Code">
+                    <span>Code</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://hyul48.github.io/hyul-blog/projects/" title="Projects">
+                    <span>Projects</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://hyul48.github.io/hyul-blog/search/" title="Search (Alt &#43; /)" accesskey=/>
+                    <span>Search</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://hyul48.github.io/hyul-blog/">홈</a>&nbsp;»&nbsp;<a href="https://hyul48.github.io/hyul-blog/projects/">Projects</a>&nbsp;»&nbsp;<a href="https://hyul48.github.io/hyul-blog/projects/gpr/">GPR</a>&nbsp;»&nbsp;<a href="https://hyul48.github.io/hyul-blog/projects/gpr/chapter1_the_forward_problem/">Chapter 1. The Forward Problem</a>&nbsp;»&nbsp;<a href="https://hyul48.github.io/hyul-blog/projects/gpr/chapter1_the_forward_problem/chapter1_1/">1.1 Notions of Electrodynamics in Material Media</a></div>
+    <h1 class="post-title entry-hint-parent">
+      1.1 Notions of Electrodynamics in Material Media
+    </h1>
+    <div class="post-description">
+      Core electrodynamics concepts used in the GPR forward problem.
+    </div>
+    <div class="post-meta"><span>5 분</span>
+
+</div>
+  </header> <div class="toc">
+    <details  open>
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">목차</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#11-notions-of-electrodynamics-in-material-media" aria-label="1.1 Notions of Electrodynamics in Material Media">1.1 Notions of Electrodynamics in Material Media</a><ul>
+                        
+                <li>
+                    <a href="#111-maxwells-equation-and-constitutive-relations" aria-label="1.1.1 Maxwells equation and constitutive relations">1.1.1 Maxwells equation and constitutive relations</a><ul>
+                        
+                <li>
+                    <a href="#%ec%92%93%ec%bb%99-%ea%b3%b8%eb%bf%ad-%e6%8f%b4%d1%8a%ea%bd%a6-%e6%84%bf%e6%80%a8consitutive-relations" aria-label="?쒓컙 ?곸뿭 援ъ꽦 愿怨?consitutive relations)">?쒓컙 ?곸뿭 援ъ꽦 愿怨?consitutive relations)</a></li>
+                <li>
+                    <a href="#%ec%92%93%ec%bb%99-%ea%b3%b8%eb%bf%ad-%eb%9a%ae%eb%a3%9e-%e8%ab%9b%ec%a0%99%ec%9c%ad%ea%b3%97%ec%94%a0-%e8%b8%b0%eb%ba%a4%ed%8a%8311%e6%80%a8%eb%b7%80%eb%9f%b9%e8%b8%b0%eb%ba%a4%ed%8a%8312%e6%8f%b4%d1%8a%ea%bd%a6-%e6%84%bf%e6%80%a8%ea%be%a9%eb%96%87110%e6%80%a8112%e6%bf%a1%e5%af%83%ea%b3%a0%eb%b9%80%eb%8d%88%eb%96%8e" aria-label="?쒓컙 ?곸뿭 ?뚮룞 諛⑹젙???⑤윭?곗씠 踰뺤튃(1.1)怨??뷀럹??踰뺤튃(1.2)??援ъ꽦 愿怨꾩떇(1.10)怨?(1.12)濡?寃고빀?????덈떎.">?쒓컙 ?곸뿭 ?뚮룞 諛⑹젙???⑤윭?곗씠 踰뺤튃(1.1)怨??뷀럹??踰뺤튃(1.2)??援ъ꽦 愿怨꾩떇(1.10)怨?(1.12)濡?寃고빀?????덈떎.</a></li>
+                <li>
+                    <a href="#%e4%ba%8c%ec%87%b3%eb%99%86%ea%b3%b8%eb%bf%ad" aria-label="二쇳뙆???곸뿭">二쇳뙆???곸뿭</a>
+                </li>
+            </ul>
+            </li>
+            </ul>
+            </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><h1 id="11-notions-of-electrodynamics-in-material-media">1.1 Notions of Electrodynamics in Material Media<a hidden class="anchor" aria-hidden="true" href="#11-notions-of-electrodynamics-in-material-media">#</a></h1>
+<p>1.1 ?덉? ?꾩옄湲??대줎??湲곕낯 媛쒕뀗怨? ?댄썑 ?섏튂??援ы쁽?먯꽌 ?ㅻ（寃???紐?媛吏 ?뱀닔???ы빆?ㅼ쓣 ?뚭컻?쒕떎. ?뱁엳 臾명뿄?먯꽌 ?뷀엳 ?ъ슜?섏?留?洹??섎?媛 異⑸텇???ㅻ챸?섏? ?딅뒗 紐뉖챺 媛?뺣뱾??媛吏???⑥쓽瑜?以묒젏?곸쑝濡??ㅻ챸?쒕떎.</p>
+<p>?꾩옄湲고븰??諛⑹젙?앷낵 洹?臾쇰━???댁꽍? ?곗꽑 ?ㅼ젣 臾쇰━ 怨듦컙???쒓컙 ?곸뿭?먯꽌 ?쒖떆?쒕떎. ?댄썑 &ldquo;鍮꾨Ъ由ъ쟻?댁?留?留ㅼ슦 ?좎슜???몃━???곸뿭&rdquo;??二쇳뙆???곸뿭?쇰줈 ??꺼媛 ?쒕??덉씠?섍낵 ??궛???섑뻾?쒕떎.</p>
+<p>?먰븳 GPR ?곗씠?곕? ??궛?섏뿬 ?뺣웾?뷀븯怨좎옄 ?섎뒗 ??곸씠 ?먯뿰 留ㅼ쭏???꾩옄湲곗쟻 臾쇱꽦?대?濡? ?대윭??留ㅼ쭏???꾩옄湲곗쟻 ?뱀꽦???④퍡 ?쇱쓽?쒕떎. ?대? ?꾪빐 ?대떦 臾쇱꽦?ㅼ쓣 留ㅺ컻蹂?섑솕 ?????덈뒗 ?좎쟾 ?묐떟 紐⑤뜽(dielectric response models)???곸꽭???ㅻ챸?쒕떎. ?뱁엳 吏援?臾쇰━?숈뿉???먮━ ?ъ슜?섏?留? ?ㅼ닔濡?truncated form濡??곸슜?섎㈃??洹??쒓퀎媛 異⑸텇???쇱쓽?섏? ?딆? Jonshcer???대Ⅸ諛?蹂댄렪 ?묐떟(universal response)??????멸툒?쒕떎. ?꾩슱?? ?댄썑 ??궛 怨쇱젙?먯꽌 ?ъ슜??蹂대떎 ?⑥닚??留ㅺ컻蹂?섑솕 諛⑹떇??媛?뺥븷 ???대뼡 寃곌낵? ?쒖빟???곕Ⅴ?붿????④퍡 ?쇱쓽?쒕떎.</p>
+<h2 id="111-maxwells-equation-and-constitutive-relations">1.1.1 Maxwells equation and constitutive relations<a hidden class="anchor" aria-hidden="true" href="#111-maxwells-equation-and-constitutive-relations">#</a></h2>
+<p>?꾩옄湲고뙆???뱀꽦? 留μ뒪??諛⑹젙???⑤윭?곗씠 踰뺤튃, ?뷀럹??踰뺤튃, 媛?곗뒪 踰뺤튃)???섑빐 臾섏궗?????덈떎.</p>
+<p>$$\nabla \times \mathbf{E}(\mathbf{r}, t)=- \frac{\partial \mathbf{B}(\mathbf{r}, t)}{\partial t}
+\qquad \text{Maxwell-Faraday&rsquo;s equation}
+\tag{1.1}
+$$</p>
+<p>$$\nabla \times \mathbf{H}(\mathbf{r}, t)=\frac{\partial \mathbf{D}(\mathbf{r}, t)}{\partial t}
++
+\mathbf{J}(\mathbf{r}, t)
+\qquad \text{Maxwell-Amp`ere&rsquo;s equation}
+\tag{1.2}
+$$</p>
+<p>$$
+\nabla \cdot \mathbf{D}(\mathbf{r}, t) = q(\mathbf{r}, t)
+\qquad \text{Maxwell-gauss equation(electric)}
+\tag{1.3}
+$$</p>
+<p>$$
+\nabla \cdot \mathbf{B}(\mathbf{r}, t) = 0
+\qquad \text{Maxwell-gauss equation(magnetic)}
+\tag{1.4}
+$$</p>
+<p>?ш린??$\mathbf{E}$???꾧린?μ쑝濡? ?⑥쐞??$\mathrm{V/m}$?닿퀬, $\mathbf{H}$???먭린?μ쑝濡??⑥쐞??$\mathrm{A/m}$?대떎. ?먰븳 $\mathbf{D}$???꾧린 ?좊룄(electric induction) ?먮뒗 ?꾧린 蹂??electric displacement)濡쒖꽌 ?⑥쐞??$\mathrm{C/m^2}$?대ŉ, $\mathbf{B}$???먭린 ?좊룄濡??⑥쐞??$\mathrm{T}$?대떎.
+$\mathbf{J}$???꾨룄 ?꾨쪟 諛??conduction current density)濡??⑥쐞??$\mathrm{A/m^2}$?닿퀬, $q$???꾪븯 諛??electric charge density)瑜??섑??대ŉ ?⑥쐞??$\mathrm{C/m^3}$?대떎. 蹂??$\mathbf{r}$? ?꾩튂 踰≫꽣(position vector)濡쒖꽌 媛?醫뚰몴???⑥쐞??$\mathrm{m}$?닿퀬, $t$???쒓컙?쇰줈 ?⑥쐞??$\mathrm{s}$?대떎. ?ш린???깆옣?섎뒗 紐⑤뱺 ?κ낵 蹂?섎뱾? ?ㅼ닔媛?real quantities)?대떎.</p>
+<p>?뚯쐞 ?ㅻⅨ??踰뺤튃(right-hand rule)???곕Ⅴ硫? ?⑤윭?곗씠 踰뺤튃? ?쒓컙???곕씪 蹂?섎뒗 ?먭린 ?좎냽 $\mathbf{B}$媛 $\mathbf{B}$瑜?以묒떖?쇰줈 ?뚯쟾?섎뒗 ?꾧린??$\mathbf{E}$瑜??앹꽦?⑥쓣 ?섎??쒕떎. 留덉갔媛吏濡? ?뷀럹??留μ뒪??諛⑹젙?앹? ?꾨쪟 $\mathbf{J}$ ?먮뒗 ?쒓컙???곕씪 蹂?섎뒗 ?꾧린 ?좎냽 $\mathbf{D}$媛 ?뚯쟾?섎뒗 ?먭린??$\mathbf{H}$瑜??앹꽦?⑥쓣 ?섑??몃떎. ?쒗렪, 留μ뒪??媛?곗뒪 諛⑹젙?앹쓽 臾쇰━???섎????꾪븯 諛??$q$媛 ?꾧린 ?꾧린 ?좎냽 $\mathbf{D}$???먯쿇???쒕떎??寃껋씠硫? ?댁뿉 ??묐릺???먭린 ?좎냽???먯쿇? 議댁옱?섏? ?딅뒗?ㅻ뒗 ?먯씠??</p>
+<h3 id="쒓컙-곸뿭-援ъ꽦-愿怨consitutive-relations">?쒓컙 ?곸뿭 援ъ꽦 愿怨?consitutive relations)<a hidden class="anchor" aria-hidden="true" href="#쒓컙-곸뿭-援ъ꽦-愿怨consitutive-relations">#</a></h3>
+<p>留μ뒪??諛⑹젙?앷퀎??留ㅼ슦 ?쇰컲?곸씤 ?뺥깭瑜?媛吏吏留? 媛?諛⑹젙?앸뱾???좏삎 ?낅┰(linearly independent)???꾨땲湲??뚮Ц??洹??먯껜留뚯쑝濡쒕뒗 誘몄젙(under-determined)?대떎. ?덈? ?ㅼ뼱, ??field)???곸닔 ?깅텇???녿떎怨?媛?뺥븯硫? $\nabla \cdot \nabla \times = 0$?대씪??踰≫꽣 ??벑??divergence???됲뻾?깅텇留?curl? ?섏쭅?깅텇留??댁븘?⑥쓬???좎쓽?섎씪)???댁슜?섏뿬 ?⑤윭?곗씠 諛⑹젙??(1.1)??諛쒖궛(divergence)??痍⑦븿?쇰줈????踰덉㎏ 媛?곗뒪 踰뺤튃
+$$\nabla \cdot \mathbf{B} = 0 \tag{1.4}$$
+???좊룄?????덈떎.</p>
+<p>留덉갔媛吏濡? ?뷀럹??留μ뒪??諛⑹젙??(1.2)??諛쒖궛??痍⑦븯怨? ?꾪븯 蹂댁〈 踰뺤튃</p>
+<p>$$\nabla \cdot \mathbf{J}(\mathbf{r}, t)+\frac{\partial q(\mathbf{r}, t)}{\partial t}=0 \tag{1.5}$$</p>
+<p>???댁슜?섎㈃, 泥?踰덉㎏ 媛?곗뒪 踰뺤튃
+$$\nabla \cdot \mathbf{D} = q \tag{1.3}$$
+???살쓣 ???덈떎.</p>
+<p>?곕씪???댄븯?먯꽌???⑤윭?곗씠 諛⑹젙?앷낵 ?뷀럹??留μ뒪??諛⑹젙?? 利?(1.1)怨?(1.2)留뚯쓣 怨좊젮?섎ŉ, ?대뱾濡쒕????좊룄?????덈뒗 媛?곗뒪 諛⑹젙??(1.3)怨?(1.4)???곕줈 ?ㅻ（吏 ?딅뒗??</p>
+<p>?섑븰?곸쑝濡?蹂대㈃, 留μ뒪??諛⑹젙?앹뿉 ?깆옣?섎뒗 ?꾩옄湲곗옣???꾩쟾??寃곗젙?섍린 ?꾪빐?쒕뒗 異붽??곸씤 愿怨꾩떇???꾩슂?섎떎(under determined&hellip;). 臾쇰━?곸씤 愿?먯뿉?쒕룄, 留μ뒪??諛⑹젙?앸쭔?쇰줈??GPR 痢≪젙???듯빐 議곗궗?섍퀬???섎뒗 臾쇱쭏 留ㅼ쭏???뱀꽦??紐낆떆?곸쑝濡??ы븿?섏뼱 ?덉? ?딆쓬???????덈떎. ?먯뿰 留ㅼ쭏???묐떟???쒗쁽?섍퀬 ??諛⑹젙?앸뱾???湲??꾪빐?쒕뒗, ?좊룄 踰≫꽣(induction vectors)? ??踰≫꽣(field vectors) ?ъ씠瑜??곌껐?섎뒗 援ъ꽦 諛⑹젙??constitutive equations)???꾩슂?섎떎.</p>
+<p>吏꾧났?먯꽌???대윭??愿怨꾧? 鍮꾧탳???⑥닚?섎ŉ ?ㅼ쓬怨?媛숈씠 二쇱뼱吏꾨떎.</p>
+<p>$$
+\mathbf{D}(\mathbf{r}, t)=\varepsilon_0 \mathbf{E}(\mathbf{r}, t) \tag{1.6}$$
+$$
+\mathbf{B}(\mathbf{r}, t)=\mu_0 \mathbf{H}(\mathbf{r}, t) \tag{1.7}
+$$</p>
+<p>?ш린??$\varepsilon_0 = 8.85 \times 10^{-12},$ $\mathrm{F/m}$??吏꾧났???좎쟾?⑥씠硫? $\mu_0 = 4\pi \times 10^{-7},$ $\mathrm{H/m}$??吏꾧났???ъ옄?⑥씠??</p>
+<p>?쒗렪 ?붿꽍?대굹 ?좎뼇怨?媛숈? ?좎쟾泥?臾쇱쭏 留ㅼ쭏?먯꽌???꾩옄湲곗쟻 ?묐떟???⑥뵮 ??蹂듭옟?섎떎. ?꾧린??$\mathbf{E}$媛 媛?댁?硫? 臾쇱쭏 ?대??먯꽌??遺꾧레(polarisation), 利?寃고빀?꾪븯???꾧린??紐⑤찘???덈? ?ㅼ뼱 ?먯옄??寃고빀???꾩옄??臾?遺꾩옄? 媛숈? ?띻레??遺꾩옄)媛 ?뱀젙 諛⑺뼢?쇰줈 ?뺣젹?섎뒗 ?꾩긽???좊룄?쒕떎. 留덉갔媛吏濡??먭린?μ씠 媛?댁?硫? ?먭린???낆옄?ㅼ쓽 ?먭린 紐⑤찘?멸? ?뺣젹?섎뒗 ?먰솕(magnetisation)媛 ?좊룄?쒕떎. ?좏삎(linear)?닿퀬 ?깅갑??isotropic) ??留ㅼ쭏?먯꽌??遺꾧레 $\mathbf{P}$? ?먰솕 $\mathbf{M}$瑜??ㅼ쓬怨?媛숈? 紐⑤찘??踰≫꽣濡?湲곗닠?????덈떎.</p>
+<p>$$
+\mathbf{P}(\mathbf{r}, t)=\varepsilon_0 \chi_e(\mathbf{r}, t)\ast \mathbf{E}(\mathbf{r}, t) \tag{1.8}
+$$</p>
+<p>$$
+\mathbf{M}(\mathbf{r}, t)=\mu_0 \chi_m(\mathbf{r}, t)\ast \mathbf{H}(\mathbf{r}, t) \tag{1.9}
+$$</p>
+<p><img alt="?대?吏\u00801" loading="lazy" src="electric_polarization_physics_diagram.png"></p>
+<p>?ш린??$\ast$???쒓컙 而⑤낵猷⑥뀡(time convolution)???섎??섎ŉ, $\chi_e$??留ㅼ쭏???좎쟾 媛먯닔??dielectric susceptibility)濡쒖꽌 ?꾧린??$\mathbf{E}$媛 媛?댁죱????遺꾩옄?ㅼ씠 ?쇰쭏???쎄쾶 ?꾧린??遺꾧레???쇱쑝?ㅻ뒗吏瑜??섑??몃떎. $\chi_m$???먭린 媛먯닔??magnetic susceptibility)濡쒖꽌 ?먭린??$\mathbf{H}$ ?섏뿉???낆옄?ㅼ씠 ?쇰쭏???쎄쾶 ?먰솕?섎뒗吏瑜??섑??몃떎. ?곕씪???좊룄 踰≫꽣??吏꾧났???묐떟???뷀빐 留ㅼ쭏 ?먯껜??遺꾧레 諛??먰솕 ?묐떟???⑹퀜吏?寃곌낵濡??댄빐?????덉쑝硫? ?대뒗 ?ㅼ쓬怨?媛숈? 援ъ꽦 諛⑹젙?앹쑝濡??붿빟?쒕떎.</p>
+<p>$$
+\mathbf{D}(\mathbf{r}, t)=\varepsilon(\mathbf{r}, t)\ast \mathbf{E}(\mathbf{r}, t)
+\tag{1.10}$$</p>
+<p>$$
+\mathbf{B}(\mathbf{r}, t)=\mu(\mathbf{r}, t)\ast \mathbf{H}(\mathbf{r}, t)
+\tag{1.11}$$</p>
+<p>?ш린??$\varepsilon=\varepsilon_0(1+\chi_e)$??留ㅼ쭏???좎쟾??($\mathrm{F/m})$, $\mu=\mu_0(1+\chi_m)$??留ㅼ쭏???ъ옄??($\mathrm{H/m})$?대떎.
+?꾨룄??留ㅼ쭏?먯꽌???ш린???뷀빐 ?ㅼ샂??踰뺤튃??異붽??섎ŉ, ?대뒗 ?꾨룄 ?꾨쪟 $\mathbf{J}_c$? ?꾧린??$\mathbf{E}$ ?ъ씠??愿怨꾨? ?ㅼ쓬怨?媛숈씠 ?섑??몃떎.</p>
+<p>$$
+\mathbf{J}_c(\mathbf{r}, t)=\sigma(\mathbf{r}, t)\ast \mathbf{E}(\mathbf{r}, t)
+\tag{1.12}$$</p>
+<p>?ш린??$\sigma$???꾧린?꾨룄??($\mathrm{S/m})$?대떎. ?먰븳 ?뷀럹??留μ뒪??諛⑹젙?앹뿉 ?깆옣?섎뒗 ?꾩껜 ?꾨쪟 $\mathbf{J}$???꾧린?μ뿉 ?섑빐 ?앹꽦?섎뒗 ?꾨룄 ?꾨쪟 $\mathbf{J}_c$?, GPR ?덊뀒?섏뿉??二쇱엯?섎뒗 ?뚯뒪 ?꾨쪟 $\mathbf{J}_s$???⑹쑝濡??쒗쁽?쒕떎. 利?</p>
+<p>$$
+\mathbf{J}(\mathbf{r}, t)=\mathbf{J}_c(\mathbf{r}, t)+\mathbf{J}_s(\mathbf{r}, t)
+\tag{1.13}$$</p>
+<p>?대ŉ, ?ㅼ젣濡?$\mathbf{J}_s(\mathbf{r}, t)$???≪떊 ?덊뀒?섏쓽 ?꾩튂? GPR ?꾩뒪媛 諛⑹궗?섎뒗 ?쒓컙 ?숈븞?먮쭔 0???꾨땶 媛믪쓣 媛吏꾨떎.</p>
+<p>?대윭??援ъ꽦 諛⑹젙?앷낵 ?ㅼ샂??踰뺤튃? ?몃??먯꽌 媛?댁쭊 ?꾧린??諛??먭린?μ뿉 ???留ㅼ쭏???대뼸寃??묐떟?섎뒗吏瑜?湲곗닠?섎뒗 臾쇱쭏 愿怨?material relations)?대떎. ?곕씪??$\varepsilon(\mathbf{r}, t)$, $\mu(\mathbf{r}, t)$, $\sigma(\mathbf{r}, t)$??媛곴컖 ?쒓컙???곕Ⅸ 留ㅼ쭏???좎쟾?? ?먭린?? ?꾨룄???묐떟 ?⑥닔瑜??섎??쒕떎. ?ш린??留ㅼ쭏???좏삎?닿퀬 ?깅갑?깆씠?쇨퀬 媛?뺥븯硫? 蹂대떎 洹쇰낯?곸쑝濡쒕뒗 遺꾧레 $\mathbf{P}$媛 ?먭린??$\mathbf{H}$?먮뒗 ?섏〈?섏? ?딄퀬 ?ㅼ쭅 ?꾧린??$\mathbf{E}$??????묐떟留뚯쓣 諛섏쁺?쒕떎怨?媛?뺥븳?? ?대윭???먭린愿묓븰???④낵??二쇰줈 愿묓븰 二쇳뙆?????뿉???섑??섏?留??ш린?쒕뒗 怨좊젮?섏? ?딅뒗?? ?먰븳 遺꾧레 $\mathbf{P}$媛 ?꾧린??$\mathbf{E}$? 怨듦컙?곸쑝濡?援?냼?곸쑝濡?local) ?곌껐?섏뼱 ?덉쑝硫? 怨듦컙 遺꾩궛(spatial dispersion)? 臾댁떆?쒕떎怨?媛?뺥븳??</p>
+<p>?좏삎?? ?깅갑?? 鍮꾧퇏吏덉꽦, ?쒓컙 ?섏〈?깆씠?쇰뒗 留ㅼ쭏 媛?뺤쓽 ?섎?瑜??뺤쓽?섏옄. 癒쇱? **?좏삎??*(linearity)? 援ъ꽦 諛⑹젙?앹뿉??$\varepsilon$, $\mu$, $\sigma$媛 媛?댁쭊 ??$\mathbf{E}$,  $\mathbf{H}$???ш린???섏〈?섏? ?딅뒗?ㅻ뒗 ?살씠?? 利??섑븰?곸쑝濡쒕뒗 臾쇱꽦 ?뚮씪誘명꽣媛 ?몃? ?μ뿉 ?섑빐 諛붾뚯? ?딆쓬???섎??섍퀬, 臾쇰━?곸쑝濡쒕뒗 遺꾧레怨??먰솕媛 媛곴컖 ?꾧린?κ낵 ?먭긴?μ뿉 鍮꾨??쒕떎???살씠?? ?ㅼ떆 留먰빐, 遺꾧레 踰≫꽣? ?꾨쪟 踰≫꽣???꾧린?κ낵 媛숈? 諛⑺뼢??媛吏硫? ?먭린 紐⑤찘?몃뒗 ?먭긴?κ낵 媛숈? 諛⑺뼢??媛吏꾨떎. ?대윭???좏삎?깆? ?쒕??덉씠?섍낵 ??궛 ?뚭퀬由ъ쬁 ?꾧컻?먯꽌 留ㅼ슦 以묒슂???깆쭏?대떎.</p>
+<p><strong>?깅갑??isotropy)</strong> ?대? ?꾩옄湲??뚮씪誘명꽣媛 ?먯꽌媛 ?꾨땲???ㅼ뭡?쇰씪???섎??대떎. ?곕씪???낆옄?ㅼ쓽 遺꾧레 ?λ젰, ?먰솕 ?λ젰, 洹몃━怨??꾨룄?꾨뒗 媛?댁????μ쓽 諛⑺뼢???곕씪 ?щ씪吏吏 ?딅뒗?? GPR 遺꾩빞?먯꽌???쇰컲?곸쑝濡??대윴 ?깅갑??媛?뺤쓣 留롮씠 ?ъ슜?섎ŉ, ?쇰? ?쇰컲?깆쓣 異붽뎄?섎뒗 ?곌뎄瑜??쒖쇅?섎㈃ 鍮꾨벑諛⑹꽦(anisotropy)? ?먯＜ 怨좊젮?섏? ?딅뒗?? ?ㅻ쭔 ?깅갑?깆쓽 ?섎?媛 留ㅼ쭏???대뼡 ?ㅼ??쇱뿉??蹂대뒓?먯뿉 ?곕씪 ?щ씪吏????덈떎. 利?蹂몄쭏?곸씤 鍮꾨벑諛⑹꽦(intrinsic anisotropy)? ?먯꽌濡?湲곗닠?섏?留? 援ъ“??鍮꾨벑諛⑹꽦(structural anisotropy)? ?깅갑???щ즺?ㅼ씠 鍮꾨벑諛⑹쟻?쇰줈 諛곗뿴?섏뼱 諛쒖깮?????덈떎.</p>
+<p><strong>鍮꾧퇏吏덉꽦(heterogeneity)</strong> ? $\varepsilon$, $\mu$, $\sigma$媛 怨듦컙 ?꾩튂 $\mathbf{r}$???곕씪 ?щ씪吏꾨떎???살씠?? ?대뒗 ?먯뿰 留ㅼ쭏??GPR ?먯궗 ?ㅼ??쇱뿉??留ㅼ슦 遺덇퇏吏덊븷 ???덈떎???먯쓣 諛섏쁺?섎뒗, ?먮챸?섏?留?留ㅼ슦 以묒슂???뱀꽦?대떎.</p>
+<p><strong>?쒓컙 ?섏〈??time-dependence)</strong> ? ?대뱾 ?뚮씪誘명꽣媛 ?쒓컙???곕씪 蹂?????덉쓬???섎??쒕떎. ?먯뿰 留ㅼ쭏? ?댁긽?곸씤 ?좎쟾泥? ?댁긽?곸씤 ?꾩껜, ?댁긽?곸씤 ?먯꽦泥닿? ?꾨땲誘濡? ?몃? ?꾧긴?μ씠???먭긴?μ뿉 ????쒓컙?곸쑝濡?諛섏쓳?섏? ?딄퀬 怨쇰룄 ?묐떟(transient response)??蹂댁씤?? ?덈? ?ㅼ뼱 遺꾧레 ?꾩긽???앷컖?섎㈃, 媛쒕퀎 ?꾪븯 ?낆옄?ㅼ쓽 ?꾧긴 紐⑤찘?몃뒗 ?꾧긴??$\mathbf{E}$??諛⑺뼢?쇰줈 利됱떆 ?뺣젹?섏? ?딄퀬 ?쇱젙??愿?? 利??꾪솕(relaxation) 怨쇱젙??嫄곗튇?? 洹?寃곌낵 嫄곗떆?곸씤 遺꾧레 $\mathbf{P}$???꾧긴?κ낵 媛숈? 諛⑺뼢?쇰줈 ?뺣젹?섏?留? 洹??ш린??紐⑤뱺 誘몄떆??紐⑤찘?멸? ?덉젙?붾맆 ?뚭퉴吏 ?쒓컙???곕씪 蹂?뷀븳?? 臾쇰━???멸낵??causality)??留뚯”?섎젮硫? ?좎쟾 ?묐떟 ?⑥닔 $\varepsilon(t)$???꾧긴?μ씠 ?멸??섍린 ?댁쟾 ?쒓컙?먯꽌??0?댁뼱???쒕떎. ?ъ옄?④낵 ?꾨룄????떆 媛곴컖 ?먰솕? ?꾨룄 ?꾨쪟 ?뺤꽦?????媛숈? ?멸낵??議곌굔???곕씪???쒕떎. ?곕씪???꾨룄 ?꾨쪟 $\mathbf{J}_c(\mathbf{r}, t)$???꾧긴?μ뿉 鍮꾨??섏?留? 洹??ш킨???쒓컙???곕씪 ?щ씪吏????덈떎. ?뱁엳 ?먯뿰 留ㅼ쭏怨?媛숈? ?꾪빐吏??꾨룄 ?섍꼍?먯꽌?? ?댁삩???대컲?섎뒗 媛꾧레 ?좎껜???먯꽦 ?뚮Ц???꾨쪟 ?뺤꽦??吏?곗씠 ?앷만 ???덈떎.</p>
+<p>GPR FWI??吏??留ㅼ쭏???꾧긴???깆쭏, 利??좎쟾??$\varepsilon$怨??꾧긴?꾨룄??$\sigma$??珥덉젏??留욎텣?? ?먯뿰 留ㅼ쭏? ?쇰컲?곸쑝濡?鍮꾩옄??non-magnetic)?닿린 ?뚮Ц?? ?뺤떇?곸쑝濡쒕뒗 $\mu(\mathbf{r}, t)$瑜?怨듦컙怨??쒓컙???⑥닔濡??먮뜑?쇰룄 ?ㅼ젣 ?묒슜?먯꽌??吏꾧났 ?ъ옄??$\mu_0=4\pi\times10^{-7},\mathrm{H/m}$???곸닔媛믪쑝濡?痍④툒?????덈떎. ?곕씪???곷? ?ъ옄?⑥? 蹂댄넻 $\mu_r=\mu/\mu_0=1$濡??먮ŉ, 留덉갔媛吏濡??곷? ?좎쟾?⑥? $\varepsilon_r=\varepsilon/\varepsilon_0$濡??뺤쓽?쒕떎.</p>
+<h3 id="쒓컙-곸뿭-뚮룞-諛젙윭곗씠-踰뺤튃11怨뷀럹踰뺤튃12援ъ꽦-愿怨꾩떇110怨112濡寃고빀덈떎">?쒓컙 ?곸뿭 ?뚮룞 諛⑹젙???⑤윭?곗씠 踰뺤튃(1.1)怨??뷀럹??踰뺤튃(1.2)??援ъ꽦 愿怨꾩떇(1.10)怨?(1.12)濡?寃고빀?????덈떎.<a hidden class="anchor" aria-hidden="true" href="#쒓컙-곸뿭-뚮룞-諛젙윭곗씠-踰뺤튃11怨뷀럹踰뺤튃12援ъ꽦-愿怨꾩떇110怨112濡寃고빀덈떎">#</a></h3>
+<p>homogenous(洹좎쭏), time-invariant(?쒓컙???곕씪 蹂??x) 洹몃━怨?source-free(?뚯뒪 x)??媛꾨떒??留ㅼ쭏?먯꽌 ?ㅼ쓬怨?媛숈씠 寃고빀?쒕떎.
+$$\nabla^2 u(\mathbf{r}, t)- \underbrace{\varepsilon \mu \frac{\partial^2 u(\mathbf{r}, t)}{\partial t^2}}<em>{\text{propagation}}- \underbrace{\sigma \mu \frac{\partial u(\mathbf{r}, t)}{\partial t}}</em>{\text{diffusion}}= 0 \tag{1.14}$$</p>
+<p>?꾨뱶 $\mathbf{u}$??$\mathbf{E}? $\mathbf{H}紐⑤몢 ?대떦?????덈떎. ?대떦 諛⑹젙?앹? 癒쇱? ?꾧긴?κ낵 ?먭긴?μ씠 媛숈? ?띾룄($v = 1/\sqrt{\epsilon\mu}$)濡??꾪뙆媛 吏꾪뻾?⑥쓣 蹂댁뿬以?? ?먰븳 ?묎컳? ?뺤궛($\kappa = 1/(\sigma\mu)$)??吏꾪뻾?⑥쓣 ?뺤씤?????덈떎.
+?됰㈃??plane wave)???뺥깭媛 $\mathbf{u} \sim e^{i\mathbf{k \cdot r}}$?꾩쓣 怨좊젮?섏뿬 Faraday 諛⑹젙?앹뿉 ??낇븯硫?$\mathbf{E}$, $\mathbf{H}$? ?꾪뙆 ?곸닔$\mathbf{k}$媛 ?쒕줈 ?섏쭅?꾩쓣 ?뺤씤?????덈떎.(?곕━媛 ?듯엳 ?뚭퀬 ?덈뒗 ?ㅻⅨ??踰뺤튃) ??以묒슂??寃껋? ??1.14???좎쟾?④낵 ?꾨룄?꾧? ?꾪뙆 ?뱀꽦???대뼡 ?곹뼢??二쇰뒗吏 蹂댁뿬以??$\rightarrow$ <strong>?좎쟾?⑥? ?꾪뙆?????term瑜?議곗젅?섍퀬, ?꾨룄?꾨뒗 ?뺤궛?????term??議곗젅?쒕떎.</strong></p>
+<p>1.14???앹쓣 ?산린 ?꾪빐 ?곕━??洹좎쭏?섍퀬 ?쒓컙???곕씪 蹂?붿? ?딅뒗 留ㅼ쭏??媛?뺥뻽?? 鍮꾧퇏吏?留ㅼ쭏????댁꽌???뚮룞諛⑹젙?앹쓽 ?뺤쓽媛 媛?ν븳???쒓컙???곕씪 蹂?섏? ?딅뒗 留ㅼ쭏?????媛?뺤? ?쎄쾶 ?깅┰?????녿떎. ?쒓컙???곕씪 蹂?섎뒗 留ㅼ쭏? ?곸닔 ?띾룄 $\mathbf{v}$??????뺤쓽媛 遺덇??ν븯怨?$v = 1/\sqrt{\epsilon\mu}$?꾩쓣 湲곗뼲?섏옄), ?대뒗 ?쒓컙?곸뿭?먯꽌???댁꽍???대졄寃?留뚮뱺?? ?섑븰?곸쑝濡??대윭???대젮?? time-convoluton?먯꽌 諛쒖깮?섎뒗????1.10, 1.11) ?대뒗 二쇳뙆???곸뿭???댁꽍???듯빐 媛꾨떒???????덈떎($\ast(time) \rightarrow \times(freq)$ ).</p>
+<h3 id="二쇳뙆곸뿭">二쇳뙆???곸뿭<a hidden class="anchor" aria-hidden="true" href="#二쇳뙆곸뿭">#</a></h3>
+<p>留μ뒪??諛⑹젙????1.1) ~ ??1.4)???몃━??蹂?섏쓣 痍⑦빐二쇰㈃ ?ㅼ쓬怨?媛숈? ?앹쓣 ?삳뒗??
+$$\nabla \times \mathbf{E(\mathbf{r}, \omega)} = i\omega\mathbf{B(r,\omega)} \tag{1.15}$$</p>
+<p>$$\nabla \times \mathbf{H(\mathbf{r}, \omega)} = -i\omega\mathbf{D(r,\omega)} + \mathbf{J(r, \omega)} \tag{1.16}$$</p>
+<p>$$\nabla \cdot \mathbf{D(r, \omega)} = q(\mathbf{r}, w) \tag{1.17}$$</p>
+<p>$$\nabla \cdot \mathbf{B(r, \omega)} = 0 \tag{1.18}$$</p>
+<p>?댁젣 field??媛곸＜?뚯닔($\omega$)???곕씪 蹂듭냼??媛믪쓣 媛뽯뒗?? 梨낆뿉 ?곕씪 ?뺣━?섍린 ?꾪빐 time-harmonic dependency瑜?$e^{-iwt}$濡??뺤쓽?쒕떎.(?섎뒗 ?쒓컙 議고솕??쓣 $e^{iwt}$濡??꾪뙆??쓣 $e^{-ikz}$濡??먮뒗嫄??좏샇?쒕떎. ?섏? 媛숈? ?щ엺? 二쇱쓽?섎㈃???쎈룄濡?</p>
+<p>?댁뿉 ?곕Ⅸ ?몃━??蹂??怨듭떇?</p>
+<p>$$f(\omega) = \int^{+{\infty}}<em>{-\infty} f(t)e^{iwt}dt \tag{1.19}$$
+$$f(t) = \frac{1}{2}\int^{+{\infty}}</em>{-\infty} f(\omega)e^{iwt}dt \tag{1.20}$$
+濡??뺤쓽?쒕떎.(?쒓컙 議고솕??뿉 ?곕씪 ?몃━??蹂?섏쓽 ?뺤쓽媛 ?щ씪吏????덉쓬??二쇱쓽?섏옄..)</p>
+<p>?댁젣 蹂듭냼?섎줈 ?뺤쓽?섏뿀??援ъ꽦 愿怨꾩떇怨??댁쓽 踰뺤튃???ㅼ쓬怨?媛숈? 怨깆쓽 ?뺥깭濡?諛붾뚭쾶 ?쒕떎.</p>
+<p>$$\mathbf{D(r,\omega)} = \epsilon(\mathbf{r}, \omega)\mathbf{E(r, \omega)} \tag{1.21}$$</p>
+<p>$$\mathbf{B(r,\omega)} = \mu(\mathbf{r}, \omega)\mathbf{H(r, \omega)} \tag{1.22}$$</p>
+<p>$$\mathbf{J_c(r,\omega)} = \sigma(\mathbf{r}, \omega)\mathbf{E(r, \omega)}\tag{1.23}$$</p>
+<p>?쒓컙 ?곸뿭?먯꽌 ?ㅼ닔 媛믪쓣 媛뽯뒗 ?묐떟 ?⑥닔??$\epsilon, \mu, \sigma$)?ㅼ씠 二쇳뙆?섏뿉 ?섏〈?섎뒗 蹂듭냼 ?⑥닔濡?諛붾먮떎. ?ш린???덉닔 媛믩뱾? 怨쇰룄 ?묐떟 怨쇱젙以묒뿉 諛쒖깮???먮꼫吏 ?뚯궛(energy dissipation : 臾쇰━???쒖뒪?쒖뿉???좎슜???먮꼫吏媛 留덉같, 吏꾨룞, ???깆쓽 ?뺥깭濡?蹂?섎릺???붿씠???쇱쓣 ?????녿뒗 ?곹깭)???섎??쒕떎. ?먰븳 二쇳뙆?섏뿉 ?섏〈?곸씠湲??뚮Ц??留ㅼ쭏??遺꾩궛??dispersive : ?낆옄 ?뚮룞 鍮??깆씠 ?щ갑?쇰줈 ?⑹뼱吏嫄곕굹, 臾쇱쭏 ?띿뿉???뚯옣???곕씪 ?띾룄媛 ?щ씪吏???꾩긽)?대떎. ?먮꼫吏 ?뚯궛怨?遺꾩궛?깆? ?쒓컙 ?섏〈?곸씤 諛섏쓣??二쇳뙆???곸뿭?쇰줈 臾섏궗????遺꾨━?????녿뒗 硫붿뭅?덉쬁?대떎.</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+<nav class="paginav">
+  <a class="next" href="https://hyul48.github.io/hyul-blog/papers/ai/nerf/">
+    <span class="title">다음 페이지 »</span>
+    <br>
+    <span>NeRF: Representing Scenes as Neural Radiance Fields for View Synthesis(cont...)</span>
+  </a>
+</nav>
+
+
+<ul class="share-buttons">
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share 1.1 Notions of Electrodynamics in Material Media on x"
+            href="https://x.com/intent/tweet/?text=1.1%20Notions%20of%20Electrodynamics%20in%20Material%20Media&amp;url=https%3a%2f%2fhyul48.github.io%2fhyul-blog%2fprojects%2fgpr%2fchapter1_the_forward_problem%2fchapter1_1%2fchapter1_1_1%2f&amp;hashtags=">
+            <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M512 62.554 L 512 449.446 C 512 483.97 483.97 512 449.446 512 L 62.554 512 C 28.03 512 0 483.97 0 449.446 L 0 62.554 C 0 28.03 28.029 0 62.554 0 L 449.446 0 C 483.971 0 512 28.03 512 62.554 Z M 269.951 190.75 L 182.567 75.216 L 56 75.216 L 207.216 272.95 L 63.9 436.783 L 125.266 436.783 L 235.9 310.383 L 332.567 436.783 L 456 436.783 L 298.367 228.367 L 432.367 75.216 L 371.033 75.216 Z M 127.633 110 L 164.101 110 L 383.481 400.065 L 349.5 400.065 Z" />
+            </svg>
+        </a>
+    </li>
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share 1.1 Notions of Electrodynamics in Material Media on linkedin"
+            href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fhyul48.github.io%2fhyul-blog%2fprojects%2fgpr%2fchapter1_the_forward_problem%2fchapter1_1%2fchapter1_1_1%2f&amp;title=1.1%20Notions%20of%20Electrodynamics%20in%20Material%20Media&amp;summary=1.1%20Notions%20of%20Electrodynamics%20in%20Material%20Media&amp;source=https%3a%2f%2fhyul48.github.io%2fhyul-blog%2fprojects%2fgpr%2fchapter1_the_forward_problem%2fchapter1_1%2fchapter1_1_1%2f">
+            <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-288.985,423.278l0,-225.717l-75.04,0l0,225.717l75.04,0Zm270.539,0l0,-129.439c0,-69.333 -37.018,-101.586 -86.381,-101.586c-39.804,0 -57.634,21.891 -67.617,37.266l0,-31.958l-75.021,0c0.995,21.181 0,225.717 0,225.717l75.02,0l0,-126.056c0,-6.748 0.486,-13.492 2.474,-18.315c5.414,-13.475 17.767,-27.434 38.494,-27.434c27.135,0 38.007,20.707 38.007,51.037l0,120.768l75.024,0Zm-307.552,-334.556c-25.674,0 -42.448,16.879 -42.448,39.002c0,21.658 16.264,39.002 41.455,39.002l0.484,0c26.165,0 42.452,-17.344 42.452,-39.002c-0.485,-22.092 -16.241,-38.954 -41.943,-39.002Z" />
+            </svg>
+        </a>
+    </li>
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share 1.1 Notions of Electrodynamics in Material Media on reddit"
+            href="https://reddit.com/submit?url=https%3a%2f%2fhyul48.github.io%2fhyul-blog%2fprojects%2fgpr%2fchapter1_the_forward_problem%2fchapter1_1%2fchapter1_1_1%2f&title=1.1%20Notions%20of%20Electrodynamics%20in%20Material%20Media">
+            <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-3.446,265.638c0,-22.964 -18.616,-41.58 -41.58,-41.58c-11.211,0 -21.361,4.457 -28.841,11.666c-28.424,-20.508 -67.586,-33.757 -111.204,-35.278l18.941,-89.121l61.884,13.157c0.756,15.734 13.642,28.29 29.56,28.29c16.407,0 29.706,-13.299 29.706,-29.701c0,-16.403 -13.299,-29.702 -29.706,-29.702c-11.666,0 -21.657,6.792 -26.515,16.578l-69.105,-14.69c-1.922,-0.418 -3.939,-0.042 -5.585,1.036c-1.658,1.073 -2.811,2.761 -3.224,4.686l-21.152,99.438c-44.258,1.228 -84.046,14.494 -112.837,35.232c-7.468,-7.164 -17.589,-11.591 -28.757,-11.591c-22.965,0 -41.585,18.616 -41.585,41.58c0,16.896 10.095,31.41 24.568,37.918c-0.639,4.135 -0.99,8.328 -0.99,12.576c0,63.977 74.469,115.836 166.33,115.836c91.861,0 166.334,-51.859 166.334,-115.836c0,-4.218 -0.347,-8.387 -0.977,-12.493c14.564,-6.47 24.735,-21.034 24.735,-38.001Zm-119.474,108.193c-20.27,20.241 -59.115,21.816 -70.534,21.816c-11.428,0 -50.277,-1.575 -70.522,-21.82c-3.007,-3.008 -3.007,-7.882 0,-10.889c3.003,-2.999 7.882,-3.003 10.885,0c12.777,12.781 40.11,17.317 59.637,17.317c19.522,0 46.86,-4.536 59.657,-17.321c3.016,-2.999 7.886,-2.995 10.885,0.008c3.008,3.011 3.003,7.882 -0.008,10.889Zm-5.23,-48.781c-16.373,0 -29.701,-13.324 -29.701,-29.698c0,-16.381 13.328,-29.714 29.701,-29.714c16.378,0 29.706,13.333 29.706,29.714c0,16.374 -13.328,29.698 -29.706,29.698Zm-160.386,-29.702c0,-16.381 13.328,-29.71 29.714,-29.71c16.369,0 29.689,13.329 29.689,29.71c0,16.373 -13.32,29.693 -29.689,29.693c-16.386,0 -29.714,-13.32 -29.714,-29.693Z" />
+            </svg>
+        </a>
+    </li>
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share 1.1 Notions of Electrodynamics in Material Media on facebook"
+            href="https://facebook.com/sharer/sharer.php?u=https%3a%2f%2fhyul48.github.io%2fhyul-blog%2fprojects%2fgpr%2fchapter1_the_forward_problem%2fchapter1_1%2fchapter1_1_1%2f">
+            <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-106.468,0l0,-192.915l66.6,0l12.672,-82.621l-79.272,0l0,-53.617c0,-22.603 11.073,-44.636 46.58,-44.636l36.042,0l0,-70.34c0,0 -32.71,-5.582 -63.982,-5.582c-65.288,0 -107.96,39.569 -107.96,111.204l0,62.971l-72.573,0l0,82.621l72.573,0l0,192.915l-191.104,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Z" />
+            </svg>
+        </a>
+    </li>
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share 1.1 Notions of Electrodynamics in Material Media on whatsapp"
+            href="https://api.whatsapp.com/send?text=1.1%20Notions%20of%20Electrodynamics%20in%20Material%20Media%20-%20https%3a%2f%2fhyul48.github.io%2fhyul-blog%2fprojects%2fgpr%2fchapter1_the_forward_problem%2fchapter1_1%2fchapter1_1_1%2f">
+            <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-58.673,127.703c-33.842,-33.881 -78.847,-52.548 -126.798,-52.568c-98.799,0 -179.21,80.405 -179.249,179.234c-0.013,31.593 8.241,62.428 23.927,89.612l-25.429,92.884l95.021,-24.925c26.181,14.28 55.659,21.807 85.658,21.816l0.074,0c98.789,0 179.206,-80.413 179.247,-179.243c0.018,-47.895 -18.61,-92.93 -52.451,-126.81Zm-126.797,275.782l-0.06,0c-26.734,-0.01 -52.954,-7.193 -75.828,-20.767l-5.441,-3.229l-56.386,14.792l15.05,-54.977l-3.542,-5.637c-14.913,-23.72 -22.791,-51.136 -22.779,-79.287c0.033,-82.142 66.867,-148.971 149.046,-148.971c39.793,0.014 77.199,15.531 105.329,43.692c28.128,28.16 43.609,65.592 43.594,105.4c-0.034,82.149 -66.866,148.983 -148.983,148.984Zm81.721,-111.581c-4.479,-2.242 -26.499,-13.075 -30.604,-14.571c-4.105,-1.495 -7.091,-2.241 -10.077,2.241c-2.986,4.483 -11.569,14.572 -14.182,17.562c-2.612,2.988 -5.225,3.364 -9.703,1.12c-4.479,-2.241 -18.91,-6.97 -36.017,-22.23c-13.314,-11.876 -22.304,-26.542 -24.916,-31.026c-2.612,-4.484 -0.279,-6.908 1.963,-9.14c2.016,-2.007 4.48,-5.232 6.719,-7.847c2.24,-2.615 2.986,-4.484 4.479,-7.472c1.493,-2.99 0.747,-5.604 -0.374,-7.846c-1.119,-2.241 -10.077,-24.288 -13.809,-33.256c-3.635,-8.733 -7.327,-7.55 -10.077,-7.688c-2.609,-0.13 -5.598,-0.158 -8.583,-0.158c-2.986,0 -7.839,1.121 -11.944,5.604c-4.105,4.484 -15.675,15.32 -15.675,37.364c0,22.046 16.048,43.342 18.287,46.332c2.24,2.99 31.582,48.227 76.511,67.627c10.685,4.615 19.028,7.371 25.533,9.434c10.728,3.41 20.492,2.929 28.209,1.775c8.605,-1.285 26.499,-10.833 30.231,-21.295c3.732,-10.464 3.732,-19.431 2.612,-21.298c-1.119,-1.869 -4.105,-2.99 -8.583,-5.232Z" />
+            </svg>
+        </a>
+    </li>
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share 1.1 Notions of Electrodynamics in Material Media on telegram"
+            href="https://telegram.me/share/url?text=1.1%20Notions%20of%20Electrodynamics%20in%20Material%20Media&amp;url=https%3a%2f%2fhyul48.github.io%2fhyul-blog%2fprojects%2fgpr%2fchapter1_the_forward_problem%2fchapter1_1%2fchapter1_1_1%2f">
+            <svg version="1.1" xml:space="preserve" viewBox="2 2 28 28" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M26.49,29.86H5.5a3.37,3.37,0,0,1-2.47-1,3.35,3.35,0,0,1-1-2.47V5.48A3.36,3.36,0,0,1,3,3,3.37,3.37,0,0,1,5.5,2h21A3.38,3.38,0,0,1,29,3a3.36,3.36,0,0,1,1,2.46V26.37a3.35,3.35,0,0,1-1,2.47A3.38,3.38,0,0,1,26.49,29.86Zm-5.38-6.71a.79.79,0,0,0,.85-.66L24.73,9.24a.55.55,0,0,0-.18-.46.62.62,0,0,0-.41-.17q-.08,0-16.53,6.11a.59.59,0,0,0-.41.59.57.57,0,0,0,.43.52l4,1.24,1.61,4.83a.62.62,0,0,0,.63.43.56.56,0,0,0,.4-.17L16.54,20l4.09,3A.9.9,0,0,0,21.11,23.15ZM13.8,20.71l-1.21-4q8.72-5.55,8.78-5.55c.15,0,.23,0,.23.16a.18.18,0,0,1,0,.06s-2.51,2.3-7.52,6.8Z" />
+            </svg>
+        </a>
+    </li>
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share 1.1 Notions of Electrodynamics in Material Media on ycombinator"
+            href="https://news.ycombinator.com/submitlink?t=1.1%20Notions%20of%20Electrodynamics%20in%20Material%20Media&u=https%3a%2f%2fhyul48.github.io%2fhyul-blog%2fprojects%2fgpr%2fchapter1_the_forward_problem%2fchapter1_1%2fchapter1_1_1%2f">
+            <svg version="1.1" xml:space="preserve" width="30px" height="30px" viewBox="0 0 512 512" fill="currentColor"
+                xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape">
+                <path
+                    d="M449.446 0C483.971 0 512 28.03 512 62.554L512 449.446C512 483.97 483.97 512 449.446 512L62.554 512C28.03 512 0 483.97 0 449.446L0 62.554C0 28.03 28.029 0 62.554 0L449.446 0ZM183.8767 87.9921H121.8427L230.6673 292.4508V424.0079H281.3328V292.4508L390.1575 87.9921H328.1233L256 238.2489z" />
+            </svg>
+        </a>
+    </li>
+</ul>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="https://hyul48.github.io/hyul-blog/">Hyulmonologue</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = '복사';
+
+        function copyingDone() {
+            copybutton.innerHTML = '복사 완료!';
+            setTimeout(() => {
+                copybutton.innerHTML = '복사';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>
