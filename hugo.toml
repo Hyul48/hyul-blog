@@ -39,7 +39,7 @@ enableRobotsTXT = true
   ShowSearch = true
 
   [params.homeHero]
-    title = "Research notes, project logs, and technical writeups"
+    title = "Microwave Sensing and Imaging"
     intro = "A personal lab notebook for ML, electromagnetics, simulations, and code. Start from a section, search across the site, or jump into the newest writing."
     primaryButtonText = "Browse Projects"
     primaryButtonURL = "/projects/"
@@ -48,7 +48,7 @@ enableRobotsTXT = true
 
   [params.sidebarProfile]
     name = "Hyul"
-    role = "Student, builder, and research-oriented note taker"
+    
     location = "Seoul, South Korea"
     email = "you@example.com"
     summary = "Interested in AI, inverse problems, computational electromagnetics, and learning in public."
