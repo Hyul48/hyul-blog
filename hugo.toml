@@ -40,7 +40,7 @@ enableRobotsTXT = true
 
   [params.homeHero]
     title = "Microwave Sensing and Imaging"
-    intro = "A personal lab notebook for ML, electromagnetics, simulations, and code. Start from a section, search across the site, or jump into the newest writing."
+    intro = "Top Down studying"
     primaryButtonText = "Browse Projects"
     primaryButtonURL = "/projects/"
     secondaryButtonText = "Read Papers"
@@ -49,11 +49,11 @@ enableRobotsTXT = true
   [params.sidebarProfile]
     name = "Hyul"
     
-    location = "Seoul, South Korea"
-    email = "you@example.com"
+    location = "Gwangju, GIST"
+    email = "donghyul@gm.gist.com"
     summary = "Interested in AI, inverse problems, computational electromagnetics, and learning in public."
     focusTitle = "Current Focus"
-    focusItems = ["GPR study notes", "NeRF and 3D vision", "Simulation workflows", "Technical writing archive"]
+    focusItems = ["AI(PINN)", "electromagnetics", "Julia", "DSP"]
 
   [params.giscus]
     repo = ""
