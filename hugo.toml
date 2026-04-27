@@ -58,16 +58,16 @@ enableRobotsTXT = true
   [params.giscus]
     repo = "Hyul48/hyul-blog"
     repoID = "R_kgDOQzUq4A"
-    category = "General"
-    # Fill this after enabling GitHub Discussions and selecting a giscus category.
-    categoryID = ""
+    category = "Announcements"
+    categoryID = "DIC_kwDOQzUq4M4C7w30"
     mapping = "pathname"
     strict = "0"
     reactionsEnabled = "1"
     emitMetadata = "0"
-    inputPosition = "top"
+    inputPosition = "bottom"
     theme = "preferred_color_scheme"
     lang = "ko"
+    loading = "lazy"
 
 [outputs]
   home = ["HTML", "RSS", "JSON"]  # 검색용 JSON 필요
