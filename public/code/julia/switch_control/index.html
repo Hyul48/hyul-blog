@@ -124,8 +124,8 @@
   "keywords": [
     
   ],
-  "articleBody": "Switch control 이번 포스트는 줄리아를 이용해 RF 스위치를 제어하는 방법에 대해 다뤄보도록한다.\n사용한 장비는 NI USB-6501(디지털 I/O)을 활용해 mini circuit의 TTL-1S4PT(스위치)이다.\n제어 다이어 그램은 다음과 같다.\n전자공학 기초 실험을 접해본 분들이라면 ‘디지털 신호에 의한 제어’라는 개념이 익숙하실 겁니다. 우리가 흔히 사용하는 RF 스위치 제어 시스템도 알고 보면 이 기초적인 원리를 따릅니다.\n컴퓨터 내부의 데이터는 본질적으로 ‘0’과 ‘1’의 조합입니다. 하지만 컴퓨터 자체로는 실제 하드웨어에 전기적 신호를 보낼 수 없습니다. 이때 NI USB-6501과 같은 Digital I/O 모듈이 가교 역할을 합니다.\n사용자가 제어 소프트웨어에서 특정 명령을 내리면 USB-6501은 이를 받아 미리 약속된 디지털 값을 실제 물리적인 전압으로 변환하여 내보냅니다.\n제어 모듈에서 나온 전압신호는 TTL-1S4PT의 제어핀으로 입력됩니다. 스위치 내부에는 이 입력된 전압의 조합을 해석하는 ‘디코더’ 회로가 들어있습니다. 예를 들어 세개의 제어 선에 각각 Low-Low-High라는 신호가 들어오면 스위치 내부에서는 2번 포트와 COM포트를 연결하라는 논리로 해석합니다. 이 해석 결과에 따라 내부 소자가 동작하여 RF 경로가 물리적을 연결되는 원리입니다.\n먼저 필자의 코딩 스타일은 적당한 모듈화를 선호하기 때문에(추후에 재활용성이 높아짐) 스위치 제어 모듈을 Julia로 작성하는 방법에 대해 다뤄보겠습니다.\nmodule SwitchMIMOControl 먼저 모듈을 선언해 줍니다. 실제로 통합코드에서는 switchMIMOControl 모듈을 불러와서 사용해주면 됩니다.\n",
-  "wordCount" : "173",
+  "articleBody": "Switch control 이번 포스트는 줄리아를 이용해 RF 스위치를 제어하는 방법에 대해 다뤄보도록한다.\n사용한 장비는 NI USB-6501(디지털 I/O)을 활용해 mini circuit의 TTL-1S4PT(스위치)이다.\n제어 다이어 그램은 다음과 같다.\n전자공학 기초 실험을 접해본 분들이라면 ‘디지털 신호에 의한 제어’라는 개념이 익숙하실 겁니다. 우리가 흔히 사용하는 RF 스위치 제어 시스템도 알고 보면 이 기초적인 원리를 따릅니다.\n컴퓨터 내부의 데이터는 본질적으로 ‘0’과 ‘1’의 조합입니다. 하지만 컴퓨터 자체로는 실제 하드웨어에 전기적 신호를 보낼 수 없습니다. 이때 NI USB-6501과 같은 Digital I/O 모듈이 가교 역할을 합니다.\n사용자가 제어 소프트웨어에서 특정 명령을 내리면 USB-6501은 이를 받아 미리 약속된 디지털 값을 실제 물리적인 전압으로 변환하여 내보냅니다.\n제어 모듈에서 나온 전압신호는 TTL-1S4PT의 제어핀으로 입력됩니다. 스위치 내부에는 이 입력된 전압의 조합을 해석하는 ‘디코더’ 회로가 들어있습니다. 예를 들어 세개의 제어 선에 각각 Low-Low-High라는 신호가 들어오면 스위치 내부에서는 2번 포트와 COM포트를 연결하라는 논리로 해석합니다. 이 해석 결과에 따라 내부 소자가 동작하여 RF 경로가 물리적을 연결되는 원리입니다.\n먼저 필자의 코딩 스타일은 적당한 모듈화를 선호하기 때문에(추후에 재활용성이 높아짐) 스위치 제어 모듈을 Julia로 작성하는 방법에 대해 다뤄보겠습니다.\n1 module SwitchMIMOControl 먼저 모듈을 선언해 줍니다. 실제로 통합코드에서는 switchMIMOControl 모듈을 불러와서 사용해주면 됩니다.\n1 2 3 export RFPort, PORT_1, PORT_2, PORT_3, PORT_4 export AbstractSwitchBackend, MockSwitchBackend, FunctionSwitchBackend, NIDaqSwitchBackend export SwitchController, set_switch_state!, select_port!, all_off!, active_port 실제 모듈에서 선언된 함수들을 밖에서 불러오기 위해선 export로 선언을 해줘야 합니다.\n1 2 3 4 5 6 @enum RFPort::Int begin PORT_1 = 1 PORT_2 = 2 PORT_3 = 3 PORT_4 = 4 end 먼저 코드의 가독성을 높이기 위해 1,2,3,4로 선언되어 있는 port를 PORT_1, PORT_2,…로 변경해 줍니다.\n굳이 이렇게 해주는 이유는\n1 select_port!(controller, PORT_1) 이 코드가\n1 select_port!(controller, 1) 이 코드보다 의미가 명확하기 때문입니다.(1이 포트를 의미하는지 숫자 1을 의미하는지 알 수 없음)\n추상 타입으로 백엔드 계층 만들기 제가 생각하는 julia 언어의 장점은 추상 타입 + 다중 디스패치입니다.\n추상 타입 : 유연한 계층 구조의 설계도 Juila에서 추상 타입은 실제 값을 가지지는 않지만, 다른 타입들을 묶어주는 카테고리 역할을 합니다. 예를 들어 AbstractAntenna나 AbstractSensor 같은 타입을 정의해두면, 나중에 새로운 장비가 추가되어도 기존 로직을 추가할 필요가 없습니다.\n다중 디스패치 : 상황에 맞는 가장 똑똑한 함수 호출 Julia의 꽃이라고 불리는 다중 디스패치는 함수의 인자로 들어온 모든 타입과 조합을 보고 가장 적합한 함수 버전을 실행하는 방식입니다.\n객체지향(Python, C++ 등) : 보통의 OOP는 ‘메서드’가 객체에 속해 있어 object.method() 형태를 띱니다. 반면 Julia는 method(arg1, arg2) 형태이며, arg1과 arg2에 따라 실행될 코드가 결정됩니다. 실제 동작 : transmit(antenna, siganl)이라는 함수가 있을 때 type(antenna) = horn인지 type(antenna) = patch인지에 따라 최적화된 연산을 자동으로 수행합니다. Comapare Python vs Julia\n1 2 3 4 5 6 7 8 9 10 11 12 # python 코드 class PatchAntenna: def transmit(self, signal): print(f\"Patch Antenna: Transmitting {signal}\") class HornAntenna: def transmit(self, signal): print(f\"Horn Antenna: Transmitting {signal}\") # 호출 방식 antenna = PatchAntenna() antenna.transmit(\"5G Signal\") # 주체인 antenna가 무엇인지에 따라 결정됨 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 # 줄리아 코드 abstract type AbstractAntenna end struct PatchAntenna \u003c: AbstractAntenna end struct HornAntenna \u003c: AbstractAntenna end abstract type AbstractSignal end struct DigitalSignal \u003c: AbstractSignal end struct AnalogSignal \u003c: AbstractSignal end # 함수가 객체 밖에서 정의됨 (다양한 조합) transmit(ant::PatchAntenna, sig::DigitalSignal) = println(\"Patch + Digital: High-speed switching\") transmit(ant::PatchAntenna, sig::AnalogSignal) = println(\"Patch + Analog: Basic modulation\") transmit(ant::HornAntenna, sig::DigitalSignal) = println(\"Horn + Digital: High-gain directional\") # 호출 방식 ant = PatchAntenna() sig = DigitalSignal() transmit(ant, sig) # 인자 두 개(ant, sig)의 타입을 모두 고려해 최적의 함수를 선택 따라서 스위치를의 백엔드를 2개로 쪼개봅시다.\n1 abstract type AbstractSwitchBackend end Backend에 대한 추상객체를 정의해줍니다.\n백엔드 역할 MockSwitchBackend 실제 장비 없이 명령 로그만 기록 NIDaqSwitchBackend NI-DAQ 장비를 통해 실제 디지털 출력 수행 1 2 3 mutable struct MockSwitchBackend \u003c: AbstractSwitchBackend log::Vector{NamedTuple{(:timestamp, :command), Tuple{DateTime, Any}}} end 해당 벡엔드는 실제 장비를 건드리지 않고, 어떤 명령이 내려졌는지만 기록합니다.\n1 2 3 4 5 6 7 mutable struct NIDaqSwitchBackend \u003c: AbstractSwitchBackend task_handle::Ptr{Cvoid} line_spec::String drive_type::Union{Nothing,Int32} started::Bool log::Vector{NamedTuple{(:timestamp, :command), Tuple{DateTime, Any}}} end 해당 벡엔드는 실제로 장비를 컨트롤 하는 명령을 전달합니다. 하드웨어 컨트롤 코드를 짤때는 Mock 버전의 코드를 작성하는 것도 하나의 좋은 방법입니다.\nSwitchController : 전체 상태 관리 객체 1 2 3 4 5 6 7 mutable struct SwitchController{B\u003c:AbstractSwitchBackend,C} backend::B port_commands::Dict{RFPort,C} off_command::C settle_time_s::Float64 active::Union{Nothing,RFPort} end 먼저 매개 변수가 다음과 같이 정의되어있습니다. B\u003c:AbstractSwitchBackend,C 의미는 B라는 매개 변수와 C라는 매개변수를 받는데 B는 Backend 객체가 들어와야하고 C는 아직 타입에 대한 정의가 없습니다.\n이 구조체는 RF 스위치 제어에 필요한 모든 상태를 담고 있습니다.\n필드 의미 backend 실제 명령을 처리할 백엔드 port_commands 각 포트에 대응하는 명령 off_command 모든 포트를 끄는 명령 settle_time_s 포트 전환 후 안정화 대기 시간 active 현재 선택된 포트 Dict, Float는 아마 다들 아시겠지만 Union은 익숙하지 않을 수 있습니다. Union은 “정수이거나 문자열\"이라는 뜻을 가집니다. 좀 더 엄밀히 따져보자면… Julia에는 Any를 선언할 수 있습니다. 내가 타입을 모를 때 Any를 선언하면 줄리아가 후보군들을 파악하여 최적화를 진행하는데 이 때 후보군을 좁혀 코드의 속도를 빠르게 해주는 역할을 합니다.\n컨트롤러 생성자 생성자는 구조(Struct)를 생성 및 설정하는 함수를 의미합니다.\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 function SwitchController( backend::B; port_commands::AbstractDict = Dict( PORT_1 =\u003e :RF1_ON, PORT_2 =\u003e :RF2_ON, PORT_3 =\u003e :RF3_ON, PORT_4 =\u003e :RF4_ON, ), off_command = :RF_OFF, settle_time_s::Real = 0.1, ) where {B\u003c:AbstractSwitchBackend} typed_commands = Dict{RFPort, typeof(off_command)}() for port in instances(RFPort) haskey(port_commands, port) || error(\"Missing switch command for $port\") typed_commands[port] = convert(typeof(off_command), port_commands[port]) end return SwitchController( backend, typed_commands, off_command, Float64(settle_time_s), nothing, ) end 위 코드는 SwitchContoller라는 객체를 처음 만들 때 활용하는 생성자 코드입니다. 내가 PORT_1이라는 신호를 보내면 RF1_ON이라는 신호를 보내라고 약속하는 Dict를 정의합니다.\n1 2 3 for port in instances(RFPort) haskey(port_commands, port) || error(\"Missing switch command for $port\") end 는 port_commands 안에 이 4개의 명령어가 전부 들어있는지 확인합니다. 일종의 안정성 검사입니다. 이후 Switchcontroller 객체를 반환하는 것을 확인할 수 있습니다.\n디지털 출력 패턴\n1 2 3 4 5 6 default_port_commands() = Dict( PORT_1 =\u003e UInt8[1, 1, 0], PORT_2 =\u003e UInt8[0, 1, 0], PORT_3 =\u003e UInt8[1, 0, 0], PORT_4 =\u003e UInt8[0, 0, 0], ) 파이썬에도 함수를 간략하게 선언하는 방법이 있듯이 julia도 단축형 함수 정의가 있습니다. 함수 default_port_commands()를 호출하면 Dict를 반환해주는 역할을 합니다. Dict는 PORT_#(RF#_ON) 명령어가 어떤 디지털 코드를 가지는지 정리되어 있습니다.\n여기까지 따라오신 분들은 굳이 코드를 이렇게 어렵게 짜는 이유에 대해 궁금하실 수 있습니다. “그냥 RF1 킬거면 UInt8[1, 1, 0] 보내도록 작성하면 되는거 아닐까?“라고 새각할 수 있는데 사실 맞습니다… ㅎㅎ 굳이 이렇게 짠 이우는 지금 제 스위치는 UInt8[1, 1, 0]이 RF1_ON 신호일 수도 있지만 다른 스위치는 그렇지 않을 수도 있죠… 그래서 코드의 재활용성을 높이는 방안이라고 보시면 될 거 같습니다. 예를 들어 스위치 2의 제어신호가 다르다면 다음과 같은 정의를 추가 정의할 수 있겠죠\n1 2 3 4 5 6 switch2_port_commands() = Dict( PORT_1 =\u003e UInt8[0, 0, 1], PORT_2 =\u003e UInt8[0, 1, 0], PORT_3 =\u003e UInt8[1, 0, 0], PORT_4 =\u003e UInt8[0, 1, 1], ) 스위치가 아니여도 디코더로 동작하는 녀석들이라면 모두 가능할겁니다.\nNI-DAQ 연동: Julia의 ccall 해당 부분이 하드웨어 연동의 핵심입니다. 단순히 usb를 꽂는다고 julia가 알아서 usb가 꽂혔으니깐 이 장비를 조작하면 되겠구나!라고 생각하진 않을겁니다. 따라서 내가 제어할 장비에 대해서 선을이 필요합니다.\n1 2 3 4 5 6 7 8 9 const NIDAQMX_LIB = \"nicaiu.dll\" status = ccall( (:DAQmxGetSysDevNames, NIDAQMX_LIB), Int32, (Ptr{UInt8}, UInt32), buf, UInt32(length(buf)) ) ccall함수는 C 라이브러리 함수를 직접 호출할 수 있게 해줍니다. 여기서는 nicaiu.dll, 즉 NI-DAQmx 드라이버의 DLL을 호출합니다.\n사실 장비제어에서 ccall은 Julia가 python보다 이점을 가질 수 있는 이유중 하나입니다. Julia는 별도의 라이브러리 작성 없이 ccall 키워드를 통해 C 라이브러리 함수를 직접 호출할 수 있습니다. 따라서 거의 C 속도에 근접할 수 있습니다. Python 역시 C API가 존재하지만 인터프리터 언어의 특성때문에(C가 이해하려면 추가 번역이 필요합니다.) 성능이 떨어집니다.(사실 이 과정은 여러번 호출할 때 의미가 있습니다.)\n아래는 nicaiu.dll 라이브러리에 정의된 함수들입니다.\n함수명 용도 (Purpose) 주요 매개변수 (C 기준) Julia 대응 타입 (ccall용) DAQmxGetExtendedErrorInfo 마지막으로 발생한 상세 에러 메시지 조회 char errorString[], uInt32 bufferSize (Ptr{UInt8}, UInt32) DAQmxGetSysDevNames 시스템에 연결된 모든 NI 장비 이름 조회 char data[], uInt32 bufferSize (Ptr{UInt8}, UInt32) DAQmxCreateTask 새로운 작업(Task) 생성 const char taskName[], TaskHandle *taskHandle (Cstring, Ptr{Ptr{Nothing}}) DAQmxStartTask 설정된 작업 시작 TaskHandle taskHandle (Ptr{Nothing},) DAQmxStopTask 실행 중인 작업 중지 TaskHandle taskHandle (Ptr{Nothing},) DAQmxClearTask 작업 삭제 및 리소스 해제 TaskHandle taskHandle (Ptr{Nothing},) DAQmxGetErrorString 에러 코드(숫자)를 기본 메시지로 변환 int32 errorCode, char errorString[], uInt32 bufferSize (Int32, Ptr{UInt8}, UInt32) DAQmxWriteDigitalLines 디지털 라인에 데이터(전압) 출력 taskHandle, numSamps, autoStart, timeout, layout, writeArray, sampsWritten, reserved (Ptr{Cvoid}, Int32, UInt32, Float64, UInt32, Ptr{UInt8}, Ref{Int32}, Ptr{Cvoid}) 이제 julia에서 라이브러리를 이용해 필요한 함수를 만들어줍니다.\n에러 판별(장치 연결)\n1 2 3 4 5 6 7 8 9 function nidaqmx_check(code::Integer, msg::AbstractString) code \u003c 0 || return nothing errbuf = Vector{UInt8}(undef, 2048) ccall((:DAQmxGetExtendedErrorInfo, NIDAQMX_LIB), Int32, (Ptr{UInt8}, UInt32), errbuf, UInt32(length(errbuf))) terminator = findfirst(==(0x00), errbuf) detail = terminator === nothing ? String(errbuf) : String(errbuf[1:terminator-1]) error(\"NI-DAQmx error $code while $msg: $detail\") end DAQ에서 보낸 에러 메세지를 받아오는 명령어입니다. C는 항상 문장의 끝에 0x00을 붙여주기 때문에 이를 이용하여 종결차를 찾아 실제로 끝나는 지점까지만 자르는게 가능합니다. 물론 0x00으로 안끝날 수도 있으니 그 부분에 대한 예외 처리가 필요합니다.(detail = terminator === nothing ? String(errbuf) : String(errbuf[1:terminator-1])) 이 코드를 이해하기 위해선 실제로 활용되는 것을 보는게 도움이 됩니다.\n1 2 3 4 5 6 7 8 function list_nidaq_devices() buf = Vector{UInt8}(undef, 4096) status = ccall((:DAQmxGetSysDevNames, NIDAQMX_LIB), Int32, (Ptr{UInt8}, UInt32), buf, UInt32(length(buf))) nidaqmx_check(status, \"listing NI-DAQ devices\") terminator = findfirst(==(0x00), buf) text = terminator === nothing ? String(buf) : String(buf[1:terminator-1]) return filter(!isempty, strip.(split(text, ','))) end 위의 함수는 연결된 장비를 조회하는 코드인데 연결된 장비를 찾고 code가 0보다 작으면 이 때 에러가 발생하면 에러 메세지를 출력합니다.\n디지털 전압 출력을 위한 함수 구현 : 다중 디스패치 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 function set_switch_state!(backend::MockSwitchBackend, command) push!(backend.log, (timestamp = now(), command = command)) return command end function set_switch_state!(backend::NIDaqSwitchBackend, command) # 데이터 타입에 대한 엄밀한 검사 진행 bytes = command isa AbstractVector ? UInt8.(collect(command)) : throw(ArgumentError(\"NI-DAQ backend expects a vector command, got $(typeof(command))\")) samps_written = Ref{Int32}(0) data = Vector{UInt8}(bytes) status = ccall( (:DAQmxWriteDigitalLines, NIDAQMX_LIB), Int32, (Ptr{Cvoid}, Int32, UInt32, Float64, UInt32, Ptr{UInt8}, Ref{Int32}, Ptr{Cvoid}), backend.task_handle, # 제어할 장비 1, 1, 10.0, DAQMX_VAL_GROUP_BY_CHANNEL, pointer(data), # 포인터로 직접 넘기기 때문에 C 언어와 같은 속도로 동작 samps_written, C_NULL, ) nidaqmx_check(status, \"writing switch command $(collect(data))\") backend.started = true push!(backend.log, (timestamp = now(), command = copy(data))) return copy(data) end 위는 디지털 전압 출력을 위한 함수를 정의합니다. 백엔드의 종류에 따라 2개의 함수를 구현합니다. MockSwitchBackend의 : 경우 단순히 log에 무슨 명령어를 추가했는지 확인합니다. NIDaqSwitchBackend의 경우 : 먼저 C는 Julia보다 훨씬 데이터 타입에 엄격합니다. 데이터 타입 검사가 엄밀하게 진행되어야 합니다.\n위의 코드에서 ccall을 통해 불러온 함수의 인자들을 살펴보면 다음과 같습니다.\n인자 위치 값/변수 설명 (Physical Meaning) 1st backend.task_handle 제어할 장비(USB-6501)의 고유 식별자, 즉 핸들 2nd 1 각 채널당 쓸 데이터 샘플 수임. 단발성 스위칭이라 1개만 씀. 3rd 1 autoStart 옵션임. 1(True)로 설정해서 호출 즉시 전압이 바뀌게 함.(즉시 시작 옵션) 4th 10.0 언제까지? 타임아웃 시간(초)임. 10초 안에 명령이 안 들어가면 에러를 냄. 5th DAQMX_VAL_GROUP_BY_CHANNEL 어떤 순서로? 데이터를 채널별로 묶어서 배치하겠다는 설정임. 6th pointer(data) 실제 신호([1, 1, 0])가 담긴 메모리 주소를 넘겨줌. 직통 통로의 핵심임. 7th samps_written 확인용 : “실제로 몇 개가 써졌니?”를 장비에 되묻기 위해 Ref 주소를 넘겨줌. 8th C_NULL 예약 공간 : NI 드라이버 규격상 현재는 쓰지 않는 빈 자리임. PORT 선택 이제 선택된 포트로 데이터 전압을 출력해봅시다.\n1 2 3 4 5 6 7 function select_port!(controller::SwitchController, port::RFPort; settle::Bool = true) command = controller.port_commands[port] set_switch_state!(controller, command) controller.active = port settle \u0026\u0026 sleep(controller.settle_time_s) return port end 동작 순서는 간단합니다. 매개변수로 port를 받으면 port에 해당하는 명령을 찾습니다. 이후 해당 명령을 백엔드로 보내고 현재 활성 포트 상태를 업데이트 합니다. 또한 데이터 입출력 및 장비제어 시간이 필요하므로 안정화 시간을 기다린 후 선택된 포트를 return해 줍니다. julia에선 관례적으로 객체의 상태를 변환하는 함수의 이름에는 !를 쓴다는 것도 알아두면 좋습니다.\n모든 포트 끄기 1 2 3 4 5 6 function all_off!(controller::SwitchController; settle::Bool = true) set_switch_state!(controller, controller.off_command) controller.active = nothing settle \u0026\u0026 sleep(controller.settle_time_s) return nothing end PORT 선택과 메카니즘은 거의 동일합니다. 어떻게 동작하는지는 PORT 선택을 참고하시면 됩니다.\nCycle_PORTS : 순환 측정을 위한 제어 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 function cycle_ports!( f::Function, controller::SwitchController; ports = instances(RFPort), settle::Bool = true, switch_off_at_end::Bool = false, ) port_list = collect(ports) results = Vector{Any}(undef, length(port_list)) try for (i, port) in pairs(port_list) rf_port = port isa RFPort ? port : RFPort(port) select_port!(controller, rf_port; settle = settle) results[i] = f(rf_port) end catch if switch_off_at_end try all_off!(controller; settle = settle) catch err @warn \"Failed to switch all ports off after port-cycle error\" exception = err end end rethrow() end if switch_off_at_end all_off!(controller; settle = settle) end return results end 저에게 필요한 작업이 포트를 순회하면서 데이터를 여러 프레임 측정해야 하기때문에 port를 순회하는 코드를 정의해줍시다. 즉 RF1측정 $\\rightarrow$ … $\\rightarrow$ RF4측정을 한 개의 함수로 할 수 있도록 정의합니다. f::Function을 보면 아시겠지만 함수를 그때 그때 호출하여 사용합니다. 예를들면 function = on을 쓰면 순환하면서 on하는 함수를 호출하고 function = off를 하면 순환하면서 off하는 함수를 호출합니다.(사실 이 프로젝트와는 큰 상관이 없는 예시입니다.) 컴파일러 언어의 특성은 해당 작업이 심한 오버헤드를 발생시키지 않는다는 장점이 있습니다. 이렇게 코드를 작성했을 때 장점은 다음과 같은 응용이 가능해집니다.\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 SwitchMIMOControl.cycle_ports!(controller; ports = 1:N_SWITCH_PORTS, switch_off_at_end = true) do port port_num = Int(port) println(\"\\n[$pass_name] Selecting switch port $port_num...\") cal = cal_by_port[port] activate_calset(instr, cal) println(\"[$pass_name] Acquiring VNA trace at port $port_num...\") freq, s11_raw, s11_cal = acquire_calibrated_trace(instr, cal; n_avg = n_avg) point_dir = joinpath(pass_dir, port_dirname(port)) mkpath(point_dir) save_live_outputs(point_dir, freq, s11_raw, s11_cal; save_snapshot = true) print_live_summary(port_num, freq, s11_raw, s11_cal) push!(point_dirs, point_dir) return nothing end port를 순환하면서\n1 2 3 4 5 6 7 8 9 10 11 do port port_num = Int(port) println(\"\\n[$pass_name] Selecting switch port $port_num...\") cal = cal_by_port[port] activate_calset(instr, cal) # ... (VNA 데이터 측정 및 저장 로직들) ... push!(point_dirs, point_dir) return nothing end 와 같은 동작들이 함수처럼 정의가 되면서 통채로 f처럼 작동하게 할 수 있습니다. 간단하게 말해서\n“내가 순환하면서 어떤 동작을 할진 모르겠는데 그건 나중에 정의할 테니깐 포트를 순환하면서 어떤 동작을 하는 로직을 정의해줘. 어떤 동작은 do와 end사이에 정의될거야”\n해당 로직은 굉장히 강력한 무기가 됩니다. 예를 들어 봅시다. RF에서 측정을 위해선 calibration, background측정, target측정이 필요합니다. 이 3가지 과정 모두 cycle_port가 필요합니다. 그럼 3가지 과정은 순차적으로 다음과 같이 정의가 됩니다.\n1 2 3 cycle_port!(...) do port (캘리브레이션) end cycle_port!(...) do port (백그라운드 측정) end cycle_port!(...) do port (타겟 측정) end 이렇게 줄리아 스위치 제어 모듈이 완성됐습니다… 사실 이 코드를 작성하면서 G선생님의 도움이 너무 컸지만 막상 정리를 하다보니 다시금 JULIA 언어의 매력에 빠지게 되네요… 그럼 이만(공격적인 피드백 적극 수용)\n",
+  "wordCount" : "2322",
   "inLanguage": "en",
   "datePublished": "0001-01-01T00:00:00Z",
   "dateModified": "0001-01-01T00:00:00Z",
@@ -212,7 +212,7 @@
     <div class="post-description">
       Julia Switch Controller
     </div>
-    <div class="post-meta"><span>1 분</span>
+    <div class="post-meta"><span>11 분</span>
 
 </div>
   </header> <div class="toc">
@@ -223,8 +223,23 @@
 
         <div class="inner"><ul>
                 <li>
-                    <a href="#switch-control" aria-label="Switch control">Switch control</a>
+                    <a href="#switch-control" aria-label="Switch control">Switch control</a><ul>
+                        
+                <li>
+                    <a href="#%ec%b6%94%ec%83%81-%ed%83%80%ec%9e%85%ec%9c%bc%eb%a1%9c-%eb%b0%b1%ec%97%94%eb%93%9c-%ea%b3%84%ec%b8%b5-%eb%a7%8c%eb%93%a4%ea%b8%b0" aria-label="추상 타입으로 백엔드 계층 만들기">추상 타입으로 백엔드 계층 만들기</a></li>
+                <li>
+                    <a href="#switchcontroller--%ec%a0%84%ec%b2%b4-%ec%83%81%ed%83%9c-%ea%b4%80%eb%a6%ac-%ea%b0%9d%ec%b2%b4" aria-label="SwitchController : 전체 상태 관리 객체">SwitchController : 전체 상태 관리 객체</a></li>
+                <li>
+                    <a href="#%eb%94%94%ec%a7%80%ed%84%b8-%ec%a0%84%ec%95%95-%ec%b6%9c%eb%a0%a5%ec%9d%84-%ec%9c%84%ed%95%9c-%ed%95%a8%ec%88%98-%ea%b5%ac%ed%98%84--%eb%8b%a4%ec%a4%91-%eb%94%94%ec%8a%a4%ed%8c%a8%ec%b9%98" aria-label="디지털 전압 출력을 위한 함수 구현 : 다중 디스패치">디지털 전압 출력을 위한 함수 구현 : 다중 디스패치</a></li>
+                <li>
+                    <a href="#port-%ec%84%a0%ed%83%9d" aria-label="PORT 선택">PORT 선택</a></li>
+                <li>
+                    <a href="#%eb%aa%a8%eb%93%a0-%ed%8f%ac%ed%8a%b8-%eb%81%84%ea%b8%b0" aria-label="모든 포트 끄기">모든 포트 끄기</a></li>
+                <li>
+                    <a href="#cycle_ports--%ec%88%9c%ed%99%98-%ec%b8%a1%ec%a0%95%ec%9d%84-%ec%9c%84%ed%95%9c-%ec%a0%9c%ec%96%b4" aria-label="Cycle_PORTS : 순환 측정을 위한 제어">Cycle_PORTS : 순환 측정을 위한 제어</a>
                 </li>
+            </ul>
+            </li>
             </ul>
         </div>
     </details>
@@ -240,8 +255,842 @@
 <p>사용자가 제어 소프트웨어에서 특정 명령을 내리면 USB-6501은 이를 받아 미리 약속된 디지털 값을 실제 물리적인 전압으로 변환하여 내보냅니다.</p>
 <p>제어 모듈에서 나온 전압신호는 TTL-1S4PT의 제어핀으로 입력됩니다. 스위치 내부에는 이 입력된 전압의 조합을 해석하는 &lsquo;디코더&rsquo; 회로가 들어있습니다. 예를 들어 세개의 제어 선에 각각 Low-Low-High라는 신호가 들어오면 스위치 내부에서는 2번 포트와 COM포트를 연결하라는 논리로 해석합니다. 이 해석 결과에 따라 내부 소자가 동작하여 RF 경로가 물리적을 연결되는 원리입니다.</p>
 <p>먼저 필자의 코딩 스타일은 적당한 모듈화를 선호하기 때문에(추후에 재활용성이 높아짐) 스위치 제어 모듈을 Julia로 작성하는 방법에 대해 다뤄보겠습니다.</p>
-<p><code>module SwitchMIMOControl</code>
-먼저 모듈을 선언해 줍니다. 실제로 통합코드에서는 switchMIMOControl 모듈을 불러와서 사용해주면 됩니다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-julia" data-lang="julia"><span class="line"><span class="cl"><span class="k">module</span> <span class="n">SwitchMIMOControl</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>먼저 모듈을 선언해 줍니다. 실제로 통합코드에서는 switchMIMOControl 모듈을 불러와서 사용해주면 됩니다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-julia" data-lang="julia"><span class="line"><span class="cl"><span class="k">export</span> <span class="n">RFPort</span><span class="p">,</span> <span class="n">PORT_1</span><span class="p">,</span> <span class="n">PORT_2</span><span class="p">,</span> <span class="n">PORT_3</span><span class="p">,</span> <span class="n">PORT_4</span>
+</span></span><span class="line"><span class="cl"><span class="k">export</span> <span class="n">AbstractSwitchBackend</span><span class="p">,</span> <span class="n">MockSwitchBackend</span><span class="p">,</span> <span class="n">FunctionSwitchBackend</span><span class="p">,</span> <span class="n">NIDaqSwitchBackend</span>
+</span></span><span class="line"><span class="cl"><span class="k">export</span> <span class="n">SwitchController</span><span class="p">,</span> <span class="n">set_switch_state!</span><span class="p">,</span> <span class="n">select_port!</span><span class="p">,</span> <span class="n">all_off!</span><span class="p">,</span> <span class="n">active_port</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>실제 모듈에서 선언된 함수들을 밖에서 불러오기 위해선 export로 선언을 해줘야 합니다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-julia" data-lang="julia"><span class="line"><span class="cl"><span class="nd">@enum</span> <span class="n">RFPort</span><span class="o">::</span><span class="kt">Int</span> <span class="k">begin</span>
+</span></span><span class="line"><span class="cl">    <span class="n">PORT_1</span> <span class="o">=</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">    <span class="n">PORT_2</span> <span class="o">=</span> <span class="mi">2</span>
+</span></span><span class="line"><span class="cl">    <span class="n">PORT_3</span> <span class="o">=</span> <span class="mi">3</span>
+</span></span><span class="line"><span class="cl">    <span class="n">PORT_4</span> <span class="o">=</span> <span class="mi">4</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>먼저 코드의 가독성을 높이기 위해 1,2,3,4로 선언되어 있는 port를 PORT_1, PORT_2,&hellip;로 변경해 줍니다.</p>
+<p>굳이 이렇게 해주는 이유는</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-julia" data-lang="julia"><span class="line"><span class="cl"><span class="n">select_port!</span><span class="p">(</span><span class="n">controller</span><span class="p">,</span> <span class="n">PORT_1</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>이 코드가</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-julia" data-lang="julia"><span class="line"><span class="cl"><span class="n">select_port!</span><span class="p">(</span><span class="n">controller</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>이 코드보다 의미가 명확하기 때문입니다.(1이 포트를 의미하는지 숫자 1을 의미하는지 알 수 없음)</p>
+<h2 id="추상-타입으로-백엔드-계층-만들기">추상 타입으로 백엔드 계층 만들기<a hidden class="anchor" aria-hidden="true" href="#추상-타입으로-백엔드-계층-만들기">#</a></h2>
+<p>제가 생각하는 <code>julia</code> 언어의 장점은 추상 타입 + 다중 디스패치입니다.</p>
+<p><strong>추상 타입 : 유연한 계층 구조의 설계도</strong>
+<code>Juila</code>에서 추상 타입은 실제 값을 가지지는 않지만, 다른 타입들을 묶어주는 카테고리 역할을 합니다. 예를 들어 <code>AbstractAntenna</code>나 <code>AbstractSensor</code> 같은 타입을 정의해두면, 나중에 새로운 장비가 추가되어도 기존 로직을 추가할 필요가 없습니다.</p>
+<p><strong>다중 디스패치 : 상황에 맞는 가장 똑똑한 함수 호출</strong>
+<code>Julia</code>의 꽃이라고 불리는 다중 디스패치는 함수의 인자로 들어온 모든 타입과 조합을 보고 가장 적합한 함수 버전을 실행하는 방식입니다.</p>
+<ul>
+<li>객체지향(Python, C++ 등) : 보통의 OOP는 &lsquo;메서드&rsquo;가 객체에 속해 있어 <code>object.method()</code> 형태를 띱니다. 반면 <code>Julia</code>는 <code>method(arg1, arg2)</code> 형태이며, arg1과 arg2에 따라 실행될 코드가 결정됩니다.</li>
+<li>실제 동작 : <code>transmit(antenna, siganl)</code>이라는 함수가 있을 때 <code>type(antenna) = horn</code>인지 <code>type(antenna) = patch</code>인지에 따라 최적화된 연산을 자동으로 수행합니다.</li>
+</ul>
+<p><strong>Comapare Python vs Julia</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># python 코드</span>
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">PatchAntenna</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">transmit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signal</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;Patch Antenna: Transmitting </span><span class="si">{</span><span class="n">signal</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">HornAntenna</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">transmit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signal</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;Horn Antenna: Transmitting </span><span class="si">{</span><span class="n">signal</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 호출 방식</span>
+</span></span><span class="line"><span class="cl"><span class="n">antenna</span> <span class="o">=</span> <span class="n">PatchAntenna</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">antenna</span><span class="o">.</span><span class="n">transmit</span><span class="p">(</span><span class="s2">&#34;5G Signal&#34;</span><span class="p">)</span> <span class="c1"># 주체인 antenna가 무엇인지에 따라 결정됨</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-Julia" data-lang="Julia"><span class="line"><span class="cl"><span class="c"># 줄리아 코드</span>
+</span></span><span class="line"><span class="cl"><span class="k">abstract type</span> <span class="kt">AbstractAntenna</span> <span class="k">end</span>
+</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="kt">PatchAntenna</span> <span class="o">&lt;:</span> <span class="kt">AbstractAntenna</span> <span class="k">end</span>
+</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="kt">HornAntenna</span> <span class="o">&lt;:</span> <span class="kt">AbstractAntenna</span> <span class="k">end</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">abstract type</span> <span class="kt">AbstractSignal</span> <span class="k">end</span>
+</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="kt">DigitalSignal</span> <span class="o">&lt;:</span> <span class="kt">AbstractSignal</span> <span class="k">end</span>
+</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="kt">AnalogSignal</span> <span class="o">&lt;:</span> <span class="kt">AbstractSignal</span> <span class="k">end</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c"># 함수가 객체 밖에서 정의됨 (다양한 조합)</span>
+</span></span><span class="line"><span class="cl"><span class="n">transmit</span><span class="p">(</span><span class="n">ant</span><span class="o">::</span><span class="kt">PatchAntenna</span><span class="p">,</span> <span class="n">sig</span><span class="o">::</span><span class="kt">DigitalSignal</span><span class="p">)</span> <span class="o">=</span> <span class="n">println</span><span class="p">(</span><span class="s">&#34;Patch + Digital: High-speed switching&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">transmit</span><span class="p">(</span><span class="n">ant</span><span class="o">::</span><span class="kt">PatchAntenna</span><span class="p">,</span> <span class="n">sig</span><span class="o">::</span><span class="kt">AnalogSignal</span><span class="p">)</span>  <span class="o">=</span> <span class="n">println</span><span class="p">(</span><span class="s">&#34;Patch + Analog: Basic modulation&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">transmit</span><span class="p">(</span><span class="n">ant</span><span class="o">::</span><span class="kt">HornAntenna</span><span class="p">,</span>  <span class="n">sig</span><span class="o">::</span><span class="kt">DigitalSignal</span><span class="p">)</span> <span class="o">=</span> <span class="n">println</span><span class="p">(</span><span class="s">&#34;Horn + Digital: High-gain directional&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c"># 호출 방식</span>
+</span></span><span class="line"><span class="cl"><span class="n">ant</span> <span class="o">=</span> <span class="n">PatchAntenna</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">sig</span> <span class="o">=</span> <span class="n">DigitalSignal</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">transmit</span><span class="p">(</span><span class="n">ant</span><span class="p">,</span> <span class="n">sig</span><span class="p">)</span> <span class="c"># 인자 두 개(ant, sig)의 타입을 모두 고려해 최적의 함수를 선택</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>따라서 스위치를의 백엔드를 2개로 쪼개봅시다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-julia" data-lang="julia"><span class="line"><span class="cl"><span class="k">abstract type</span> <span class="kt">AbstractSwitchBackend</span> <span class="k">end</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Backend에 대한 추상객체를 정의해줍니다.</p>
+<table>
+  <thead>
+      <tr>
+          <th>백엔드</th>
+          <th>역할</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>MockSwitchBackend</code></td>
+          <td>실제 장비 없이 명령 로그만 기록</td>
+      </tr>
+      <tr>
+          <td><code>NIDaqSwitchBackend</code></td>
+          <td>NI-DAQ 장비를 통해 실제 디지털 출력 수행</td>
+      </tr>
+  </tbody>
+</table>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-julia" data-lang="julia"><span class="line"><span class="cl"><span class="k">mutable struct</span> <span class="kt">MockSwitchBackend</span> <span class="o">&lt;:</span> <span class="kt">AbstractSwitchBackend</span>
+</span></span><span class="line"><span class="cl">    <span class="n">log</span><span class="o">::</span><span class="kt">Vector</span><span class="p">{</span><span class="kt">NamedTuple</span><span class="p">{(</span><span class="ss">:timestamp</span><span class="p">,</span> <span class="ss">:command</span><span class="p">),</span> <span class="kt">Tuple</span><span class="p">{</span><span class="kt">DateTime</span><span class="p">,</span> <span class="kt">Any</span><span class="p">}}}</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>해당 벡엔드는 실제 장비를 건드리지 않고, 어떤 명령이 내려졌는지만 기록합니다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-julia" data-lang="julia"><span class="line"><span class="cl"><span class="k">mutable struct</span> <span class="kt">NIDaqSwitchBackend</span> <span class="o">&lt;:</span> <span class="kt">AbstractSwitchBackend</span>
+</span></span><span class="line"><span class="cl">    <span class="n">task_handle</span><span class="o">::</span><span class="kt">Ptr</span><span class="p">{</span><span class="kt">Cvoid</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">line_spec</span><span class="o">::</span><span class="kt">String</span>
+</span></span><span class="line"><span class="cl">    <span class="n">drive_type</span><span class="o">::</span><span class="kt">Union</span><span class="p">{</span><span class="kt">Nothing</span><span class="p">,</span><span class="kt">Int32</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">started</span><span class="o">::</span><span class="kt">Bool</span>
+</span></span><span class="line"><span class="cl">    <span class="n">log</span><span class="o">::</span><span class="kt">Vector</span><span class="p">{</span><span class="kt">NamedTuple</span><span class="p">{(</span><span class="ss">:timestamp</span><span class="p">,</span> <span class="ss">:command</span><span class="p">),</span> <span class="kt">Tuple</span><span class="p">{</span><span class="kt">DateTime</span><span class="p">,</span> <span class="kt">Any</span><span class="p">}}}</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>해당 벡엔드는 실제로 장비를 컨트롤 하는 명령을 전달합니다. 하드웨어 컨트롤 코드를 짤때는 Mock 버전의 코드를 작성하는 것도 하나의 좋은 방법입니다.</p>
+<h2 id="switchcontroller--전체-상태-관리-객체">SwitchController : 전체 상태 관리 객체<a hidden class="anchor" aria-hidden="true" href="#switchcontroller--전체-상태-관리-객체">#</a></h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-julia" data-lang="julia"><span class="line"><span class="cl"><span class="k">mutable struct</span> <span class="kt">SwitchController</span><span class="p">{</span><span class="kt">B</span><span class="o">&lt;:</span><span class="kt">AbstractSwitchBackend</span><span class="p">,</span><span class="kt">C</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">backend</span><span class="o">::</span><span class="kt">B</span>
+</span></span><span class="line"><span class="cl">    <span class="n">port_commands</span><span class="o">::</span><span class="kt">Dict</span><span class="p">{</span><span class="kt">RFPort</span><span class="p">,</span><span class="kt">C</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">off_command</span><span class="o">::</span><span class="kt">C</span>
+</span></span><span class="line"><span class="cl">    <span class="n">settle_time_s</span><span class="o">::</span><span class="kt">Float64</span>
+</span></span><span class="line"><span class="cl">    <span class="n">active</span><span class="o">::</span><span class="kt">Union</span><span class="p">{</span><span class="kt">Nothing</span><span class="p">,</span><span class="kt">RFPort</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>먼저 매개 변수가 다음과 같이 정의되어있습니다.
+<code>B&lt;:AbstractSwitchBackend,C</code> 의미는 B라는 매개 변수와 C라는 매개변수를 받는데 B는 Backend 객체가 들어와야하고 C는 아직 타입에 대한 정의가 없습니다.</p>
+<p>이 구조체는 RF 스위치 제어에 필요한 모든 상태를 담고 있습니다.</p>
+<table>
+  <thead>
+      <tr>
+          <th>필드</th>
+          <th>의미</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>backend</code></td>
+          <td>실제 명령을 처리할 백엔드</td>
+      </tr>
+      <tr>
+          <td><code>port_commands</code></td>
+          <td>각 포트에 대응하는 명령</td>
+      </tr>
+      <tr>
+          <td><code>off_command</code></td>
+          <td>모든 포트를 끄는 명령</td>
+      </tr>
+      <tr>
+          <td><code>settle_time_s</code></td>
+          <td>포트 전환 후 안정화 대기 시간</td>
+      </tr>
+      <tr>
+          <td><code>active</code></td>
+          <td>현재 선택된 포트</td>
+      </tr>
+  </tbody>
+</table>
+<p><code>Dict, Float</code>는 아마 다들 아시겠지만 <code>Union</code>은 익숙하지 않을 수 있습니다.
+<code>Union</code>은 &ldquo;정수이거나 문자열&quot;이라는 뜻을 가집니다. 좀 더 엄밀히 따져보자면&hellip; Julia에는 Any를 선언할 수 있습니다. 내가 타입을 모를 때 Any를 선언하면 줄리아가 후보군들을 파악하여 최적화를 진행하는데 이 때 후보군을 좁혀 코드의 속도를 빠르게 해주는 역할을 합니다.</p>
+<p><strong>컨트롤러 생성자</strong>
+생성자는 구조(Struct)를 생성 및 설정하는 함수를 의미합니다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-julia" data-lang="julia"><span class="line"><span class="cl"><span class="k">function</span> <span class="n">SwitchController</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">backend</span><span class="o">::</span><span class="kt">B</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">port_commands</span><span class="o">::</span><span class="kt">AbstractDict</span> <span class="o">=</span> <span class="kt">Dict</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="n">PORT_1</span> <span class="o">=&gt;</span> <span class="ss">:RF1_ON</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">PORT_2</span> <span class="o">=&gt;</span> <span class="ss">:RF2_ON</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">PORT_3</span> <span class="o">=&gt;</span> <span class="ss">:RF3_ON</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">PORT_4</span> <span class="o">=&gt;</span> <span class="ss">:RF4_ON</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">off_command</span> <span class="o">=</span> <span class="ss">:RF_OFF</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">settle_time_s</span><span class="o">::</span><span class="kt">Real</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span> <span class="k">where</span> <span class="p">{</span><span class="kt">B</span><span class="o">&lt;:</span><span class="kt">AbstractSwitchBackend</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">typed_commands</span> <span class="o">=</span> <span class="kt">Dict</span><span class="p">{</span><span class="kt">RFPort</span><span class="p">,</span> <span class="kt">typeof</span><span class="p">(</span><span class="kt">off_command</span><span class="p">)}()</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">port</span> <span class="k">in</span> <span class="n">instances</span><span class="p">(</span><span class="n">RFPort</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">haskey</span><span class="p">(</span><span class="n">port_commands</span><span class="p">,</span> <span class="n">port</span><span class="p">)</span> <span class="o">||</span> <span class="n">error</span><span class="p">(</span><span class="s">&#34;Missing switch command for </span><span class="si">$port</span><span class="s">&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">typed_commands</span><span class="p">[</span><span class="n">port</span><span class="p">]</span> <span class="o">=</span> <span class="n">convert</span><span class="p">(</span><span class="n">typeof</span><span class="p">(</span><span class="n">off_command</span><span class="p">),</span> <span class="n">port_commands</span><span class="p">[</span><span class="n">port</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl">    <span class="k">end</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">SwitchController</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="n">backend</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">typed_commands</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">off_command</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">Float64</span><span class="p">(</span><span class="n">settle_time_s</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">nothing</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>위 코드는 SwitchContoller라는 객체를 처음 만들 때 활용하는 생성자 코드입니다.
+내가 <code>PORT_1</code>이라는 신호를 보내면 RF1_ON이라는 신호를 보내라고 약속하는 Dict를 정의합니다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-julia" data-lang="julia"><span class="line"><span class="cl"><span class="k">for</span> <span class="n">port</span> <span class="k">in</span> <span class="n">instances</span><span class="p">(</span><span class="n">RFPort</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">haskey</span><span class="p">(</span><span class="n">port_commands</span><span class="p">,</span> <span class="n">port</span><span class="p">)</span> <span class="o">||</span> <span class="n">error</span><span class="p">(</span><span class="s">&#34;Missing switch command for </span><span class="si">$port</span><span class="s">&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>는 <code>port_commands</code> 안에 이 4개의 명령어가 전부 들어있는지 확인합니다. 일종의 안정성 검사입니다.
+이후 Switchcontroller 객체를 반환하는 것을 확인할 수 있습니다.</p>
+<p><strong>디지털 출력 패턴</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-julia" data-lang="julia"><span class="line"><span class="cl"><span class="n">default_port_commands</span><span class="p">()</span> <span class="o">=</span> <span class="kt">Dict</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">PORT_1</span> <span class="o">=&gt;</span> <span class="kt">UInt8</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">    <span class="n">PORT_2</span> <span class="o">=&gt;</span> <span class="kt">UInt8</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">    <span class="n">PORT_3</span> <span class="o">=&gt;</span> <span class="kt">UInt8</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">    <span class="n">PORT_4</span> <span class="o">=&gt;</span> <span class="kt">UInt8</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>파이썬에도 함수를 간략하게 선언하는 방법이 있듯이 julia도 단축형 함수 정의가 있습니다. 함수 <code>default_port_commands()</code>를 호출하면 Dict를 반환해주는 역할을 합니다. Dict는 PORT_#(RF#_ON) 명령어가 어떤 디지털 코드를 가지는지 정리되어 있습니다.</p>
+<p>여기까지 따라오신 분들은 굳이 코드를 이렇게 어렵게 짜는 이유에 대해 궁금하실 수 있습니다. &ldquo;그냥 RF1 킬거면 <code>UInt8[1, 1, 0]</code> 보내도록 작성하면 되는거 아닐까?&ldquo;라고 새각할 수 있는데 사실 맞습니다&hellip; ㅎㅎ 굳이 이렇게 짠 이우는 지금 제 스위치는 <code>UInt8[1, 1, 0]</code>이 RF1_ON 신호일 수도 있지만 다른 스위치는 그렇지 않을 수도 있죠&hellip; 그래서 코드의 재활용성을 높이는 방안이라고 보시면 될 거 같습니다. 예를 들어 스위치 2의 제어신호가 다르다면 다음과 같은 정의를 추가 정의할 수 있겠죠</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-julia" data-lang="julia"><span class="line"><span class="cl"><span class="n">switch2_port_commands</span><span class="p">()</span> <span class="o">=</span> <span class="kt">Dict</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">PORT_1</span> <span class="o">=&gt;</span> <span class="kt">UInt8</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">    <span class="n">PORT_2</span> <span class="o">=&gt;</span> <span class="kt">UInt8</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">    <span class="n">PORT_3</span> <span class="o">=&gt;</span> <span class="kt">UInt8</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">    <span class="n">PORT_4</span> <span class="o">=&gt;</span> <span class="kt">UInt8</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>스위치가 아니여도 디코더로 동작하는 녀석들이라면 모두 가능할겁니다.</p>
+<p><strong>NI-DAQ 연동: Julia의 <code>ccall</code></strong>
+해당 부분이 하드웨어 연동의 핵심입니다. 단순히 usb를 꽂는다고 julia가 알아서 usb가 꽂혔으니깐 이 장비를 조작하면 되겠구나!라고 생각하진 않을겁니다. 따라서 내가 제어할 장비에 대해서 선을이 필요합니다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-julia" data-lang="julia"><span class="line"><span class="cl"><span class="k">const</span> <span class="n">NIDAQMX_LIB</span> <span class="o">=</span> <span class="s">&#34;nicaiu.dll&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">status</span> <span class="o">=</span> <span class="k">ccall</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="ss">:DAQmxGetSysDevNames</span><span class="p">,</span> <span class="n">NIDAQMX_LIB</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">Int32</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="kt">Ptr</span><span class="p">{</span><span class="kt">UInt8</span><span class="p">},</span> <span class="kt">UInt32</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">buf</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">UInt32</span><span class="p">(</span><span class="n">length</span><span class="p">(</span><span class="n">buf</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>ccall</code>함수는 C 라이브러리 함수를 직접 호출할 수 있게 해줍니다. 여기서는 <code>nicaiu.dll</code>, 즉 NI-DAQmx 드라이버의 DLL을 호출합니다.</p>
+<p>사실 장비제어에서 <code>ccall</code>은 <code>Julia</code>가 <code>python</code>보다 이점을 가질 수 있는 이유중 하나입니다.
+<code>Julia</code>는 별도의 라이브러리 작성 없이 <code>ccall</code> 키워드를 통해 C 라이브러리 함수를 직접 호출할 수 있습니다. 따라서 거의 C 속도에 근접할 수 있습니다. Python 역시 C API가 존재하지만 인터프리터 언어의 특성때문에(C가 이해하려면 추가 번역이 필요합니다.) 성능이 떨어집니다.(사실 이 과정은 여러번 호출할 때 의미가 있습니다.)</p>
+<p>아래는 <code>nicaiu.dll</code> 라이브러리에 정의된 함수들입니다.</p>
+<table>
+  <thead>
+      <tr>
+          <th>함수명</th>
+          <th>용도 (Purpose)</th>
+          <th>주요 매개변수 (C 기준)</th>
+          <th>Julia 대응 타입 (<code>ccall</code>용)</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>DAQmxGetExtendedErrorInfo</code></td>
+          <td>마지막으로 발생한 상세 에러 메시지 조회</td>
+          <td><code>char errorString[], uInt32 bufferSize</code></td>
+          <td><code>(Ptr{UInt8}, UInt32)</code></td>
+      </tr>
+      <tr>
+          <td><code>DAQmxGetSysDevNames</code></td>
+          <td>시스템에 연결된 모든 NI 장비 이름 조회</td>
+          <td><code>char data[], uInt32 bufferSize</code></td>
+          <td><code>(Ptr{UInt8}, UInt32)</code></td>
+      </tr>
+      <tr>
+          <td><code>DAQmxCreateTask</code></td>
+          <td>새로운 작업(Task) 생성</td>
+          <td><code>const char taskName[], TaskHandle *taskHandle</code></td>
+          <td><code>(Cstring, Ptr{Ptr{Nothing}})</code></td>
+      </tr>
+      <tr>
+          <td><code>DAQmxStartTask</code></td>
+          <td>설정된 작업 시작</td>
+          <td><code>TaskHandle taskHandle</code></td>
+          <td><code>(Ptr{Nothing},)</code></td>
+      </tr>
+      <tr>
+          <td><code>DAQmxStopTask</code></td>
+          <td>실행 중인 작업 중지</td>
+          <td><code>TaskHandle taskHandle</code></td>
+          <td><code>(Ptr{Nothing},)</code></td>
+      </tr>
+      <tr>
+          <td><code>DAQmxClearTask</code></td>
+          <td>작업 삭제 및 리소스 해제</td>
+          <td><code>TaskHandle taskHandle</code></td>
+          <td><code>(Ptr{Nothing},)</code></td>
+      </tr>
+      <tr>
+          <td><code>DAQmxGetErrorString</code></td>
+          <td>에러 코드(숫자)를 기본 메시지로 변환</td>
+          <td><code>int32 errorCode, char errorString[], uInt32 bufferSize</code></td>
+          <td><code>(Int32, Ptr{UInt8}, UInt32)</code></td>
+      </tr>
+      <tr>
+          <td><code>DAQmxWriteDigitalLines</code></td>
+          <td>디지털 라인에 데이터(전압) 출력</td>
+          <td><code>taskHandle, numSamps, autoStart, timeout, layout, writeArray, sampsWritten, reserved</code></td>
+          <td><code>(Ptr{Cvoid}, Int32, UInt32, Float64, UInt32, Ptr{UInt8}, Ref{Int32}, Ptr{Cvoid})</code></td>
+      </tr>
+  </tbody>
+</table>
+<p>이제 julia에서 라이브러리를 이용해 필요한 함수를 만들어줍니다.</p>
+<p><strong>에러 판별(장치 연결)</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-julia" data-lang="julia"><span class="line"><span class="cl"><span class="k">function</span> <span class="n">nidaqmx_check</span><span class="p">(</span><span class="n">code</span><span class="o">::</span><span class="kt">Integer</span><span class="p">,</span> <span class="n">msg</span><span class="o">::</span><span class="kt">AbstractString</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">code</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">||</span> <span class="k">return</span> <span class="nb">nothing</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">errbuf</span> <span class="o">=</span> <span class="kt">Vector</span><span class="p">{</span><span class="kt">UInt8</span><span class="p">}(</span><span class="nb">undef</span><span class="p">,</span> <span class="mi">2048</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">ccall</span><span class="p">((</span><span class="ss">:DAQmxGetExtendedErrorInfo</span><span class="p">,</span> <span class="n">NIDAQMX_LIB</span><span class="p">),</span> <span class="kt">Int32</span><span class="p">,</span> <span class="p">(</span><span class="kt">Ptr</span><span class="p">{</span><span class="kt">UInt8</span><span class="p">},</span> <span class="kt">UInt32</span><span class="p">),</span> <span class="n">errbuf</span><span class="p">,</span> <span class="kt">UInt32</span><span class="p">(</span><span class="n">length</span><span class="p">(</span><span class="n">errbuf</span><span class="p">)))</span>
+</span></span><span class="line"><span class="cl">    <span class="n">terminator</span> <span class="o">=</span> <span class="n">findfirst</span><span class="p">(</span><span class="o">==</span><span class="p">(</span><span class="mh">0x00</span><span class="p">),</span> <span class="n">errbuf</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">detail</span> <span class="o">=</span> <span class="n">terminator</span> <span class="o">===</span> <span class="nb">nothing</span> <span class="o">?</span> <span class="kt">String</span><span class="p">(</span><span class="n">errbuf</span><span class="p">)</span> <span class="o">:</span> <span class="kt">String</span><span class="p">(</span><span class="n">errbuf</span><span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="n">terminator</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl">    <span class="n">error</span><span class="p">(</span><span class="s">&#34;NI-DAQmx error </span><span class="si">$code</span><span class="s"> while </span><span class="si">$msg</span><span class="s">: </span><span class="si">$detail</span><span class="s">&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>DAQ에서 보낸 에러 메세지를 받아오는 명령어입니다. <code>C</code>는 항상 문장의 끝에 <code>0x00</code>을 붙여주기 때문에 이를 이용하여 종결차를 찾아 실제로 끝나는 지점까지만 자르는게 가능합니다. 물론 <code>0x00</code>으로 안끝날 수도 있으니 그 부분에 대한 예외 처리가 필요합니다.(<code>detail = terminator === nothing ? String(errbuf) : String(errbuf[1:terminator-1])</code>) 이 코드를 이해하기 위해선 실제로 활용되는 것을 보는게 도움이 됩니다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-julia" data-lang="julia"><span class="line"><span class="cl"><span class="k">function</span> <span class="n">list_nidaq_devices</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="n">buf</span> <span class="o">=</span> <span class="kt">Vector</span><span class="p">{</span><span class="kt">UInt8</span><span class="p">}(</span><span class="nb">undef</span><span class="p">,</span> <span class="mi">4096</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">status</span> <span class="o">=</span> <span class="k">ccall</span><span class="p">((</span><span class="ss">:DAQmxGetSysDevNames</span><span class="p">,</span> <span class="n">NIDAQMX_LIB</span><span class="p">),</span> <span class="kt">Int32</span><span class="p">,</span> <span class="p">(</span><span class="kt">Ptr</span><span class="p">{</span><span class="kt">UInt8</span><span class="p">},</span> <span class="kt">UInt32</span><span class="p">),</span> <span class="n">buf</span><span class="p">,</span> <span class="kt">UInt32</span><span class="p">(</span><span class="n">length</span><span class="p">(</span><span class="n">buf</span><span class="p">)))</span>
+</span></span><span class="line"><span class="cl">    <span class="n">nidaqmx_check</span><span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="s">&#34;listing NI-DAQ devices&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">terminator</span> <span class="o">=</span> <span class="n">findfirst</span><span class="p">(</span><span class="o">==</span><span class="p">(</span><span class="mh">0x00</span><span class="p">),</span> <span class="n">buf</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">text</span> <span class="o">=</span> <span class="n">terminator</span> <span class="o">===</span> <span class="nb">nothing</span> <span class="o">?</span> <span class="kt">String</span><span class="p">(</span><span class="n">buf</span><span class="p">)</span> <span class="o">:</span> <span class="kt">String</span><span class="p">(</span><span class="n">buf</span><span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="n">terminator</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">filter</span><span class="p">(</span><span class="o">!</span><span class="n">isempty</span><span class="p">,</span> <span class="n">strip</span><span class="o">.</span><span class="p">(</span><span class="n">split</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="sc">&#39;,&#39;</span><span class="p">)))</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>위의 함수는 연결된 장비를 조회하는 코드인데 연결된 장비를 찾고 code가 0보다 작으면 이 때 에러가 발생하면 에러 메세지를 출력합니다.</p>
+<h2 id="디지털-전압-출력을-위한-함수-구현--다중-디스패치">디지털 전압 출력을 위한 함수 구현 : 다중 디스패치<a hidden class="anchor" aria-hidden="true" href="#디지털-전압-출력을-위한-함수-구현--다중-디스패치">#</a></h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-julia" data-lang="julia"><span class="line"><span class="cl"><span class="k">function</span> <span class="n">set_switch_state!</span><span class="p">(</span><span class="n">backend</span><span class="o">::</span><span class="kt">MockSwitchBackend</span><span class="p">,</span> <span class="n">command</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">push!</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">log</span><span class="p">,</span> <span class="p">(</span><span class="n">timestamp</span> <span class="o">=</span> <span class="n">now</span><span class="p">(),</span> <span class="n">command</span> <span class="o">=</span> <span class="n">command</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">command</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">function</span> <span class="n">set_switch_state!</span><span class="p">(</span><span class="n">backend</span><span class="o">::</span><span class="kt">NIDaqSwitchBackend</span><span class="p">,</span> <span class="n">command</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="c"># 데이터 타입에 대한 엄밀한 검사 진행</span>
+</span></span><span class="line"><span class="cl">    <span class="n">bytes</span> <span class="o">=</span> <span class="n">command</span> <span class="k">isa</span> <span class="kt">AbstractVector</span> <span class="o">?</span> <span class="kt">UInt8</span><span class="o">.</span><span class="p">(</span><span class="n">collect</span><span class="p">(</span><span class="n">command</span><span class="p">))</span> <span class="o">:</span> <span class="n">throw</span><span class="p">(</span><span class="kt">ArgumentError</span><span class="p">(</span><span class="s">&#34;NI-DAQ backend expects a vector command, got </span><span class="si">$</span><span class="p">(</span><span class="n">typeof</span><span class="p">(</span><span class="n">command</span><span class="p">))</span><span class="s">&#34;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">    <span class="n">samps_written</span> <span class="o">=</span> <span class="kt">Ref</span><span class="p">{</span><span class="kt">Int32</span><span class="p">}(</span><span class="mi">0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">data</span> <span class="o">=</span> <span class="kt">Vector</span><span class="p">{</span><span class="kt">UInt8</span><span class="p">}(</span><span class="n">bytes</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="n">status</span> <span class="o">=</span> <span class="k">ccall</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="p">(</span><span class="ss">:DAQmxWriteDigitalLines</span><span class="p">,</span> <span class="n">NIDAQMX_LIB</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">Int32</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="p">(</span><span class="kt">Ptr</span><span class="p">{</span><span class="kt">Cvoid</span><span class="p">},</span> <span class="kt">Int32</span><span class="p">,</span> <span class="kt">UInt32</span><span class="p">,</span> <span class="kt">Float64</span><span class="p">,</span> <span class="kt">UInt32</span><span class="p">,</span> <span class="kt">Ptr</span><span class="p">{</span><span class="kt">UInt8</span><span class="p">},</span> <span class="kt">Ref</span><span class="p">{</span><span class="kt">Int32</span><span class="p">},</span> <span class="kt">Ptr</span><span class="p">{</span><span class="kt">Cvoid</span><span class="p">}),</span>
+</span></span><span class="line"><span class="cl">        <span class="n">backend</span><span class="o">.</span><span class="n">task_handle</span><span class="p">,</span> <span class="c"># 제어할 장비</span>
+</span></span><span class="line"><span class="cl">        <span class="mi">1</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">        <span class="mi">1</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="mf">10.0</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">DAQMX_VAL_GROUP_BY_CHANNEL</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">pointer</span><span class="p">(</span><span class="n">data</span><span class="p">),</span> <span class="c"># 포인터로 직접 넘기기 때문에 C 언어와 같은 속도로 동작</span>
+</span></span><span class="line"><span class="cl">        <span class="n">samps_written</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">C_NULL</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">nidaqmx_check</span><span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="s">&#34;writing switch command </span><span class="si">$</span><span class="p">(</span><span class="n">collect</span><span class="p">(</span><span class="n">data</span><span class="p">))</span><span class="s">&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">backend</span><span class="o">.</span><span class="n">started</span> <span class="o">=</span> <span class="nb">true</span>
+</span></span><span class="line"><span class="cl">    <span class="n">push!</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">log</span><span class="p">,</span> <span class="p">(</span><span class="n">timestamp</span> <span class="o">=</span> <span class="n">now</span><span class="p">(),</span> <span class="n">command</span> <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="n">data</span><span class="p">)))</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">copy</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>위는 디지털 전압 출력을 위한 함수를 정의합니다. 백엔드의 종류에 따라 2개의 함수를 구현합니다.
+<code>MockSwitchBackend</code>의 : 경우 단순히 log에 무슨 명령어를 추가했는지 확인합니다.
+<code>NIDaqSwitchBackend</code>의 경우 :
+먼저 <code>C</code>는 Julia보다 훨씬 데이터 타입에 엄격합니다. 데이터 타입 검사가 엄밀하게 진행되어야 합니다.</p>
+<p>위의 코드에서 <code>ccall</code>을 통해 불러온 함수의 인자들을 살펴보면 다음과 같습니다.</p>
+<table>
+  <thead>
+      <tr>
+          <th>인자 위치</th>
+          <th>값/변수</th>
+          <th>설명 (Physical Meaning)</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>1st</td>
+          <td><code>backend.task_handle</code></td>
+          <td>제어할 장비(USB-6501)의 고유 식별자, 즉 핸들</td>
+      </tr>
+      <tr>
+          <td>2nd</td>
+          <td><code>1</code></td>
+          <td>각 채널당 쓸 데이터 샘플 수임. 단발성 스위칭이라 1개만 씀.</td>
+      </tr>
+      <tr>
+          <td>3rd</td>
+          <td><code>1</code></td>
+          <td><code>autoStart</code> 옵션임. <code>1(True)</code>로 설정해서 호출 즉시 전압이 바뀌게 함.(즉시 시작 옵션)</td>
+      </tr>
+      <tr>
+          <td>4th</td>
+          <td><code>10.0</code></td>
+          <td>언제까지? 타임아웃 시간(초)임. 10초 안에 명령이 안 들어가면 에러를 냄.</td>
+      </tr>
+      <tr>
+          <td>5th</td>
+          <td><code>DAQMX_VAL_GROUP_BY_CHANNEL</code></td>
+          <td>어떤 순서로? 데이터를 채널별로 묶어서 배치하겠다는 설정임.</td>
+      </tr>
+      <tr>
+          <td>6th</td>
+          <td><code>pointer(data)</code></td>
+          <td>실제 신호(<code>[1, 1, 0]</code>)가 담긴 메모리 주소를 넘겨줌. 직통 통로의 핵심임.</td>
+      </tr>
+      <tr>
+          <td>7th</td>
+          <td><code>samps_written</code></td>
+          <td>확인용 : “실제로 몇 개가 써졌니?”를 장비에 되묻기 위해 <code>Ref</code> 주소를 넘겨줌.</td>
+      </tr>
+      <tr>
+          <td>8th</td>
+          <td><code>C_NULL</code></td>
+          <td>예약 공간 : NI 드라이버 규격상 현재는 쓰지 않는 빈 자리임.</td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="port-선택">PORT 선택<a hidden class="anchor" aria-hidden="true" href="#port-선택">#</a></h2>
+<p>이제 선택된 포트로 데이터 전압을 출력해봅시다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-julia" data-lang="julia"><span class="line"><span class="cl"><span class="k">function</span> <span class="n">select_port!</span><span class="p">(</span><span class="n">controller</span><span class="o">::</span><span class="kt">SwitchController</span><span class="p">,</span> <span class="n">port</span><span class="o">::</span><span class="kt">RFPort</span><span class="p">;</span> <span class="n">settle</span><span class="o">::</span><span class="kt">Bool</span> <span class="o">=</span> <span class="nb">true</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">command</span> <span class="o">=</span> <span class="n">controller</span><span class="o">.</span><span class="n">port_commands</span><span class="p">[</span><span class="n">port</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="n">set_switch_state!</span><span class="p">(</span><span class="n">controller</span><span class="p">,</span> <span class="n">command</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">controller</span><span class="o">.</span><span class="n">active</span> <span class="o">=</span> <span class="n">port</span>
+</span></span><span class="line"><span class="cl">    <span class="n">settle</span> <span class="o">&amp;&amp;</span> <span class="n">sleep</span><span class="p">(</span><span class="n">controller</span><span class="o">.</span><span class="n">settle_time_s</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">port</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>동작 순서는 간단합니다. 매개변수로 port를 받으면 port에 해당하는 명령을 찾습니다. 이후 해당 명령을 백엔드로 보내고 현재 활성 포트 상태를 업데이트 합니다. 또한 데이터 입출력 및 장비제어 시간이 필요하므로 안정화 시간을 기다린 후 선택된 포트를 return해 줍니다. <code>julia</code>에선 관례적으로 객체의 상태를 변환하는 함수의 이름에는 !를 쓴다는 것도 알아두면 좋습니다.</p>
+<h2 id="모든-포트-끄기">모든 포트 끄기<a hidden class="anchor" aria-hidden="true" href="#모든-포트-끄기">#</a></h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-julia" data-lang="julia"><span class="line"><span class="cl"><span class="k">function</span> <span class="n">all_off!</span><span class="p">(</span><span class="n">controller</span><span class="o">::</span><span class="kt">SwitchController</span><span class="p">;</span> <span class="n">settle</span><span class="o">::</span><span class="kt">Bool</span> <span class="o">=</span> <span class="nb">true</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">set_switch_state!</span><span class="p">(</span><span class="n">controller</span><span class="p">,</span> <span class="n">controller</span><span class="o">.</span><span class="n">off_command</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">controller</span><span class="o">.</span><span class="n">active</span> <span class="o">=</span> <span class="nb">nothing</span>
+</span></span><span class="line"><span class="cl">    <span class="n">settle</span> <span class="o">&amp;&amp;</span> <span class="n">sleep</span><span class="p">(</span><span class="n">controller</span><span class="o">.</span><span class="n">settle_time_s</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nb">nothing</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>PORT 선택과 메카니즘은 거의 동일합니다. 어떻게 동작하는지는 PORT 선택을 참고하시면 됩니다.</p>
+<h2 id="cycle_ports--순환-측정을-위한-제어">Cycle_PORTS : 순환 측정을 위한 제어<a hidden class="anchor" aria-hidden="true" href="#cycle_ports--순환-측정을-위한-제어">#</a></h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-julia" data-lang="julia"><span class="line"><span class="cl"><span class="k">function</span> <span class="n">cycle_ports!</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">f</span><span class="o">::</span><span class="kt">Function</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">controller</span><span class="o">::</span><span class="kt">SwitchController</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ports</span> <span class="o">=</span> <span class="n">instances</span><span class="p">(</span><span class="n">RFPort</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">settle</span><span class="o">::</span><span class="kt">Bool</span> <span class="o">=</span> <span class="nb">true</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">switch_off_at_end</span><span class="o">::</span><span class="kt">Bool</span> <span class="o">=</span> <span class="nb">false</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">port_list</span> <span class="o">=</span> <span class="n">collect</span><span class="p">(</span><span class="n">ports</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">results</span> <span class="o">=</span> <span class="kt">Vector</span><span class="p">{</span><span class="kt">Any</span><span class="p">}(</span><span class="nb">undef</span><span class="p">,</span> <span class="n">length</span><span class="p">(</span><span class="n">port_list</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">    <span class="k">try</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">port</span><span class="p">)</span> <span class="k">in</span> <span class="n">pairs</span><span class="p">(</span><span class="n">port_list</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="n">rf_port</span> <span class="o">=</span> <span class="n">port</span> <span class="k">isa</span> <span class="n">RFPort</span> <span class="o">?</span> <span class="n">port</span> <span class="o">:</span> <span class="n">RFPort</span><span class="p">(</span><span class="n">port</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="n">select_port!</span><span class="p">(</span><span class="n">controller</span><span class="p">,</span> <span class="n">rf_port</span><span class="p">;</span> <span class="n">settle</span> <span class="o">=</span> <span class="n">settle</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="n">results</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">rf_port</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">end</span>
+</span></span><span class="line"><span class="cl">    <span class="k">catch</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">switch_off_at_end</span>
+</span></span><span class="line"><span class="cl">            <span class="k">try</span>
+</span></span><span class="line"><span class="cl">                <span class="n">all_off!</span><span class="p">(</span><span class="n">controller</span><span class="p">;</span> <span class="n">settle</span> <span class="o">=</span> <span class="n">settle</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="k">catch</span> <span class="n">err</span>
+</span></span><span class="line"><span class="cl">                <span class="nd">@warn</span> <span class="s">&#34;Failed to switch all ports off after port-cycle error&#34;</span> <span class="n">exception</span> <span class="o">=</span> <span class="n">err</span>
+</span></span><span class="line"><span class="cl">            <span class="k">end</span>
+</span></span><span class="line"><span class="cl">        <span class="k">end</span>
+</span></span><span class="line"><span class="cl">        <span class="n">rethrow</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="k">end</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">switch_off_at_end</span>
+</span></span><span class="line"><span class="cl">        <span class="n">all_off!</span><span class="p">(</span><span class="n">controller</span><span class="p">;</span> <span class="n">settle</span> <span class="o">=</span> <span class="n">settle</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">end</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">results</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>저에게 필요한 작업이 포트를 순회하면서 데이터를 여러 프레임 측정해야 하기때문에 port를 순회하는 코드를 정의해줍시다. 즉 <code>RF1측정</code> $\rightarrow$ &hellip; $\rightarrow$ <code>RF4측정</code>을 한 개의 함수로 할 수 있도록 정의합니다. <code>f::Function</code>을 보면 아시겠지만 함수를 그때 그때 호출하여 사용합니다. 예를들면 <code>function = on</code>을 쓰면 순환하면서 on하는 함수를 호출하고 <code>function = off</code>를 하면 순환하면서 off하는 함수를 호출합니다.(사실 이 프로젝트와는 큰 상관이 없는 예시입니다.) 컴파일러 언어의 특성은 해당 작업이 심한 오버헤드를 발생시키지 않는다는 장점이 있습니다. 이렇게 코드를 작성했을 때 장점은 다음과 같은 응용이 가능해집니다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-julia" data-lang="julia"><span class="line"><span class="cl"><span class="n">SwitchMIMOControl</span><span class="o">.</span><span class="n">cycle_ports!</span><span class="p">(</span><span class="n">controller</span><span class="p">;</span> <span class="n">ports</span> <span class="o">=</span> <span class="mi">1</span><span class="o">:</span><span class="n">N_SWITCH_PORTS</span><span class="p">,</span> <span class="n">switch_off_at_end</span> <span class="o">=</span> <span class="nb">true</span><span class="p">)</span> <span class="k">do</span> <span class="n">port</span>
+</span></span><span class="line"><span class="cl">        <span class="n">port_num</span> <span class="o">=</span> <span class="kt">Int</span><span class="p">(</span><span class="n">port</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">println</span><span class="p">(</span><span class="s">&#34;</span><span class="se">\n</span><span class="s">[</span><span class="si">$pass_name</span><span class="s">] Selecting switch port </span><span class="si">$port_num</span><span class="s">...&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">cal</span> <span class="o">=</span> <span class="n">cal_by_port</span><span class="p">[</span><span class="n">port</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">        <span class="n">activate_calset</span><span class="p">(</span><span class="n">instr</span><span class="p">,</span> <span class="n">cal</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">println</span><span class="p">(</span><span class="s">&#34;[</span><span class="si">$pass_name</span><span class="s">] Acquiring VNA trace at port </span><span class="si">$port_num</span><span class="s">...&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">freq</span><span class="p">,</span> <span class="n">s11_raw</span><span class="p">,</span> <span class="n">s11_cal</span> <span class="o">=</span> <span class="n">acquire_calibrated_trace</span><span class="p">(</span><span class="n">instr</span><span class="p">,</span> <span class="n">cal</span><span class="p">;</span> <span class="n">n_avg</span> <span class="o">=</span> <span class="n">n_avg</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">point_dir</span> <span class="o">=</span> <span class="n">joinpath</span><span class="p">(</span><span class="n">pass_dir</span><span class="p">,</span> <span class="n">port_dirname</span><span class="p">(</span><span class="n">port</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">        <span class="n">mkpath</span><span class="p">(</span><span class="n">point_dir</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">save_live_outputs</span><span class="p">(</span><span class="n">point_dir</span><span class="p">,</span> <span class="n">freq</span><span class="p">,</span> <span class="n">s11_raw</span><span class="p">,</span> <span class="n">s11_cal</span><span class="p">;</span> <span class="n">save_snapshot</span> <span class="o">=</span> <span class="nb">true</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">print_live_summary</span><span class="p">(</span><span class="n">port_num</span><span class="p">,</span> <span class="n">freq</span><span class="p">,</span> <span class="n">s11_raw</span><span class="p">,</span> <span class="n">s11_cal</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">push!</span><span class="p">(</span><span class="n">point_dirs</span><span class="p">,</span> <span class="n">point_dir</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="nb">nothing</span>
+</span></span><span class="line"><span class="cl">    <span class="k">end</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>port를 순환하면서</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-julia" data-lang="julia"><span class="line"><span class="cl"><span class="k">do</span> <span class="n">port</span>
+</span></span><span class="line"><span class="cl">    <span class="n">port_num</span> <span class="o">=</span> <span class="kt">Int</span><span class="p">(</span><span class="n">port</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">println</span><span class="p">(</span><span class="s">&#34;</span><span class="se">\n</span><span class="s">[</span><span class="si">$pass_name</span><span class="s">] Selecting switch port </span><span class="si">$port_num</span><span class="s">...&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">cal</span> <span class="o">=</span> <span class="n">cal_by_port</span><span class="p">[</span><span class="n">port</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="n">activate_calset</span><span class="p">(</span><span class="n">instr</span><span class="p">,</span> <span class="n">cal</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="c"># ... (VNA 데이터 측정 및 저장 로직들) ...</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="n">push!</span><span class="p">(</span><span class="n">point_dirs</span><span class="p">,</span> <span class="n">point_dir</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nb">nothing</span>
+</span></span><span class="line"><span class="cl"><span class="k">end</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>와 같은 동작들이 함수처럼 정의가 되면서 통채로 <code>f</code>처럼 작동하게 할 수 있습니다.
+간단하게 말해서</p>
+<blockquote>
+<p>&ldquo;내가 순환하면서 어떤 동작을 할진 모르겠는데 그건 나중에 정의할 테니깐 포트를 순환하면서 어떤 동작을 하는 로직을 정의해줘. 어떤 동작은 <code>do</code>와 <code>end</code>사이에 정의될거야&rdquo;</p>
+</blockquote>
+<p>해당 로직은 굉장히 강력한 무기가 됩니다. 예를 들어 봅시다.
+RF에서 측정을 위해선 calibration, background측정, target측정이 필요합니다. 이 3가지 과정 모두 <code>cycle_port</code>가 필요합니다. 그럼 3가지 과정은 순차적으로 다음과 같이 정의가 됩니다.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-julia" data-lang="julia"><span class="line"><span class="cl"><span class="n">cycle_port!</span><span class="p">(</span><span class="o">...</span><span class="p">)</span> <span class="k">do</span> <span class="n">port</span> <span class="p">(</span><span class="n">캘리브레이션</span><span class="p">)</span> <span class="k">end</span>
+</span></span><span class="line"><span class="cl"><span class="n">cycle_port!</span><span class="p">(</span><span class="o">...</span><span class="p">)</span> <span class="k">do</span> <span class="n">port</span> <span class="p">(</span><span class="n">백그라운드</span> <span class="n">측정</span><span class="p">)</span> <span class="k">end</span>
+</span></span><span class="line"><span class="cl"><span class="n">cycle_port!</span><span class="p">(</span><span class="o">...</span><span class="p">)</span> <span class="k">do</span> <span class="n">port</span> <span class="p">(</span><span class="n">타겟</span> <span class="n">측정</span><span class="p">)</span> <span class="k">end</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>이렇게 줄리아 스위치 제어 모듈이 완성됐습니다&hellip; 사실 이 코드를 작성하면서 G선생님의 도움이 너무 컸지만 막상 정리를 하다보니 다시금 <code>JULIA</code> 언어의 매력에 빠지게 되네요&hellip; 그럼 이만(공격적인 피드백 적극 수용)</p>
 
 
   </div>

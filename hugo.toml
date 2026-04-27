@@ -56,9 +56,10 @@ enableRobotsTXT = true
     focusItems = ["AI(PINN)", "electromagnetics", "Julia", "DSP"]
 
   [params.giscus]
-    repo = ""
-    repoID = ""
+    repo = "Hyul48/hyul-blog"
+    repoID = "R_kgDOQzUq4A"
     category = "General"
+    # Fill this after enabling GitHub Discussions and selecting a giscus category.
     categoryID = ""
     mapping = "pathname"
     strict = "0"
