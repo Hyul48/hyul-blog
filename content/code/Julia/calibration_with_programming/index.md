@@ -28,10 +28,11 @@ math: true
     $\quad$
 
 $$ 
-\Gamma_{IN, Open} = e_{00} + \dfrac{e_{10}e_{01}\mathbf{\Gamma_{Open}(f)}}{1 - e_{11}\mathbf{\Gamma_{Open}(f)}} \\[15pt]
-\Gamma_{IN, Short} = e_{00} + \dfrac{e_{10}e_{01}\mathbf{\Gamma_{Short}(f)}}{1 - e_{11}\mathbf{\Gamma_{Short}(f)}} \\[15pt]
-\Gamma_{IN, Load} = e_{00} + \dfrac{e_{10}e_{01}\mathbf{\Gamma_{Load}(f)}}{1 - e_{11}\mathbf{\Gamma_{Load}(f)}} 
-$$
+\Gamma_{IN, Open} = e_{00} + \dfrac{e_{10}e_{01}\mathbf{\Gamma_{Open}(f)}}{1 - e_{11}\mathbf{\Gamma_{Open}(f)}}$$
+
+$$\Gamma_{IN, Short} = e_{00} + \dfrac{e_{10}e_{01}\mathbf{\Gamma_{Short}(f)}}{1 - e_{11}\mathbf{\Gamma_{Short}(f)}}$$
+
+$$\Gamma_{IN, Load} = e_{00} + \dfrac{e_{10}e_{01}\mathbf{\Gamma_{Load}(f)}}{1 - e_{11}\mathbf{\Gamma_{Load}(f)}} $$
 
 여기서 우리가 알아야할 에러 항목들($e_{00}, e_{11}, e_{10}e_{01}$) 주파수에 의존적이며 복소수임을 알 수 있다.($\because \Gamma$가 주파수에 의존적이며 복소수이기 때문 )
 
