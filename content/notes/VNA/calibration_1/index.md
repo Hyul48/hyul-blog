@@ -1,6 +1,7 @@
 ---
 title: "Calibration-1"
 description: "12-terms error model of VNA"
+date:2026-04-27
 weight: 1
 math: true
 ---

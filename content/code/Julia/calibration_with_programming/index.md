@@ -1,6 +1,7 @@
 ---
 title: "Julia Calibration"
 description: "Julia Calibration with SOLT Algorithm"
+date: 2026-04-28
 weight: 1
 math: true
 ---
@@ -26,11 +27,12 @@ math: true
     - 반사 계수: $\Gamma_{Load}(f) = \frac{Z_{Load}(f) - Z_0}{Z_{Load}(f) + Z_0}$
     $\quad$
 
-$$\begin{cases} 
+$$ 
 \Gamma_{IN, Open} = e_{00} + \dfrac{e_{10}e_{01}\mathbf{\Gamma_{Open}(f)}}{1 - e_{11}\mathbf{\Gamma_{Open}(f)}} \\[15pt]
 \Gamma_{IN, Short} = e_{00} + \dfrac{e_{10}e_{01}\mathbf{\Gamma_{Short}(f)}}{1 - e_{11}\mathbf{\Gamma_{Short}(f)}} \\[15pt]
 \Gamma_{IN, Load} = e_{00} + \dfrac{e_{10}e_{01}\mathbf{\Gamma_{Load}(f)}}{1 - e_{11}\mathbf{\Gamma_{Load}(f)}} 
-\end{cases}$$
+$$
+
 여기서 우리가 알아야할 에러 항목들($e_{00}, e_{11}, e_{10}e_{01}$) 주파수에 의존적이며 복소수임을 알 수 있다.($\because \Gamma$가 주파수에 의존적이며 복소수이기 때문 )
 
 먼저 OnePortCal 구조를 정의하도록 하자 우리가 알아야하는건 주파수 모음에서의 ed, es, er값이다.(코드의 가독성을 위해서 $e_{00}$대신 물리적인 의미를 활용해 주도록 하자.)

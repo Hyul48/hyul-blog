@@ -1,6 +1,7 @@
 ---
 title: "Calibration-2"
 description: "SOLT algorithm"
+date:2026-04-27
 weight: 1
 math: true
 ---
