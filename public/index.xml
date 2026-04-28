@@ -16,6 +16,27 @@
       <description>Core electrodynamics concepts used in the GPR forward problem.</description>
     </item>
     <item>
+      <title>Calibration-1</title>
+      <link>https://hyul48.github.io/hyul-blog/notes/vna/calibration_1/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://hyul48.github.io/hyul-blog/notes/vna/calibration_1/</guid>
+      <description>12-terms error model of VNA</description>
+    </item>
+    <item>
+      <title>Calibration-2</title>
+      <link>https://hyul48.github.io/hyul-blog/notes/vna/calibration_2/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://hyul48.github.io/hyul-blog/notes/vna/calibration_2/</guid>
+      <description>SOLT algorithm</description>
+    </item>
+    <item>
+      <title>Julia Switch Controller</title>
+      <link>https://hyul48.github.io/hyul-blog/code/julia/calibration_with_programming/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://hyul48.github.io/hyul-blog/code/julia/calibration_with_programming/</guid>
+      <description>Julia Switch Controller</description>
+    </item>
+    <item>
       <title>Julia Switch Controller</title>
       <link>https://hyul48.github.io/hyul-blog/code/julia/switch_control/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>

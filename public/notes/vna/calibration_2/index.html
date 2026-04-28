@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto" data-theme="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Calibration-2 | Hyulmonologue</title>
+<meta name="keywords" content="">
+<meta name="description" content="SOLT algorithm">
+<meta name="author" content="">
+<link rel="canonical" href="https://hyul48.github.io/hyul-blog/notes/vna/calibration_2/">
+<link crossorigin="anonymous" href="/hyul-blog/assets/css/stylesheet.6d6e21f1c44519e8502e9c021e521d9482d28d44f634565bedbd9b06d63ca68a.css" integrity="sha256-bW4h8cRFGehQLpwCHlIdlILSjUT2NFZb7b2bBtY8poo=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://hyul48.github.io/hyul-blog/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://hyul48.github.io/hyul-blog/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://hyul48.github.io/hyul-blog/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://hyul48.github.io/hyul-blog/apple-touch-icon.png">
+<link rel="mask-icon" href="https://hyul48.github.io/hyul-blog/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://hyul48.github.io/hyul-blog/notes/vna/calibration_2/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+        @media (prefers-color-scheme: light) {
+            .list::-webkit-scrollbar-thumb {
+                border-color: var(--code-bg);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false},
+      {left: '\\\\(', right: '\\\\)', display: false},
+      {left: '\\\\[', right: '\\\\]', display: true}
+    ]
+  });">
+</script><meta property="og:url" content="https://hyul48.github.io/hyul-blog/notes/vna/calibration_2/">
+  <meta property="og:site_name" content="Hyulmonologue">
+  <meta property="og:title" content="Calibration-2">
+  <meta property="og:description" content="SOLT algorithm">
+  <meta property="og:locale" content="ko">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="notes">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Calibration-2">
+<meta name="twitter:description" content="SOLT algorithm">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Notes",
+      "item": "https://hyul48.github.io/hyul-blog/notes/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Calibration-2",
+      "item": "https://hyul48.github.io/hyul-blog/notes/vna/calibration_2/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Calibration-2",
+  "name": "Calibration-2",
+  "description": "SOLT algorithm",
+  "keywords": [
+    
+  ],
+  "articleBody": "해당 post는 All About Circuits의\n[https://www.allaboutcircuits.com/technical-articles/understanding-the-solt-calibration-method-and-the-behavior-of-open-and-short-standards-on-the-smith-chart/]\n를 참고하여 작성하였습니다.\n해당 포스트는 이전 포스트와 이어집니다. 이전 포스트를 먼저 읽으시는 것을 추천합니다.\nUnderstanding RF Calibration Using Short, Open, Load, and Through Terminations 이전 포스트에서 우리는 12개의 에러 항목들을 측정하는 것이 calibration의 핵심임을 확인했다. 이를 위해 사용되는 SOLT 알고리즘에 대해서 살펴보자\nThe SOLT Calibration SOLT 캘리브레이션은 Short, Open, Load and Through Standards를 활용하여 에러 항목들을 측정하는 시스템이다. 일반적으로 calkit 안에는 위의 네가지 기준들이 포함되어 있다. 다시 12개의 항목의 에러들을 살펴보도록 하자. 이 forward 서브 모델의 에러텀들(a)을 찾기 위해서는 우리는 3가지 단계를 따라야한다.\n1-포트 교정 적용 isolation 특성 결정 Through 측정 여기서는 순방향 측정에 대한 과정만 살펴볼 것이지만, 동일한 3단계 절차를 역방향 서브 모델의 오차항목을 찾는데에도 적용할 수 있습니다. 우리가 해야할 일은 방정식에 대입할 오차 항목의 종류를 바꾸는 것 뿐입니다.\nStep1 : Apply One-Port Calibration 이 과정에서는 순방향 모델의 입력 반사 계수가 3개의 기준(Short, Open, Load)에 의해서 정해진다. $$\\Gamma_{IN} = e_{00} + \\frac{e_{10}e_{01}\\Gamma_L}{1 - e_{11}\\Gamma_L}$$ 위의 공식이 어떻게 나오는지 잘 이해가 안가시는 분들은 아래 필기를 참고해주기 바란다. 이 때 3개의 서로 다른 기준($\\Gamma_L$)에 따른 값을 측정함으로써 세 개의 독립 방정식을 얻게 되며, 각 방정식은 세 개의 미지수 오차 항목($e_{00}$, $e_{10}e_{01}$, $e_{11}$)를 포함하게 됩니다. 이상적인 환경에서 Short, Open, Load 기준물은 각각 -1,1,0의 $\\Gamma_L$값을 가져야 합니다. 물론 현실은 이상적이지 않기 때문에 실제 Short와 Open의 반사 계수가 어떤 모습인지는 곧 다루게 될 것입니다.\nStep2 \u0026 3 : Determining Isoloation and the Through Measurement 누설 항목($e_{30}$)을 찾기 위해서 우리는 matched loads를 포트1과 포트2에 연결하고 S21을 측정해야한다. 이건 선택적으로 수행할 수 있는데 현대적인 VNA에서는 이 값이 사실상 0으로 처리되기 때문이다.\n마지막으로, 우리는 쓰루(Through) 기준물을 사용하여 VNA의 포트 1과 2를 서로 연결합니다. $S_{11}$과 $S_{21}$ 파라미터를 측정함으로써, 우리는 남은 두 가지 오차 항목($e_{22}$ 및 $e_{10}e_{32}$)을 결정하기 위한 두 개의 독립적인 방정식을 얻게 됩니다 $$S_{21M} = \\frac{e_{10}e_{32}}{1 - e_{11}e_{22}}$$\n$$S_{11M} = e_{00} + \\frac{e_{10}e_{01}e_{22}}{1 - e_{11}e_{22}}$$ 위의 값들을 구하는건 위의 필기를 참고해서 스스로 구해보도록 하자…!\n이제 우리는 6개의 모든 항목들을 찾아냈다. 역방향의 경우에도 동일하게 수행해주면 된다. 참고로 만약 S11만 사용할 경우 Through에 대한 과정은 생략할 수 있음을 알 수 있다.\nIdeal Standard vs Real 1. open standard open은 중심 도체의 한쪽 끝이 연결되지 않은 상태이지만, 실제로는 커넥터 입구와 실제 개방 지점 사이에 미세한 길이의 전송선로가 존재합니다. 이를 정확히는 ‘Offset Open’이라고 부릅니다. 개방된 끝단에서 내부 도체와 외부 도체 사이에 Fringing Capacitance($C_e$)가 형성되는데 이 값은 주파수가 높아질 수록 변하기 때문에, VNA는 이를 3차 다항식으로 계산합니다. $$C_e(f) = C_0 + C_1f + C_2f^2 + C_3f^3$$\nsmith chart 특성 : 이상적인 Open은 차트 오른쪽 끝의 점(Phase $0\\degree$)에 찍혀야 하지만 실제로는 오프셋 길이와 정전 용량 때문에 주파수가 높아질 수록 시계방향으로 호를 그리며 이동합니다. 2. short standard short는 중심 도체와 외부 도체가 물리적으로 연결된 상태입니다. Open과 마찬가지로 오프셋 길이가 존재하여 ‘Offset Short’가 됩니다. 단락 지점에는 기생 인덕턴스(Inductance, $L_e$)가 발생하며, 고주파(특시 3.5mm 이하 커넥터)에서는 이를 3차 다항식으로 모델링 해야 정확합니다. $$L_e(f) = L_0 + L_1f + L_2f^2 + L_3f^3$$\n스미스 차트 특성 : 이상적인 Short는 왼쪽 끝의 점(Phase $180\\degree$)에 찍혀야 하지만 실제로는 오프셋 길이와 기생 인덕턴스 때문에 시계 방향으로 호를 그리며 이동합니다. 정밀 모델 구하기 Open (개방)커패시턴스: $C_e(f) = C_0 + C_1f + C_2f^2 + C_3f^3$ 임피던스: $Z_{Open}(f) = \\frac{1}{j 2\\pi f C_e(f)}$ (이후 오프셋 지연 반영) 반사 계수: $\\Gamma_{Open}(f) = \\frac{Z_{Open}(f) - Z_0}{Z_{Open}(f) + Z_0}$ $\\quad$ Short (단락)인덕턴스: $L_e(f) = L_0 + L_1f + L_2f^2 + L_3f^3$ 임피던스: $Z_{Short}(f) = j 2\\pi f L_e(f)$ (이후 오프셋 지연 반영) 반사 계수: $\\Gamma_{Short}(f) = \\frac{Z_{Short}(f) - Z_0}{Z_{Short}(f) + Z_0}$ $\\quad$ Load (부하) 임피던스: $Z_{Load}(f)$ = $R + j(2\\pi f L_{series} - \\frac{1}{2\\pi f C_{shunt}})$ (이상적인 경우 $Z_0$(50Ω)에 가깝습니다.) 반사 계수: $\\Gamma_{Load}(f) = \\frac{Z_{Load}(f) - Z_0}{Z_{Load}(f) + Z_0}$ $\\quad$ $$\\begin{cases} \\Gamma_{IN, Open} = e_{00} + \\dfrac{e_{10}e_{01}\\mathbf{\\Gamma_{Open}(f)}}{1 - e_{11}\\mathbf{\\Gamma_{Open}(f)}} \\[15pt] \\Gamma_{IN, Short} = e_{00} + \\dfrac{e_{10}e_{01}\\mathbf{\\Gamma_{Short}(f)}}{1 - e_{11}\\mathbf{\\Gamma_{Short}(f)}} \\[15pt] \\Gamma_{IN, Load} = e_{00} + \\dfrac{e_{10}e_{01}\\mathbf{\\Gamma_{Load}(f)}}{1 - e_{11}\\mathbf{\\Gamma_{Load}(f)}} \\end{cases}$$\n",
+  "wordCount" : "606",
+  "inLanguage": "en",
+  "datePublished": "0001-01-01T00:00:00Z",
+  "dateModified": "0001-01-01T00:00:00Z",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://hyul48.github.io/hyul-blog/notes/vna/calibration_2/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Hyulmonologue",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://hyul48.github.io/hyul-blog/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://hyul48.github.io/hyul-blog/" accesskey="h" title="Hyulmonologue (Alt + H)">Hyulmonologue</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://hyul48.github.io/hyul-blog/papers/" title="Papers">
+                    <span>Papers</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://hyul48.github.io/hyul-blog/notes/" title="Notes">
+                    <span>Notes</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://hyul48.github.io/hyul-blog/code/" title="Code">
+                    <span>Code</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://hyul48.github.io/hyul-blog/projects/" title="Projects">
+                    <span>Projects</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://hyul48.github.io/hyul-blog/search/" title="Search (Alt &#43; /)" accesskey=/>
+                    <span>Search</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://hyul48.github.io/hyul-blog/">홈</a>&nbsp;»&nbsp;<a href="https://hyul48.github.io/hyul-blog/notes/">Notes</a></div>
+    <h1 class="post-title entry-hint-parent">
+      Calibration-2
+    </h1>
+    <div class="post-description">
+      SOLT algorithm
+    </div>
+    <div class="post-meta"><span>3 분</span>
+
+</div>
+  </header> <div class="toc">
+    <details  open>
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">목차</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#understanding-rf-calibration-using-short-open-load-and-through-terminations" aria-label="Understanding RF Calibration Using Short, Open, Load, and Through Terminations">Understanding RF Calibration Using Short, Open, Load, and Through Terminations</a></li>
+                <li>
+                    <a href="#the-solt-calibration" aria-label="The SOLT Calibration">The SOLT Calibration</a><ul>
+                        
+                <li>
+                    <a href="#step1--apply-one-port-calibration" aria-label="Step1 : Apply One-Port Calibration">Step1 : Apply One-Port Calibration</a></li>
+                <li>
+                    <a href="#step2--3--determining-isoloation-and-the-through-measurement" aria-label="Step2 &amp; 3 : Determining Isoloation and the Through Measurement">Step2 &amp; 3 : Determining Isoloation and the Through Measurement</a></li></ul>
+                </li>
+                <li>
+                    <a href="#ideal-standard-vs-real" aria-label="Ideal Standard vs Real">Ideal Standard vs Real</a><ul>
+                        
+                <li>
+                    <a href="#1-open-standard" aria-label="1. open standard">1. open standard</a></li>
+                <li>
+                    <a href="#2-short-standard" aria-label="2. short standard">2. short standard</a></li></ul>
+                </li>
+                <li>
+                    <a href="#%ec%a0%95%eb%b0%80-%eb%aa%a8%eb%8d%b8-%ea%b5%ac%ed%95%98%ea%b8%b0" aria-label="정밀 모델 구하기">정밀 모델 구하기</a>
+                </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><p>해당 post는 All About Circuits의</p>
+<blockquote>
+<p>[https://www.allaboutcircuits.com/technical-articles/understanding-the-solt-calibration-method-and-the-behavior-of-open-and-short-standards-on-the-smith-chart/]</p>
+</blockquote>
+<p>를 참고하여 작성하였습니다.</p>
+<p>해당 포스트는 이전 포스트와 이어집니다. <a href="../calibration_1/">이전 포스트</a>를 먼저 읽으시는 것을 추천합니다.</p>
+<h2 id="understanding-rf-calibration-using-short-open-load-and-through-terminations">Understanding RF Calibration Using Short, Open, Load, and Through Terminations<a hidden class="anchor" aria-hidden="true" href="#understanding-rf-calibration-using-short-open-load-and-through-terminations">#</a></h2>
+<p>이전 포스트에서 우리는 12개의 에러 항목들을 측정하는 것이 calibration의 핵심임을 확인했다. 이를 위해 사용되는 SOLT 알고리즘에 대해서 살펴보자</p>
+<h2 id="the-solt-calibration">The SOLT Calibration<a hidden class="anchor" aria-hidden="true" href="#the-solt-calibration">#</a></h2>
+<p>SOLT 캘리브레이션은 Short, Open, Load and Through Standards를 활용하여 에러 항목들을 측정하는 시스템이다. 일반적으로 calkit 안에는 위의 네가지 기준들이 포함되어 있다.
+<img alt="이미지1" loading="lazy" src="/hyul-blog/notes/vna/calibration_2/cal_kit.png"></p>
+<p><img alt="이미지2" loading="lazy" src="/hyul-blog/notes/vna/calibration_2/12temr_both.png">
+다시 12개의 항목의 에러들을 살펴보도록 하자. 이 forward 서브 모델의 에러텀들(a)을 찾기 위해서는 우리는 3가지 단계를 따라야한다.</p>
+<ol>
+<li>1-포트 교정 적용</li>
+<li>isolation 특성 결정</li>
+<li>Through 측정</li>
+</ol>
+<p>여기서는 순방향 측정에 대한 과정만 살펴볼 것이지만, 동일한 3단계 절차를 역방향 서브 모델의 오차항목을 찾는데에도 적용할 수 있습니다. 우리가 해야할 일은 방정식에 대입할 오차 항목의 종류를 바꾸는 것 뿐입니다.</p>
+<h3 id="step1--apply-one-port-calibration">Step1 : Apply One-Port Calibration<a hidden class="anchor" aria-hidden="true" href="#step1--apply-one-port-calibration">#</a></h3>
+<p>이 과정에서는 순방향 모델의 입력 반사 계수가 3개의 기준(Short, Open, Load)에 의해서 정해진다.
+$$\Gamma_{IN} = e_{00} + \frac{e_{10}e_{01}\Gamma_L}{1 - e_{11}\Gamma_L}$$
+위의 공식이 어떻게 나오는지 잘 이해가 안가시는 분들은 아래 필기를 참고해주기 바란다.
+<img alt="이미지3" loading="lazy" src="/hyul-blog/notes/vna/calibration_2/system.jpg">
+이 때 3개의 서로 다른 기준($\Gamma_L$)에 따른 값을 측정함으로써 세 개의 독립 방정식을 얻게 되며, 각 방정식은 세 개의 미지수 오차 항목($e_{00}$, $e_{10}e_{01}$, $e_{11}$)를 포함하게 됩니다. 이상적인 환경에서 Short, Open, Load 기준물은 각각 -1,1,0의 $\Gamma_L$값을 가져야 합니다. 물론 현실은 이상적이지 않기 때문에 실제 Short와 Open의 반사 계수가 어떤 모습인지는 곧 다루게 될 것입니다.</p>
+<h3 id="step2--3--determining-isoloation-and-the-through-measurement">Step2 &amp; 3 : Determining Isoloation and the Through Measurement<a hidden class="anchor" aria-hidden="true" href="#step2--3--determining-isoloation-and-the-through-measurement">#</a></h3>
+<p>누설 항목($e_{30}$)을 찾기 위해서 우리는 matched loads를 포트1과 포트2에 연결하고 S21을 측정해야한다. 이건 선택적으로 수행할 수 있는데 현대적인 VNA에서는 이 값이 사실상 0으로 처리되기 때문이다.</p>
+<p>마지막으로, 우리는 쓰루(Through) 기준물을 사용하여 VNA의 포트 1과 2를 서로 연결합니다. $S_{11}$과 $S_{21}$ 파라미터를 측정함으로써, 우리는 남은 두 가지 오차 항목($e_{22}$ 및 $e_{10}e_{32}$)을 결정하기 위한 두 개의 독립적인 방정식을 얻게 됩니다
+$$S_{21M} = \frac{e_{10}e_{32}}{1 - e_{11}e_{22}}$$</p>
+<p>$$S_{11M} = e_{00} + \frac{e_{10}e_{01}e_{22}}{1 - e_{11}e_{22}}$$
+위의 값들을 구하는건 위의 필기를 참고해서 스스로 구해보도록 하자&hellip;!</p>
+<p>이제 우리는 6개의 모든 항목들을 찾아냈다. 역방향의 경우에도 동일하게 수행해주면 된다. 참고로 만약 S11만 사용할 경우 Through에 대한 과정은 생략할 수 있음을 알 수 있다.</p>
+<h2 id="ideal-standard-vs-real">Ideal Standard vs Real<a hidden class="anchor" aria-hidden="true" href="#ideal-standard-vs-real">#</a></h2>
+<h3 id="1-open-standard">1. open standard<a hidden class="anchor" aria-hidden="true" href="#1-open-standard">#</a></h3>
+<p>open은 중심 도체의 한쪽 끝이 연결되지 않은 상태이지만, 실제로는 커넥터 입구와 실제 개방 지점 사이에 미세한 길이의 전송선로가 존재합니다. 이를 정확히는 &lsquo;Offset Open&rsquo;이라고 부릅니다. 개방된 끝단에서 내부 도체와 외부 도체 사이에 Fringing Capacitance($C_e$)가 형성되는데 이 값은 주파수가 높아질 수록 변하기 때문에, VNA는 이를 3차 다항식으로 계산합니다.
+$$C_e(f) = C_0 + C_1f + C_2f^2 + C_3f^3$$</p>
+<ul>
+<li>smith chart 특성 : 이상적인 Open은 차트 오른쪽 끝의 점(Phase $0\degree$)에 찍혀야 하지만 실제로는 오프셋 길이와 정전 용량 때문에 주파수가 높아질 수록 시계방향으로 호를 그리며 이동합니다.</li>
+</ul>
+<h3 id="2-short-standard">2. short standard<a hidden class="anchor" aria-hidden="true" href="#2-short-standard">#</a></h3>
+<p>short는 중심 도체와 외부 도체가 물리적으로 연결된 상태입니다. Open과 마찬가지로 오프셋 길이가 존재하여 &lsquo;Offset Short&rsquo;가 됩니다. 단락 지점에는 기생 인덕턴스(Inductance, $L_e$)가 발생하며, 고주파(특시 3.5mm 이하 커넥터)에서는 이를 3차 다항식으로 모델링 해야 정확합니다.
+$$L_e(f) = L_0 + L_1f + L_2f^2 + L_3f^3$$</p>
+<ul>
+<li>스미스 차트 특성 : 이상적인 Short는 왼쪽 끝의 점(Phase $180\degree$)에 찍혀야 하지만 실제로는 오프셋 길이와 기생 인덕턴스 때문에 <strong>시계 방향으로 호</strong>를 그리며 이동합니다.</li>
+</ul>
+<h2 id="정밀-모델-구하기">정밀 모델 구하기<a hidden class="anchor" aria-hidden="true" href="#정밀-모델-구하기">#</a></h2>
+<ul>
+<li>Open (개방)커패시턴스: $C_e(f) = C_0 + C_1f + C_2f^2 + C_3f^3$
+<ul>
+<li>임피던스: $Z_{Open}(f) = \frac{1}{j 2\pi f C_e(f)}$ (이후 오프셋 지연 반영)</li>
+<li>반사 계수: $\Gamma_{Open}(f) = \frac{Z_{Open}(f) - Z_0}{Z_{Open}(f) + Z_0}$
+$\quad$</li>
+</ul>
+</li>
+<li>Short (단락)인덕턴스: $L_e(f) = L_0 + L_1f + L_2f^2 + L_3f^3$
+<ul>
+<li>임피던스: $Z_{Short}(f) = j 2\pi f L_e(f)$ (이후 오프셋 지연 반영)</li>
+<li>반사 계수: $\Gamma_{Short}(f) = \frac{Z_{Short}(f) - Z_0}{Z_{Short}(f) + Z_0}$
+$\quad$</li>
+</ul>
+</li>
+<li>Load (부하)
+<ul>
+<li>임피던스: $Z_{Load}(f)$ = $R + j(2\pi f L_{series} - \frac{1}{2\pi f C_{shunt}})$ (이상적인 경우 $Z_0$(50Ω)에 가깝습니다.)</li>
+<li>반사 계수: $\Gamma_{Load}(f) = \frac{Z_{Load}(f) - Z_0}{Z_{Load}(f) + Z_0}$
+$\quad$</li>
+</ul>
+</li>
+</ul>
+<p>$$\begin{cases}
+\Gamma_{IN, Open} = e_{00} + \dfrac{e_{10}e_{01}\mathbf{\Gamma_{Open}(f)}}{1 - e_{11}\mathbf{\Gamma_{Open}(f)}} \[15pt]
+\Gamma_{IN, Short} = e_{00} + \dfrac{e_{10}e_{01}\mathbf{\Gamma_{Short}(f)}}{1 - e_{11}\mathbf{\Gamma_{Short}(f)}} \[15pt]
+\Gamma_{IN, Load} = e_{00} + \dfrac{e_{10}e_{01}\mathbf{\Gamma_{Load}(f)}}{1 - e_{11}\mathbf{\Gamma_{Load}(f)}}
+\end{cases}$$</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://hyul48.github.io/hyul-blog/notes/vna/calibration_1/">
+    <span class="title">« 이전 페이지</span>
+    <br>
+    <span>Calibration-1</span>
+  </a>
+  <a class="next" href="https://hyul48.github.io/hyul-blog/code/julia/calibration_with_programming/">
+    <span class="title">다음 페이지 »</span>
+    <br>
+    <span>Julia Switch Controller</span>
+  </a>
+</nav>
+
+
+<ul class="share-buttons">
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share Calibration-2 on x"
+            href="https://x.com/intent/tweet/?text=Calibration-2&amp;url=https%3a%2f%2fhyul48.github.io%2fhyul-blog%2fnotes%2fvna%2fcalibration_2%2f&amp;hashtags=">
+            <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M512 62.554 L 512 449.446 C 512 483.97 483.97 512 449.446 512 L 62.554 512 C 28.03 512 0 483.97 0 449.446 L 0 62.554 C 0 28.03 28.029 0 62.554 0 L 449.446 0 C 483.971 0 512 28.03 512 62.554 Z M 269.951 190.75 L 182.567 75.216 L 56 75.216 L 207.216 272.95 L 63.9 436.783 L 125.266 436.783 L 235.9 310.383 L 332.567 436.783 L 456 436.783 L 298.367 228.367 L 432.367 75.216 L 371.033 75.216 Z M 127.633 110 L 164.101 110 L 383.481 400.065 L 349.5 400.065 Z" />
+            </svg>
+        </a>
+    </li>
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share Calibration-2 on linkedin"
+            href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fhyul48.github.io%2fhyul-blog%2fnotes%2fvna%2fcalibration_2%2f&amp;title=Calibration-2&amp;summary=Calibration-2&amp;source=https%3a%2f%2fhyul48.github.io%2fhyul-blog%2fnotes%2fvna%2fcalibration_2%2f">
+            <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-288.985,423.278l0,-225.717l-75.04,0l0,225.717l75.04,0Zm270.539,0l0,-129.439c0,-69.333 -37.018,-101.586 -86.381,-101.586c-39.804,0 -57.634,21.891 -67.617,37.266l0,-31.958l-75.021,0c0.995,21.181 0,225.717 0,225.717l75.02,0l0,-126.056c0,-6.748 0.486,-13.492 2.474,-18.315c5.414,-13.475 17.767,-27.434 38.494,-27.434c27.135,0 38.007,20.707 38.007,51.037l0,120.768l75.024,0Zm-307.552,-334.556c-25.674,0 -42.448,16.879 -42.448,39.002c0,21.658 16.264,39.002 41.455,39.002l0.484,0c26.165,0 42.452,-17.344 42.452,-39.002c-0.485,-22.092 -16.241,-38.954 -41.943,-39.002Z" />
+            </svg>
+        </a>
+    </li>
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share Calibration-2 on reddit"
+            href="https://reddit.com/submit?url=https%3a%2f%2fhyul48.github.io%2fhyul-blog%2fnotes%2fvna%2fcalibration_2%2f&title=Calibration-2">
+            <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-3.446,265.638c0,-22.964 -18.616,-41.58 -41.58,-41.58c-11.211,0 -21.361,4.457 -28.841,11.666c-28.424,-20.508 -67.586,-33.757 -111.204,-35.278l18.941,-89.121l61.884,13.157c0.756,15.734 13.642,28.29 29.56,28.29c16.407,0 29.706,-13.299 29.706,-29.701c0,-16.403 -13.299,-29.702 -29.706,-29.702c-11.666,0 -21.657,6.792 -26.515,16.578l-69.105,-14.69c-1.922,-0.418 -3.939,-0.042 -5.585,1.036c-1.658,1.073 -2.811,2.761 -3.224,4.686l-21.152,99.438c-44.258,1.228 -84.046,14.494 -112.837,35.232c-7.468,-7.164 -17.589,-11.591 -28.757,-11.591c-22.965,0 -41.585,18.616 -41.585,41.58c0,16.896 10.095,31.41 24.568,37.918c-0.639,4.135 -0.99,8.328 -0.99,12.576c0,63.977 74.469,115.836 166.33,115.836c91.861,0 166.334,-51.859 166.334,-115.836c0,-4.218 -0.347,-8.387 -0.977,-12.493c14.564,-6.47 24.735,-21.034 24.735,-38.001Zm-119.474,108.193c-20.27,20.241 -59.115,21.816 -70.534,21.816c-11.428,0 -50.277,-1.575 -70.522,-21.82c-3.007,-3.008 -3.007,-7.882 0,-10.889c3.003,-2.999 7.882,-3.003 10.885,0c12.777,12.781 40.11,17.317 59.637,17.317c19.522,0 46.86,-4.536 59.657,-17.321c3.016,-2.999 7.886,-2.995 10.885,0.008c3.008,3.011 3.003,7.882 -0.008,10.889Zm-5.23,-48.781c-16.373,0 -29.701,-13.324 -29.701,-29.698c0,-16.381 13.328,-29.714 29.701,-29.714c16.378,0 29.706,13.333 29.706,29.714c0,16.374 -13.328,29.698 -29.706,29.698Zm-160.386,-29.702c0,-16.381 13.328,-29.71 29.714,-29.71c16.369,0 29.689,13.329 29.689,29.71c0,16.373 -13.32,29.693 -29.689,29.693c-16.386,0 -29.714,-13.32 -29.714,-29.693Z" />
+            </svg>
+        </a>
+    </li>
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share Calibration-2 on facebook"
+            href="https://facebook.com/sharer/sharer.php?u=https%3a%2f%2fhyul48.github.io%2fhyul-blog%2fnotes%2fvna%2fcalibration_2%2f">
+            <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-106.468,0l0,-192.915l66.6,0l12.672,-82.621l-79.272,0l0,-53.617c0,-22.603 11.073,-44.636 46.58,-44.636l36.042,0l0,-70.34c0,0 -32.71,-5.582 -63.982,-5.582c-65.288,0 -107.96,39.569 -107.96,111.204l0,62.971l-72.573,0l0,82.621l72.573,0l0,192.915l-191.104,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Z" />
+            </svg>
+        </a>
+    </li>
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share Calibration-2 on whatsapp"
+            href="https://api.whatsapp.com/send?text=Calibration-2%20-%20https%3a%2f%2fhyul48.github.io%2fhyul-blog%2fnotes%2fvna%2fcalibration_2%2f">
+            <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-58.673,127.703c-33.842,-33.881 -78.847,-52.548 -126.798,-52.568c-98.799,0 -179.21,80.405 -179.249,179.234c-0.013,31.593 8.241,62.428 23.927,89.612l-25.429,92.884l95.021,-24.925c26.181,14.28 55.659,21.807 85.658,21.816l0.074,0c98.789,0 179.206,-80.413 179.247,-179.243c0.018,-47.895 -18.61,-92.93 -52.451,-126.81Zm-126.797,275.782l-0.06,0c-26.734,-0.01 -52.954,-7.193 -75.828,-20.767l-5.441,-3.229l-56.386,14.792l15.05,-54.977l-3.542,-5.637c-14.913,-23.72 -22.791,-51.136 -22.779,-79.287c0.033,-82.142 66.867,-148.971 149.046,-148.971c39.793,0.014 77.199,15.531 105.329,43.692c28.128,28.16 43.609,65.592 43.594,105.4c-0.034,82.149 -66.866,148.983 -148.983,148.984Zm81.721,-111.581c-4.479,-2.242 -26.499,-13.075 -30.604,-14.571c-4.105,-1.495 -7.091,-2.241 -10.077,2.241c-2.986,4.483 -11.569,14.572 -14.182,17.562c-2.612,2.988 -5.225,3.364 -9.703,1.12c-4.479,-2.241 -18.91,-6.97 -36.017,-22.23c-13.314,-11.876 -22.304,-26.542 -24.916,-31.026c-2.612,-4.484 -0.279,-6.908 1.963,-9.14c2.016,-2.007 4.48,-5.232 6.719,-7.847c2.24,-2.615 2.986,-4.484 4.479,-7.472c1.493,-2.99 0.747,-5.604 -0.374,-7.846c-1.119,-2.241 -10.077,-24.288 -13.809,-33.256c-3.635,-8.733 -7.327,-7.55 -10.077,-7.688c-2.609,-0.13 -5.598,-0.158 -8.583,-0.158c-2.986,0 -7.839,1.121 -11.944,5.604c-4.105,4.484 -15.675,15.32 -15.675,37.364c0,22.046 16.048,43.342 18.287,46.332c2.24,2.99 31.582,48.227 76.511,67.627c10.685,4.615 19.028,7.371 25.533,9.434c10.728,3.41 20.492,2.929 28.209,1.775c8.605,-1.285 26.499,-10.833 30.231,-21.295c3.732,-10.464 3.732,-19.431 2.612,-21.298c-1.119,-1.869 -4.105,-2.99 -8.583,-5.232Z" />
+            </svg>
+        </a>
+    </li>
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share Calibration-2 on telegram"
+            href="https://telegram.me/share/url?text=Calibration-2&amp;url=https%3a%2f%2fhyul48.github.io%2fhyul-blog%2fnotes%2fvna%2fcalibration_2%2f">
+            <svg version="1.1" xml:space="preserve" viewBox="2 2 28 28" height="30px" width="30px" fill="currentColor">
+                <path
+                    d="M26.49,29.86H5.5a3.37,3.37,0,0,1-2.47-1,3.35,3.35,0,0,1-1-2.47V5.48A3.36,3.36,0,0,1,3,3,3.37,3.37,0,0,1,5.5,2h21A3.38,3.38,0,0,1,29,3a3.36,3.36,0,0,1,1,2.46V26.37a3.35,3.35,0,0,1-1,2.47A3.38,3.38,0,0,1,26.49,29.86Zm-5.38-6.71a.79.79,0,0,0,.85-.66L24.73,9.24a.55.55,0,0,0-.18-.46.62.62,0,0,0-.41-.17q-.08,0-16.53,6.11a.59.59,0,0,0-.41.59.57.57,0,0,0,.43.52l4,1.24,1.61,4.83a.62.62,0,0,0,.63.43.56.56,0,0,0,.4-.17L16.54,20l4.09,3A.9.9,0,0,0,21.11,23.15ZM13.8,20.71l-1.21-4q8.72-5.55,8.78-5.55c.15,0,.23,0,.23.16a.18.18,0,0,1,0,.06s-2.51,2.3-7.52,6.8Z" />
+            </svg>
+        </a>
+    </li>
+    <li>
+        <a target="_blank" rel="noopener noreferrer" aria-label="share Calibration-2 on ycombinator"
+            href="https://news.ycombinator.com/submitlink?t=Calibration-2&u=https%3a%2f%2fhyul48.github.io%2fhyul-blog%2fnotes%2fvna%2fcalibration_2%2f">
+            <svg version="1.1" xml:space="preserve" width="30px" height="30px" viewBox="0 0 512 512" fill="currentColor"
+                xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape">
+                <path
+                    d="M449.446 0C483.971 0 512 28.03 512 62.554L512 449.446C512 483.97 483.97 512 449.446 512L62.554 512C28.03 512 0 483.97 0 449.446L0 62.554C0 28.03 28.029 0 62.554 0L449.446 0ZM183.8767 87.9921H121.8427L230.6673 292.4508V424.0079H281.3328V292.4508L390.1575 87.9921H328.1233L256 238.2489z" />
+            </svg>
+        </a>
+    </li>
+</ul>
+
+  </footer><section class="comments-block">
+  <script
+    src="https://giscus.app/client.js"
+    data-repo="Hyul48/hyul-blog"
+    data-repo-id="R_kgDOQzUq4A"
+    data-category="Announcements"
+    data-category-id="DIC_kwDOQzUq4M4C7w30"
+    data-mapping="pathname"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="bottom"
+    data-theme="preferred_color_scheme"
+    data-lang="ko"
+    data-loading="lazy"
+    crossorigin="anonymous"
+    async>
+  </script>
+</section>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="https://hyul48.github.io/hyul-blog/">Hyulmonologue</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = '복사';
+
+        function copyingDone() {
+            copybutton.innerHTML = '복사 완료!';
+            setTimeout(() => {
+                copybutton.innerHTML = '복사';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>
