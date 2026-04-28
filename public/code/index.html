@@ -174,17 +174,17 @@
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2 class="entry-hint-parent">Julia Switch Controller
+    <h2 class="entry-hint-parent">Julia Calibration
     </h2>
   </header>
   <div class="entry-content">
-    <p>Calibration 해당 포스트는 Calibration에 대한 이해를 필요로 합니다. Calibration에 대한 이해가 없으신 분들은 해당 포스트를 먼저 읽어주시길 바랍니다.
-VNA(Vector Network Analyzer)는 반사파를 주파수 도메인에서 측정하는 장비이다. 해당 장비에 대해서 다루는 포스트도 추후에 다루도록 하겠다.
-VNA로 반사파를 측정하기 위해선 타겟에서 반사된 신호만이 필요한데 VNA 장비 자체의 반사, cable에서의 반사 등 다양한 반사에 의해 타겟에 대한 측정이 불안해지게 된다. 이를 보상하기 위한 과정을 Calibration이라고 한다. 측정 port에 우리가 이미 알고 있는 device(open, short, )
-</p>
+    <p> 해당 포스트는 Calibration에 대한 이해를 필요로 합니다. Calibration에 대한 이해가 없으신 분들은 해당 포스트를 먼저 읽어주시길 바랍니다.
+Calibration 이번 프로젝트에서 관심있는 파라미터는 $S_{11}$ only이므로 One-Port Calibration을 수행하는 코드를 짜보도록 하자. 먼저 1-Port Cal은 아래의 에러텀들을 측정해주어야 한다. 1-Port Cal에서 우리가 측정해 주어야 하는 에러텀들은 $e_{00}, e_{11}, e_{10}e_{01}$임을 확인했었다. 위의 에러텀들을 구할 수 있는 3가지 연립 방정식은 3개의 기준으로 엄밀하게 방정식을 세우면 다음과 같다.
+Open (개방)커패시턴스: $C_e(f) = C_0 &#43; C_1f &#43; C_2f^2 &#43; C_3f^3$ 임피던스: $Z_{Open}(f) = \frac{1}{j 2\pi f C_e(f)}$ (이후 오프셋 지연 반영) 반사 계수: $\Gamma_{Open}(f) = \frac{Z_{Open}(f) - Z_0}{Z_{Open}(f) &#43; Z_0}$ $\quad$ Short (단락)인덕턴스: $L_e(f) = L_0 &#43; L_1f &#43; L_2f^2 &#43; L_3f^3$ 임피던스: $Z_{Short}(f) = j 2\pi f L_e(f)$ (이후 오프셋 지연 반영) 반사 계수: $\Gamma_{Short}(f) = \frac{Z_{Short}(f) - Z_0}{Z_{Short}(f) &#43; Z_0}$ $\quad$ Load (부하) 임피던스: $Z_{Load}(f)$ = $R &#43; j(2\pi f L_{series} - \frac{1}{2\pi f C_{shunt}})$ (이상적인 경우 $Z_0$(50Ω)에 가깝습니다.) 반사 계수: $\Gamma_{Load}(f) = \frac{Z_{Load}(f) - Z_0}{Z_{Load}(f) &#43; Z_0}$ $\quad$ $$ \Gamma_{IN, Open} = e_{00} &#43; \dfrac{e_{10}e_{01}\mathbf{\Gamma_{Open}(f)}}{1 - e_{11}\mathbf{\Gamma_{Open}(f)}} \[15pt] \Gamma_{IN, Short} = e_{00} &#43; \dfrac{e_{10}e_{01}\mathbf{\Gamma_{Short}(f)}}{1 - e_{11}\mathbf{\Gamma_{Short}(f)}} \[15pt] \Gamma_{IN, Load} = e_{00} &#43; \dfrac{e_{10}e_{01}\mathbf{\Gamma_{Load}(f)}}{1 - e_{11}\mathbf{\Gamma_{Load}(f)}} $$
+...</p>
   </div>
-  <footer class="entry-footer"><span>1 분</span></footer>
-  <a class="entry-link" aria-label="post link to Julia Switch Controller" href="https://hyul48.github.io/hyul-blog/code/julia/calibration_with_programming/"></a>
+  <footer class="entry-footer"><span title='2026-04-28 00:00:00 +0000 UTC'>April 28, 2026</span>&nbsp;·&nbsp;<span>6 분</span></footer>
+  <a class="entry-link" aria-label="post link to Julia Calibration" href="https://hyul48.github.io/hyul-blog/code/julia/calibration_with_programming/"></a>
 </article>
 
 <article class="post-entry"> 
