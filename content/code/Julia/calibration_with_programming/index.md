@@ -163,7 +163,7 @@ end
 ```
 
 저기서 loss_np_oneway를 정의하는 방식은 다음을 따른다.
-$$\alpha(f) \cdot l = \frac{\text{Loss}_{\Omega/s} \times \text{Delay}_{s}}{2 \cdot Z_{0, \text{offset}}} \times \sqrt{\frac{f}{1\text{ GHz}}}$$
+$$\alpha(f)l = \frac{\operatorname{Loss}\_{\Omega/s} \cdot \operatorname{Delay}\_s}{2Z_{0,\mathrm{offset}}} \sqrt{\frac{f}{1\mathrm{GHz}}}$$
 
 감쇠와 위상 지연을 고려한 최종 반사계수는 다음과같아진다.(`standard_gamma`)
 $$\Gamma_L(f) = \Gamma_{terminal}(f) \cdot e^{-2 \cdot \alpha(f)l} \cdot e^{-j \cdot 4\pi f \cdot \text{Delay}_s}$$
